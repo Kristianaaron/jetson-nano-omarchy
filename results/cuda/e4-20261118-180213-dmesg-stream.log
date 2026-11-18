@@ -1,0 +1,767 @@
+2026-11-18T17:58:38,155874+00:00 Booting Linux on physical CPU 0x0000000000 [0x411fd071]
+2026-11-18T17:58:38,155874+00:00 Linux version 7.2.11-1-aarch64-ARCH (builduser@arch-nspawn-1320980) (aarch64-unknown-linux-gnu-gcc (GCC) 16.1.1 20260430, GNU ld (GNU Binutils) 2.46.0) #1 SMP PREEMPT_DYNAMIC Sat Oct 17 10:08:46 UTC 2026
+2026-11-18T17:58:38,155874+00:00 Machine model: NVIDIA Jetson Nano Developer Kit B01
+2026-11-18T17:58:38,155874+00:00 earlycon: uart8250 at MMIO32 0x0000000070006000 (options '')
+2026-11-18T17:58:38,155874+00:00 printk: legacy bootconsole [uart8250] enabled
+2026-11-18T17:58:38,155874+00:00 efi: UEFI not found.
+2026-11-18T17:58:38,155874+00:00 cma: Reserved 64 MiB at 0x00000000fae00000
+2026-11-18T17:58:38,155874+00:00 psci: probing for conduit method from DT.
+2026-11-18T17:58:38,155874+00:00 psci: PSCIv1.0 detected in firmware.
+2026-11-18T17:58:38,155874+00:00 psci: Using standard PSCI v0.2 function IDs
+2026-11-18T17:58:38,155874+00:00 psci: MIGRATE_INFO_TYPE not supported.
+2026-11-18T17:58:38,155874+00:00 psci: SMC Calling Convention v1.1
+2026-11-18T17:58:38,155874+00:00 Zone ranges:
+2026-11-18T17:58:38,155874+00:00   DMA      [mem 0x0000000080000000-0x00000000ffffffff]
+2026-11-18T17:58:38,155874+00:00   DMA32    empty
+2026-11-18T17:58:38,155874+00:00   Normal   [mem 0x0000000100000000-0x000000017f1fffff]
+2026-11-18T17:58:38,155874+00:00 Movable zone start for each node
+2026-11-18T17:58:38,155874+00:00 Early memory node ranges
+2026-11-18T17:58:38,155874+00:00   node   0: [mem 0x0000000080000000-0x00000000fedfffff]
+2026-11-18T17:58:38,155874+00:00   node   0: [mem 0x0000000100000000-0x000000017f1fffff]
+2026-11-18T17:58:38,155874+00:00 Initmem setup node 0 [mem 0x0000000080000000-0x000000017f1fffff]
+2026-11-18T17:58:38,155874+00:00 On node 0, zone Normal: 4608 pages in unavailable ranges
+2026-11-18T17:58:38,155874+00:00 On node 0, zone Normal: 3584 pages in unavailable ranges
+2026-11-18T17:58:38,155874+00:00 percpu: Embedded 35 pages/cpu s104408 r8192 d30760 u143360
+2026-11-18T17:58:38,155874+00:00 pcpu-alloc: s104408 r8192 d30760 u143360 alloc=35*4096
+2026-11-18T17:58:38,155874+00:00 pcpu-alloc: [0] 0 [0] 1 [0] 2 [0] 3 
+2026-11-18T17:58:38,155874+00:00 Detected PIPT I-cache on CPU0
+2026-11-18T17:58:38,155874+00:00 CPU features: detected: Spectre-v2
+2026-11-18T17:58:38,155874+00:00 CPU features: detected: Spectre-BHB
+2026-11-18T17:58:38,155874+00:00 CPU features: detected: ARM erratum 834220
+2026-11-18T17:58:38,155874+00:00 CPU features: detected: ARM erratum 1742098
+2026-11-18T17:58:38,155874+00:00 CPU features: detected: ARM erratum 832075
+2026-11-18T17:58:38,155874+00:00 CPU features: detected: ARM errata 1165522, 1319367, or 1530923
+2026-11-18T17:58:38,155874+00:00 alternatives: applying boot alternatives
+2026-11-18T17:58:38,155874+00:00 Kernel command line: tegraid=21.1.2.0.0 ddr_die=4096M@2048M section=512M memtype=0 vpr_resize usb_port_owner_info=0 lane_owner_info=0 emc_max_dvfs=0 touch_id=0@63 video=tegrafb no_console_suspend=1 console=ttyS0,115200n8 debug_uartport=lsport,4 earlyprintk=uart8250-32bit,0x70006000 maxcpus=4 usbcore.old_scheme_first=1 lp0_vec=0x1000@0xff780000 core_edp_mv=1125 core_edp_ma=4000 gpt tegra_fbmem=0x800000@0x92ca9000 is_hdmi_initialised=1  earlycon=uart8250,mmio32,0x70006000  root=/dev/mmcblk0p1 rw rootwait rootfstype=ext4 console=ttyS0,115200n8 console=tty0 fbcon=map:0 net.ifnames=0 root=LABEL=ALARM rw rootwait rootfstype=ext4 console=ttyS0,115200n8 console=tty0 fbcon=map:0 net.ifnames=0 pcie_aspm=off loglevel=7 panic=10 clk_ignore_unused pd_ignore_unused video=HDMI-A-1:1280x720@60e nouveau.config=NvClkMode=0x07 drm.edid_firmware=HDMI-A-1:edid/aorus.bin
+2026-11-18T17:58:38,155874+00:00 PCIe ASPM is disabled
+2026-11-18T17:58:38,155874+00:00 Unknown kernel command line parameters "vpr_resize tegraid=21.1.2.0.0 ddr_die=4096M@2048M section=512M memtype=0 usb_port_owner_info=0 lane_owner_info=0 emc_max_dvfs=0 touch_id=0@63 debug_uartport=lsport,4 earlyprintk=uart8250-32bit,0x70006000 lp0_vec=0x1000@0xff780000 core_edp_mv=1125 core_edp_ma=4000 tegra_fbmem=0x800000@0x92ca9000 is_hdmi_initialised=1", will be passed to user space.
+2026-11-18T17:58:38,155874+00:00 printk: log buffer data + meta data: 262144 + 1114112 = 1376256 bytes
+2026-11-18T17:58:38,155874+00:00 Dentry cache hash table entries: 524288 (order: 10, 4194304 bytes, linear)
+2026-11-18T17:58:38,155874+00:00 Inode-cache hash table entries: 262144 (order: 9, 2097152 bytes, linear)
+2026-11-18T17:58:38,155874+00:00 software IO TLB: area num 4.
+2026-11-18T17:58:38,155874+00:00 software IO TLB: mapped [mem 0x00000000f6e00000-0x00000000fae00000] (64MB)
+2026-11-18T17:58:38,155874+00:00 Built 1 zonelists, mobility grouping on.  Total pages: 1040384
+2026-11-18T17:58:38,155874+00:00 mem auto-init: stack:off, heap alloc:off, heap free:off
+2026-11-18T17:58:38,155874+00:00 SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=4, Nodes=1
+2026-11-18T17:58:38,155874+00:00 Dynamic Preempt: full
+2026-11-18T17:58:38,155874+00:00 rcu: Preemptible hierarchical RCU implementation.
+2026-11-18T17:58:38,155874+00:00 rcu: 	RCU restricting CPUs from NR_CPUS=64 to nr_cpu_ids=4.
+2026-11-18T17:58:38,155874+00:00 	Trampoline variant of Tasks RCU enabled.
+2026-11-18T17:58:38,155874+00:00 	Tracing variant of Tasks RCU enabled.
+2026-11-18T17:58:38,155874+00:00 rcu: RCU calculated value of scheduler-enlistment delay is 100 jiffies.
+2026-11-18T17:58:38,155874+00:00 rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=4
+2026-11-18T17:58:38,155874+00:00 RCU Tasks: Setting shift to 2 and lim to 1 rcu_task_cb_adjust=1 rcu_task_cpu_ids=4.
+2026-11-18T17:58:38,155874+00:00 NR_IRQS: 64, nr_irqs: 64, preallocated irqs: 0
+2026-11-18T17:58:38,155874+00:00 Root IRQ handler: gic_handle_irq
+2026-11-18T17:58:38,155874+00:00 GIC: Using split EOI/Deactivate mode
+2026-11-18T17:58:38,155874+00:00 /interrupt-controller@60004000: 192 interrupts forwarded to /interrupt-controller@50041000
+2026-11-18T17:58:38,155874+00:00 rcu: srcu_init: Setting srcu_struct sizes based on contention.
+2026-11-18T17:58:38,155874+00:00 clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1911260446275000 ns
+2026-11-18T17:58:38,155874+00:00 tegra-clk-debug:pll_a_out0_out_adsp: connection ID is greater than 16
+2026-11-18T17:58:38,155874+00:00 tegra-clk-debug:dmic1_sync_clk_mux: connection ID is greater than 16
+2026-11-18T17:58:38,155874+00:00 tegra-clk-debug:dmic2_sync_clk_mux: connection ID is greater than 16
+2026-11-18T17:58:38,155874+00:00 tegra-clk-debug:dmic3_sync_clk_mux: connection ID is greater than 16
+2026-11-18T17:58:38,155876+00:00 sched_clock: 32 bits at 1000kHz, resolution 1000ns, wraps every 2147483647500ns
+2026-11-18T17:58:38,164534+00:00 clocksource: timer_us: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1911260446275 ns
+2026-11-18T17:58:38,174743+00:00 clocksource: tegra_suspend_timer: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1911260446275000 ns
+2026-11-18T17:58:38,187159+00:00 arch_timer: cp15 timer running at 19.20MHz (phys).
+2026-11-18T17:58:38,193187+00:00 clocksource: arch_sys_counter: mask: 0xffffffffffffff max_cycles: 0x46d987e47, max_idle_ns: 440795202767 ns
+2026-11-18T17:58:38,204311+00:00 sched_clock: 56 bits at 19MHz, resolution 52ns, wraps every 4398046511078ns
+2026-11-18T17:58:38,213272+00:00 Console: colour dummy device 80x25
+2026-11-18T17:58:38,217888+00:00 printk: legacy console [tty0] enabled
+2026-11-18T17:58:38,222752+00:00 printk: legacy bootconsole [uart8250] disabled
+2026-11-18T17:58:38,228508+00:00 Calibrating delay loop (skipped), value calculated using timer frequency.. 38.40 BogoMIPS (lpj=19200)
+2026-11-18T17:58:38,228535+00:00 pid_max: default: 32768 minimum: 301
+2026-11-18T17:58:38,231960+00:00 Yama: becoming mindful.
+2026-11-18T17:58:38,232137+00:00 landlock: Up and running.
+2026-11-18T17:58:38,233135+00:00 Mount-cache hash table entries: 8192 (order: 4, 65536 bytes, linear)
+2026-11-18T17:58:38,233190+00:00 Mountpoint-cache hash table entries: 8192 (order: 4, 65536 bytes, linear)
+2026-11-18T17:58:38,234536+00:00 VFS: Finished mounting rootfs on nullfs
+2026-11-18T17:58:38,240512+00:00 rcu: Hierarchical SRCU implementation.
+2026-11-18T17:58:38,240543+00:00 rcu: 	Max phase no-delay instances is 400.
+2026-11-18T17:58:38,240873+00:00 Timer migration: 1 hierarchy levels; 8 children per group; 1 crossnode level
+2026-11-18T17:58:38,244815+00:00 Speedo Revision 4
+2026-11-18T17:58:38,244872+00:00 Tegra Revision: A02 SKU: 143 CPU Process: 0 SoC Process: 0
+2026-11-18T17:58:38,245001+00:00 EFI services will not be available.
+2026-11-18T17:58:38,245625+00:00 smp: Bringing up secondary CPUs ...
+2026-11-18T17:58:38,246649+00:00 Detected PIPT I-cache on CPU1
+2026-11-18T17:58:38,246951+00:00 CPU1: Booted secondary processor 0x0000000001 [0x411fd071]
+2026-11-18T17:58:38,248386+00:00 Detected PIPT I-cache on CPU2
+2026-11-18T17:58:38,248581+00:00 CPU2: Booted secondary processor 0x0000000002 [0x411fd071]
+2026-11-18T17:58:38,249580+00:00 Detected PIPT I-cache on CPU3
+2026-11-18T17:58:38,249758+00:00 CPU3: Booted secondary processor 0x0000000003 [0x411fd071]
+2026-11-18T17:58:38,249890+00:00 smp: Brought up 1 node, 4 CPUs
+2026-11-18T17:58:38,249947+00:00 SMP: Total of 4 processors activated.
+2026-11-18T17:58:38,249958+00:00 CPU: All CPU(s) started at EL2
+2026-11-18T17:58:38,249990+00:00 CPU features: detected: 32-bit EL0 Support
+2026-11-18T17:58:38,250001+00:00 CPU features: detected: 32-bit EL1 Support
+2026-11-18T17:58:38,250015+00:00 CPU features: detected: CRC32 instructions
+2026-11-18T17:58:38,250037+00:00 CPU features: detected: PMUv3
+2026-11-18T17:58:38,250118+00:00 alternatives: applying system-wide alternatives
+2026-11-18T17:58:38,258152+00:00 Memory: 3880748K/4161536K available (24896K kernel code, 6486K rwdata, 14720K rodata, 3072K init, 732K bss, 209672K reserved, 65536K cma-reserved)
+2026-11-18T17:58:38,261360+00:00 devtmpfs: initialized
+2026-11-18T17:58:38,279965+00:00 posixtimers hash table entries: 2048 (order: 3, 32768 bytes, linear)
+2026-11-18T17:58:38,280127+00:00 futex hash table entries: 1024 (65536 bytes on 1 NUMA nodes, total 64 KiB, linear).
+2026-11-18T17:58:38,281712+00:00 20240 pages in range for non-PLT usage
+2026-11-18T17:58:38,281737+00:00 511760 pages in range for PLT usage
+2026-11-18T17:58:38,287899+00:00 DMI: not present or invalid.
+2026-11-18T17:58:38,291207+00:00 NET: Registered PF_NETLINK/PF_ROUTE protocol family
+2026-11-18T17:58:38,292822+00:00 DMA: preallocated 512 KiB GFP_KERNEL pool for atomic allocations
+2026-11-18T17:58:38,293096+00:00 DMA: preallocated 512 KiB GFP_KERNEL|GFP_DMA pool for atomic allocations
+2026-11-18T17:58:38,293199+00:00 audit: initializing netlink subsys (disabled)
+2026-11-18T17:58:38,293540+00:00 audit: type=2000 audit(0.063:1): state=initialized audit_enabled=0 res=1
+2026-11-18T17:58:38,298917+00:00 thermal_sys: Registered thermal governor 'fair_share'
+2026-11-18T17:58:38,298935+00:00 thermal_sys: Registered thermal governor 'bang_bang'
+2026-11-18T17:58:38,298955+00:00 thermal_sys: Registered thermal governor 'step_wise'
+2026-11-18T17:58:38,298967+00:00 thermal_sys: Registered thermal governor 'user_space'
+2026-11-18T17:58:38,298979+00:00 thermal_sys: Registered thermal governor 'power_allocator'
+2026-11-18T17:58:38,299151+00:00 cpuidle: using governor ladder
+2026-11-18T17:58:38,299203+00:00 cpuidle: using governor menu
+2026-11-18T17:58:38,299801+00:00 hw-breakpoint: found 6 breakpoint and 4 watchpoint registers.
+2026-11-18T17:58:38,299970+00:00 ASID allocator initialised with 65536 entries
+2026-11-18T17:58:38,304965+00:00 Serial: AMBA PL011 UART driver
+2026-11-18T17:58:38,321577+00:00 tegra-mc 70019000.memory-controller: no memory timings for RAM code 0 registered
+2026-11-18T17:58:38,322749+00:00 platform 50000000.host1x: Adding to iommu group 0
+2026-11-18T17:58:38,322876+00:00 platform 57000000.gpu: Adding to iommu group 1
+2026-11-18T17:58:38,336718+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/processing-engine@702d8400
+2026-11-18T17:58:38,336785+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/processing-engine@702d8000
+2026-11-18T17:58:38,336827+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/amixer@702dbb00
+2026-11-18T17:58:38,336868+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/adx@702d3900
+2026-11-18T17:58:38,336908+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/adx@702d3800
+2026-11-18T17:58:38,336947+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/amx@702d3100
+2026-11-18T17:58:38,336987+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/amx@702d3000
+2026-11-18T17:58:38,337026+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/mvc@702da200
+2026-11-18T17:58:38,337065+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/mvc@702da000
+2026-11-18T17:58:38,337104+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2600
+2026-11-18T17:58:38,337143+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2400
+2026-11-18T17:58:38,337182+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2200
+2026-11-18T17:58:38,337222+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2000
+2026-11-18T17:58:38,337262+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/dmic@702d4100
+2026-11-18T17:58:38,337302+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/dmic@702d4000
+2026-11-18T17:58:38,337342+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/i2s@702d1300
+2026-11-18T17:58:38,337382+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/i2s@702d1200
+2026-11-18T17:58:38,337421+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/admaif@702d0000
+2026-11-18T17:58:38,337552+00:00 /aconnect@702c0000/ahub@702d0800/admaif@702d0000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:38,337720+00:00 /aconnect@702c0000/ahub@702d0800/i2s@702d1200: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:38,337849+00:00 /aconnect@702c0000/ahub@702d0800/i2s@702d1300: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:38,337980+00:00 /aconnect@702c0000/ahub@702d0800/sfc@702d2000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:38,338106+00:00 /aconnect@702c0000/ahub@702d0800/sfc@702d2200: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:38,338233+00:00 /aconnect@702c0000/ahub@702d0800/sfc@702d2400: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:38,338359+00:00 /aconnect@702c0000/ahub@702d0800/sfc@702d2600: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:38,338495+00:00 /aconnect@702c0000/ahub@702d0800/amx@702d3000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:38,338635+00:00 /aconnect@702c0000/ahub@702d0800/amx@702d3100: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:38,338776+00:00 /aconnect@702c0000/ahub@702d0800/adx@702d3800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:38,338913+00:00 /aconnect@702c0000/ahub@702d0800/adx@702d3900: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:38,339049+00:00 /aconnect@702c0000/ahub@702d0800/dmic@702d4000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:38,339174+00:00 /aconnect@702c0000/ahub@702d0800/dmic@702d4100: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:38,339301+00:00 /aconnect@702c0000/ahub@702d0800/processing-engine@702d8000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:38,339430+00:00 /aconnect@702c0000/ahub@702d0800/processing-engine@702d8400: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:38,339571+00:00 /aconnect@702c0000/ahub@702d0800/mvc@702da000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:38,339697+00:00 /aconnect@702c0000/ahub@702d0800/mvc@702da200: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:38,339822+00:00 /aconnect@702c0000/ahub@702d0800/amixer@702dbb00: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:38,350242+00:00 HugeTLB: registered 1.00 GiB page size, pre-allocated 0 pages
+2026-11-18T17:58:38,350279+00:00 HugeTLB: 0 KiB vmemmap can be freed for a 1.00 GiB page
+2026-11-18T17:58:38,350294+00:00 HugeTLB: registered 32.0 MiB page size, pre-allocated 0 pages
+2026-11-18T17:58:38,350305+00:00 HugeTLB: 0 KiB vmemmap can be freed for a 32.0 MiB page
+2026-11-18T17:58:38,350318+00:00 HugeTLB: registered 2.00 MiB page size, pre-allocated 0 pages
+2026-11-18T17:58:38,350328+00:00 HugeTLB: 0 KiB vmemmap can be freed for a 2.00 MiB page
+2026-11-18T17:58:38,350341+00:00 HugeTLB: registered 64.0 KiB page size, pre-allocated 0 pages
+2026-11-18T17:58:38,350351+00:00 HugeTLB: 0 KiB vmemmap can be freed for a 64.0 KiB page
+2026-11-18T17:58:38,352826+00:00 raid6: using neon recovery algorithm
+2026-11-18T17:58:38,369452+00:00 raid6: int64x1  gen()  1214 MB/s
+2026-11-18T17:58:38,386451+00:00 raid6: int64x2  gen()  1584 MB/s
+2026-11-18T17:58:38,403459+00:00 raid6: int64x4  gen()  1634 MB/s
+2026-11-18T17:58:38,420455+00:00 raid6: int64x8  gen()  1434 MB/s
+2026-11-18T17:58:38,437448+00:00 raid6: neonx1   gen()  1769 MB/s
+2026-11-18T17:58:38,454450+00:00 raid6: neonx2   gen()  2381 MB/s
+2026-11-18T17:58:38,471450+00:00 raid6: neonx4   gen()  2865 MB/s
+2026-11-18T17:58:38,488452+00:00 raid6: neonx8   gen()  2882 MB/s
+2026-11-18T17:58:38,488467+00:00 raid6: using algorithm neonx8 gen() 2882 MB/s
+2026-11-18T17:58:38,505446+00:00 raid6: .... xor() 1975 MB/s, rmw enabled
+2026-11-18T17:58:38,506746+00:00 ACPI: Interpreter disabled.
+2026-11-18T17:58:38,511304+00:00 iommu: Default domain type: Translated
+2026-11-18T17:58:38,511337+00:00 iommu: DMA domain TLB invalidation policy: strict mode
+2026-11-18T17:58:38,513357+00:00 SCSI subsystem initialized
+2026-11-18T17:58:38,513597+00:00 libata version 3.00 loaded.
+2026-11-18T17:58:38,513992+00:00 usbcore: registered new interface driver usbfs
+2026-11-18T17:58:38,514052+00:00 usbcore: registered new interface driver hub
+2026-11-18T17:58:38,514101+00:00 usbcore: registered new device driver usb
+2026-11-18T17:58:38,515314+00:00 pps_core: LinuxPPS API ver. 1 registered
+2026-11-18T17:58:38,515335+00:00 pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+2026-11-18T17:58:38,515361+00:00 PTP clock support registered
+2026-11-18T17:58:38,515698+00:00 EDAC MC: Ver: 3.0.0
+2026-11-18T17:58:38,516126+00:00 scmi_core: SCMI protocol bus registered
+2026-11-18T17:58:38,517427+00:00 FPGA manager framework
+2026-11-18T17:58:38,517557+00:00 Advanced Linux Sound Architecture Driver Initialized.
+2026-11-18T17:58:38,518637+00:00 NetLabel: Initializing
+2026-11-18T17:58:38,518660+00:00 NetLabel:  domain hash size = 128
+2026-11-18T17:58:38,518670+00:00 NetLabel:  protocols = UNLABELED CIPSOv4 CALIPSO
+2026-11-18T17:58:38,518742+00:00 NetLabel:  unlabeled traffic allowed by default
+2026-11-18T17:58:38,519331+00:00 vgaarb: loaded
+2026-11-18T17:58:38,520281+00:00 clocksource: Switched to clocksource arch_sys_counter
+2026-11-18T17:58:38,522794+00:00 VFS: Disk quotas dquot_6.6.0
+2026-11-18T17:58:38,522843+00:00 VFS: Dquot-cache hash table entries: 512 (4096 bytes)
+2026-11-18T17:58:38,523749+00:00 pnp: PnP ACPI: disabled
+2026-11-18T17:58:38,534087+00:00 NET: Registered PF_INET protocol family
+2026-11-18T17:58:38,534623+00:00 IP idents hash table entries: 65536 (order: 7, 524288 bytes, linear)
+2026-11-18T17:58:38,539071+00:00 tcp_listen_portaddr_hash hash table entries: 2048 (order: 3, 32768 bytes, linear)
+2026-11-18T17:58:38,539152+00:00 Table-perturb hash table entries: 65536 (order: 6, 262144 bytes, linear)
+2026-11-18T17:58:38,539189+00:00 TCP established hash table entries: 32768 (order: 6, 262144 bytes, linear)
+2026-11-18T17:58:38,539454+00:00 TCP bind hash table entries: 32768 (order: 8, 1048576 bytes, linear)
+2026-11-18T17:58:38,540518+00:00 TCP: Hash tables configured (established 32768 bind 32768)
+2026-11-18T17:58:38,541162+00:00 MPTCP token hash table entries: 4096 (order: 5, 98304 bytes, linear)
+2026-11-18T17:58:38,541558+00:00 UDP hash table entries: 2048 (order: 5, 131072 bytes, linear)
+2026-11-18T17:58:38,542128+00:00 NET: Registered PF_UNIX/PF_LOCAL protocol family
+2026-11-18T17:58:38,543431+00:00 RPC: Registered named UNIX socket transport module.
+2026-11-18T17:58:38,543463+00:00 RPC: Registered udp transport module.
+2026-11-18T17:58:38,543474+00:00 RPC: Registered tcp transport module.
+2026-11-18T17:58:38,543485+00:00 RPC: Registered tcp-with-tls transport module.
+2026-11-18T17:58:38,543495+00:00 RPC: Registered tcp NFSv4.1 backchannel transport module.
+2026-11-18T17:58:38,543535+00:00 PCI: CLS 0 bytes, default 64
+2026-11-18T17:58:38,543893+00:00 Trying to unpack rootfs image as initramfs...
+2026-11-18T17:58:38,553727+00:00 kvm [1]: nv: 570 coarse grained trap handlers
+2026-11-18T17:58:38,555076+00:00 kvm [1]: nv: 710 fine grained trap handlers
+2026-11-18T17:58:38,555973+00:00 kvm [1]: Guests without required CPU erratum workarounds can deadlock system!
+                                 Only trusted guests should be used on this system.
+2026-11-18T17:58:38,556012+00:00 kvm [1]: IPA Size Limit: 44 bits
+2026-11-18T17:58:38,559185+00:00 kvm [1]: vgic interrupt IRQ9
+2026-11-18T17:58:38,559314+00:00 kvm [1]: Hyp nVHE mode initialized successfully
+2026-11-18T17:58:38,563587+00:00 Initialise system trusted keyrings
+2026-11-18T17:58:38,564126+00:00 workingset: timestamp_bits=46 (anon: 41) max_order=20 bucket_order=0 (anon: 0)
+2026-11-18T17:58:38,573325+00:00 NFS: Registering the id_resolver key type
+2026-11-18T17:58:38,573410+00:00 Key type id_resolver registered
+2026-11-18T17:58:38,573423+00:00 Key type id_legacy registered
+2026-11-18T17:58:38,573561+00:00 nfs4filelayout_init: NFSv4 File Layout Driver Registering...
+2026-11-18T17:58:38,573595+00:00 nfs4flexfilelayout_init: NFSv4 Flexfile Layout Driver Registering...
+2026-11-18T17:58:38,573711+00:00 ntfs3: Read-only LZX/Xpress compression included
+2026-11-18T17:58:38,574468+00:00 SGI XFS with ACLs, security attributes, quota, no debug enabled
+2026-11-18T17:58:38,581996+00:00 cryptd: max_cpu_qlen set to 1000
+2026-11-18T17:58:38,629204+00:00 NET: Registered PF_ALG protocol family
+2026-11-18T17:58:38,629313+00:00 Key type asymmetric registered
+2026-11-18T17:58:38,629328+00:00 Asymmetric key parser 'x509' registered
+2026-11-18T17:58:38,629778+00:00 Block layer SCSI generic (bsg) driver version 0.4 loaded (major 239)
+2026-11-18T17:58:38,630260+00:00 io scheduler mq-deadline registered
+2026-11-18T17:58:38,630315+00:00 io scheduler kyber registered
+2026-11-18T17:58:38,630589+00:00 io scheduler bfq registered
+2026-11-18T17:58:38,630844+00:00 xor: measuring software checksum speed
+2026-11-18T17:58:38,631765+00:00    neon            :  3635 MB/sec
+2026-11-18T17:58:38,632503+00:00    32regs          :  4580 MB/sec
+2026-11-18T17:58:38,633109+00:00    8regs           :  5573 MB/sec
+2026-11-18T17:58:38,633121+00:00 xor: using function: 8regs (5573 MB/sec)
+2026-11-18T17:58:38,657992+00:00 ledtrig-cpu: registered to indicate activity on CPUs
+2026-11-18T17:58:38,662543+00:00 IPMI message handler: version 39.2
+2026-11-18T17:58:38,714452+00:00 tegra-apbdma 60020000.dma-controller: Tegra20 APB DMA driver registered 32 channels
+2026-11-18T17:58:38,726810+00:00 tegra-pmc: access to PMC is restricted to TZ
+2026-11-18T17:58:38,726945+00:00 tegra-pmc 7000e400.pmc: i2c-thermtrip node not found, emergency thermal reset disabled.
+2026-11-18T17:58:38,745210+00:00 Serial: 8250/16550 driver, 4 ports, IRQ sharing enabled
+2026-11-18T17:58:38,752877+00:00 printk: legacy console [ttyS0] disabled
+2026-11-18T17:58:38,753476+00:00 70006000.serial: ttyS0 at MMIO 0x70006000 (irq = 59, base_baud = 25500000) is a Tegra
+2026-11-18T17:58:38,753591+00:00 printk: legacy console [ttyS0] enabled
+2026-11-18T17:58:39,316829+00:00 Freeing initrd memory: 12148K
+2026-11-18T17:58:39,331329+00:00 msm_serial: driver initialized
+2026-11-18T17:58:40,556766+00:00 usbcore: registered new interface driver uas
+2026-11-18T17:58:40,559908+00:00 usbcore: registered new interface driver usb-storage
+2026-11-18T17:58:40,565823+00:00 usbcore: registered new interface driver ums-alauda
+2026-11-18T17:58:40,571703+00:00 usbcore: registered new interface driver ums-cypress
+2026-11-18T17:58:40,577707+00:00 usbcore: registered new interface driver ums-datafab
+2026-11-18T17:58:40,583671+00:00 usbcore: registered new interface driver ums_eneub6250
+2026-11-18T17:58:40,589816+00:00 usbcore: registered new interface driver ums-freecom
+2026-11-18T17:58:40,595794+00:00 usbcore: registered new interface driver ums-isd200
+2026-11-18T17:58:40,601688+00:00 usbcore: registered new interface driver ums-jumpshot
+2026-11-18T17:58:40,607753+00:00 usbcore: registered new interface driver ums-karma
+2026-11-18T17:58:40,613561+00:00 usbcore: registered new interface driver ums-onetouch
+2026-11-18T17:58:40,619654+00:00 usbcore: registered new interface driver ums-realtek
+2026-11-18T17:58:40,625609+00:00 usbcore: registered new interface driver ums-sddr09
+2026-11-18T17:58:40,631507+00:00 usbcore: registered new interface driver ums-sddr55
+2026-11-18T17:58:40,637395+00:00 usbcore: registered new interface driver ums-usbat
+2026-11-18T17:58:40,643463+00:00 usbcore: registered new interface driver usbserial_generic
+2026-11-18T17:58:40,649666+00:00 usbserial: USB Serial support registered for generic
+2026-11-18T17:58:40,658393+00:00 mousedev: PS/2 mouse device common for all mice
+2026-11-18T17:58:40,670087+00:00 device-mapper: uevent: version 1.0.3
+2026-11-18T17:58:40,672755+00:00 device-mapper: ioctl: 4.50.0-ioctl (2025-04-28) initialised: dm-devel@lists.linux.dev
+2026-11-18T17:58:40,687202+00:00 cpufreq: cpufreq_policy_online: CPU0: Running at unlisted initial frequency: 1017600 kHz, changing to: 1020000 kHz
+2026-11-18T17:58:40,705177+00:00 hid: raw HID events driver (C) Jiri Kosina
+2026-11-18T17:58:40,708173+00:00 usbcore: registered new interface driver usbhid
+2026-11-18T17:58:40,713513+00:00 usbhid: USB HID core driver
+2026-11-18T17:58:40,723053+00:00 hw perfevents: enabled with armv8_cortex_a57 PMU driver, 7 (0,8000003f) counters available
+2026-11-18T17:58:40,730418+00:00 watchdog: NMI not fully supported
+2026-11-18T17:58:40,734346+00:00 watchdog: Hard watchdog permanently disabled
+2026-11-18T17:58:40,739240+00:00 Initializing XFRM netlink socket
+2026-11-18T17:58:40,744342+00:00 NET: Registered PF_INET6 protocol family
+2026-11-18T17:58:40,751134+00:00 Segment Routing with IPv6
+2026-11-18T17:58:40,752496+00:00 In-situ OAM (IOAM) with IPv6
+2026-11-18T17:58:40,756403+00:00 mip6: Mobile IPv6
+2026-11-18T17:58:40,759305+00:00 NET: Registered PF_PACKET protocol family
+2026-11-18T17:58:40,764854+00:00 Key type dns_resolver registered
+2026-11-18T17:58:40,789103+00:00 registered taskstats version 1
+2026-11-18T17:58:40,791459+00:00 Loading compiled-in X.509 certificates
+2026-11-18T17:58:40,806321+00:00 debug_vm_pgtable: [debug_vm_pgtable         ]: Validating architecture page table helpers
+2026-11-18T17:58:40,814550+00:00 Key type .fscrypt registered
+2026-11-18T17:58:40,817097+00:00 Key type fscrypt-provisioning registered
+2026-11-18T17:58:40,824604+00:00 Btrfs loaded, zoned=yes, fsverity=no
+2026-11-18T17:58:40,827041+00:00 Key type encrypted registered
+2026-11-18T17:58:40,862007+00:00 gpio gpiochip0: Static allocation of GPIO base is deprecated, use dynamic allocation.
+2026-11-18T17:58:40,902329+00:00 clk: Not disabling unused clocks
+2026-11-18T17:58:40,904271+00:00 PM: genpd: Not disabling unused power domains
+2026-11-18T17:58:40,909663+00:00 ALSA device list:
+2026-11-18T17:58:40,912580+00:00   No soundcards found.
+2026-11-18T17:58:40,919153+00:00 Freeing unused kernel memory: 3072K
+2026-11-18T17:58:40,921670+00:00 Run /init as init process
+2026-11-18T17:58:40,924993+00:00   with arguments:
+2026-11-18T17:58:40,925001+00:00     /init
+2026-11-18T17:58:40,925006+00:00     vpr_resize
+2026-11-18T17:58:40,925012+00:00   with environment:
+2026-11-18T17:58:40,925016+00:00     HOME=/
+2026-11-18T17:58:40,925020+00:00     TERM=linux
+2026-11-18T17:58:40,925024+00:00     tegraid=21.1.2.0.0
+2026-11-18T17:58:40,925027+00:00     ddr_die=4096M@2048M
+2026-11-18T17:58:40,925031+00:00     section=512M
+2026-11-18T17:58:40,925035+00:00     memtype=0
+2026-11-18T17:58:40,925039+00:00     usb_port_owner_info=0
+2026-11-18T17:58:40,925042+00:00     lane_owner_info=0
+2026-11-18T17:58:40,925046+00:00     emc_max_dvfs=0
+2026-11-18T17:58:40,925050+00:00     touch_id=0@63
+2026-11-18T17:58:40,925053+00:00     debug_uartport=lsport,4
+2026-11-18T17:58:40,925057+00:00     earlyprintk=uart8250-32bit,0x70006000
+2026-11-18T17:58:40,925061+00:00     lp0_vec=0x1000@0xff780000
+2026-11-18T17:58:40,925065+00:00     core_edp_mv=1125
+2026-11-18T17:58:40,925068+00:00     core_edp_ma=4000
+2026-11-18T17:58:40,925072+00:00     tegra_fbmem=0x800000@0x92ca9000
+2026-11-18T17:58:40,925075+00:00     is_hdmi_initialised=1
+2026-11-18T17:58:40,950235+00:00 systemd[1]: System time advanced to built-in epoch: Sun 2026-10-18 16:25:30 UTC
+2026-11-18T17:58:40,988340+00:00 systemd[1]: Successfully made /usr/ read-only.
+2026-11-18T17:58:40,992899+00:00 systemd[1]: systemd 262.1-1-arch running in system mode (+PAM +AUDIT -SELINUX +APPARMOR -IMA +IPE +SMACK +SECCOMP +GNUTLS +OPENSSL +ACL +BLKID +CURL +ELFUTILS +FIDO2 +IDN2 +KMOD +LIBCRYPTSETUP +LIBCRYPTSETUP_PLUGINS +LIBFDISK +PCRE2 +PWQUALITY +P11KIT +QRENCODE +TPM2 +BZIP2 +LZ4 +XZ +ZLIB +ZSTD +BPF_FRAMEWORK -BTF +XKBCOMMON +UTMP +LIBARCHIVE)
+2026-11-18T17:58:41,022947+00:00 systemd[1]: Detected architecture arm64.
+2026-11-18T17:58:41,027815+00:00 systemd[1]: Running in initrd.
+2026-11-18T17:58:41,032906+00:00 systemd[1]: Initializing machine ID from random generator.
+2026-11-18T17:58:41,038651+00:00 systemd[1]: No hostname configured, using default hostname.
+2026-11-18T17:58:41,045070+00:00 systemd[1]: Hostname set to <archlinux>.
+2026-11-18T17:58:41,145317+00:00 systemd[1]: Queued start job for default target Initrd Default Target.
+2026-11-18T17:58:41,161154+00:00 systemd[1]: Expecting device /dev/disk/by-label/ALARM...
+2026-11-18T17:58:41,165956+00:00 systemd[1]: Reached target Path Units.
+2026-11-18T17:58:41,170182+00:00 systemd[1]: Reached target Slice Units.
+2026-11-18T17:58:41,174954+00:00 systemd[1]: Reached target Swaps.
+2026-11-18T17:58:41,179272+00:00 systemd[1]: Reached target Timer Units.
+2026-11-18T17:58:41,184608+00:00 systemd[1]: Listening on Journal Socket (/dev/log).
+2026-11-18T17:58:41,190355+00:00 systemd[1]: Listening on Journal Sockets.
+2026-11-18T17:58:41,195223+00:00 systemd[1]: TPM PCR Measurements skipped, unmet condition check ConditionSecurity=measured-os
+2026-11-18T17:58:41,204650+00:00 systemd[1]: Listening on udev Kernel Socket.
+2026-11-18T17:58:41,210321+00:00 systemd[1]: Listening on udev Varlink Socket.
+2026-11-18T17:58:41,215255+00:00 systemd[1]: Reached target Socket Units.
+2026-11-18T17:58:41,220242+00:00 systemd[1]: Create List of Static Device Nodes skipped, unmet condition check ConditionFileNotEmpty=/lib/modules/7.2.11-1-aarch64-ARCH/modules.devname
+2026-11-18T17:58:41,234777+00:00 systemd[1]: Early Battery Level Check skipped, unmet condition check ConditionDirectoryNotEmpty=/sys/class/power_supply
+2026-11-18T17:58:41,250852+00:00 systemd[1]: Started Display Boot-Time Emergency Messages In Full Screen.
+2026-11-18T17:58:41,270547+00:00 systemd[1]: Starting Journal Service...
+2026-11-18T17:58:41,284226+00:00 systemd[1]: Starting Load Kernel Modules...
+2026-11-18T17:58:41,288382+00:00 systemd[1]: TPM PCR OS Separator skipped, unmet condition check ConditionSecurity=measured-os
+2026-11-18T17:58:41,297193+00:00 systemd[1]: TPM PCR Barrier (initrd) skipped, unmet condition check ConditionSecurity=measured-os
+2026-11-18T17:58:41,315052+00:00 systemd[1]: Starting Create Static Device Nodes in /dev...
+2026-11-18T17:58:41,320191+00:00 systemd[1]: Early TPM SRK Setup skipped, unmet condition check ConditionSecurity=measured-os
+2026-11-18T17:58:41,329069+00:00 systemd[1]: TPM PCR NvPCR Initialization Separator skipped, unmet condition check ConditionSecurity=measured-os
+2026-11-18T17:58:41,345685+00:00 systemd[1]: Starting Coldplug All udev Devices...
+2026-11-18T17:58:41,371619+00:00 /i2c@7000d000/pmic@3c: Fixed dependency cycle(s) with /i2c@7000d000/pmic@3c/pinmux
+2026-11-18T17:58:41,381806+00:00 max77620 1-003c: PMIC Version OTP:0x35 and ES:0x8
+2026-11-18T17:58:41,391170+00:00 systemd[1]: Finished Create Static Device Nodes in /dev.
+2026-11-18T17:58:41,398793+00:00 systemd-journald[90]: Collecting audit messages is disabled.
+2026-11-18T17:58:41,398970+00:00 systemd[1]: Reached target Preparation for Local File Systems.
+2026-11-18T17:58:41,411592+00:00 systemd[1]: Reached target Local File Systems.
+2026-11-18T17:58:41,433615+00:00 VDD_DDR_1V1_PMIC: Bringing 1125000uV into 1150000-1150000uV
+2026-11-18T17:58:41,439830+00:00 systemd[1]: Starting Rule-based Manager for Device Events and Files...
+2026-11-18T17:58:41,452370+00:00 systemd[1]: Started Journal Service.
+2026-11-18T17:58:41,473376+00:00 max77620 1-003c: Failed to create device link (0x180) with supplier regulator-vdd-3v3-sys for /i2c@7000d000/pmic@3c/regulators
+2026-11-18T17:58:41,509588+00:00 irq: IRQ72: trimming hierarchy from :pmc@7000e400
+2026-11-18T17:58:41,516200+00:00  usb2-1: supply vbus not found, using dummy regulator
+2026-11-18T17:58:41,520609+00:00  usb2-2: supply vbus not found, using dummy regulator
+2026-11-18T17:58:41,541632+00:00 tegra-pcie 1003000.pcie: host bridge /pcie@1003000 ranges:
+2026-11-18T17:58:41,545954+00:00 tegra-pcie 1003000.pcie:      MEM 0x0001000000..0x0001001fff -> 0x0001000000
+2026-11-18T17:58:41,554007+00:00 tegra-pcie 1003000.pcie:       IO 0x0012000000..0x001200ffff -> 0x0000000000
+2026-11-18T17:58:41,562032+00:00 tegra-pcie 1003000.pcie:      MEM 0x0013000000..0x001fffffff -> 0x0013000000
+2026-11-18T17:58:41,570151+00:00 tegra-pcie 1003000.pcie:      MEM 0x0020000000..0x003fffffff -> 0x0020000000
+2026-11-18T17:58:41,578388+00:00 tegra-pcie 1003000.pcie: 4x1, 1x1 configuration
+2026-11-18T17:58:41,589949+00:00 tegra-pcie 1003000.pcie: probing port 0, using 4 lanes
+2026-11-18T17:58:41,595949+00:00 tegra-pcie 1003000.pcie: probing port 1, using 1 lanes
+2026-11-18T17:58:42,862477+00:00 tegra-pcie 1003000.pcie: link 0 down, ignoring
+2026-11-18T17:58:42,877769+00:00 tegra-pcie 1003000.pcie: PCI host bridge to bus 0000:00
+2026-11-18T17:58:42,882926+00:00 pci_bus 0000:00: root bus resource [bus 00-ff]
+2026-11-18T17:58:42,890324+00:00 pci_bus 0000:00: root bus resource [mem 0x01000000-0x01001fff]
+2026-11-18T17:58:42,896040+00:00 pci_bus 0000:00: root bus resource [io  0x0000-0xffff]
+2026-11-18T17:58:42,904204+00:00 pci_bus 0000:00: root bus resource [mem 0x13000000-0x1fffffff]
+2026-11-18T17:58:42,909856+00:00 pci_bus 0000:00: root bus resource [mem 0x20000000-0x3fffffff pref]
+2026-11-18T17:58:42,918902+00:00 pci 0000:00:02.0: [10de:0faf] type 01 class 0x060400 PCIe Root Port
+2026-11-18T17:58:42,925380+00:00 pci_bus 0000:00: 2-byte config write to 0000:00:02.0 offset 0x4 may corrupt adjacent RW1C bits
+2026-11-18T17:58:42,933616+00:00 pci 0000:00:02.0: PCI bridge to [bus 00]
+2026-11-18T17:58:42,938639+00:00 pci 0000:00:02.0:   bridge window [io  0x0000-0x0fff]
+2026-11-18T17:58:42,944624+00:00 pci 0000:00:02.0: enabling Extended Tags
+2026-11-18T17:58:42,949615+00:00 pci 0000:00:02.0: PME# supported from D0 D1 D2 D3hot D3cold
+2026-11-18T17:58:42,962197+00:00 pci 0000:00:02.0: bridge configuration invalid ([bus 00-00]), reconfiguring
+2026-11-18T17:58:42,962642+00:00 spi-nor spi0.0: supply vcc not found, using dummy regulator
+2026-11-18T17:58:42,968371+00:00 pci 0000:01:00.0: [10ec:8168] type 00 class 0x020000 PCIe Endpoint
+2026-11-18T17:58:42,981844+00:00 pci 0000:01:00.0: BAR 0 [io  0x0000-0x00ff]
+2026-11-18T17:58:42,986983+00:00 pci 0000:01:00.0: BAR 2 [mem 0x00000000-0x00000fff 64bit]
+2026-11-18T17:58:42,993356+00:00 pci 0000:01:00.0: BAR 4 [mem 0x00000000-0x00003fff 64bit]
+2026-11-18T17:58:43,000013+00:00 pci 0000:01:00.0: supports D1 D2
+2026-11-18T17:58:43,004016+00:00 pci 0000:01:00.0: PME# supported from D0 D1 D2 D3hot D3cold
+2026-11-18T17:58:43,012800+00:00 pci_bus 0000:01: busn_res: [bus 01-ff] end is updated to 01
+2026-11-18T17:58:43,017260+00:00 pci 0000:00:02.0: bridge window [mem 0x13000000-0x130fffff]: assigned
+2026-11-18T17:58:43,024815+00:00 pci 0000:00:02.0: bridge window [io  0x1000-0x1fff]: assigned
+2026-11-18T17:58:43,031580+00:00 pci 0000:01:00.0: BAR 4 [mem 0x13000000-0x13003fff 64bit]: assigned
+2026-11-18T17:58:43,038829+00:00 pci 0000:01:00.0: BAR 2 [mem 0x13004000-0x13004fff 64bit]: assigned
+2026-11-18T17:58:43,046080+00:00 pci 0000:01:00.0: BAR 0 [io  0x1000-0x10ff]: assigned
+2026-11-18T17:58:43,052153+00:00 pci 0000:00:02.0: PCI bridge to [bus 01]
+2026-11-18T17:58:43,057085+00:00 pci 0000:00:02.0:   bridge window [io  0x1000-0x1fff]
+2026-11-18T17:58:43,063152+00:00 pci 0000:00:02.0:   bridge window [mem 0x13000000-0x130fffff]
+2026-11-18T17:58:43,069920+00:00 pci_bus 0000:00: resource 4 [mem 0x01000000-0x01001fff]
+2026-11-18T17:58:43,076151+00:00 pci_bus 0000:00: resource 5 [io  0x0000-0xffff]
+2026-11-18T17:58:43,081692+00:00 pci_bus 0000:00: resource 6 [mem 0x13000000-0x1fffffff]
+2026-11-18T17:58:43,087907+00:00 pci_bus 0000:00: resource 7 [mem 0x20000000-0x3fffffff pref]
+2026-11-18T17:58:43,094559+00:00 pci_bus 0000:01: resource 0 [io  0x1000-0x1fff]
+2026-11-18T17:58:43,100108+00:00 pci_bus 0000:01: resource 1 [mem 0x13000000-0x130fffff]
+2026-11-18T17:58:43,106391+00:00 pci 0000:00:02.0: nv_msi_ht_cap_quirk didn't locate host bridge
+2026-11-18T17:58:43,113544+00:00 pcieport 0000:00:02.0: enabling device (0000 -> 0003)
+2026-11-18T17:58:43,119604+00:00 pcieport 0000:00:02.0: PME: Signaling with IRQ 73
+2026-11-18T17:58:43,125602+00:00 pcieport 0000:00:02.0: AER: enabled with IRQ 73
+2026-11-18T17:58:43,143327+00:00 tegra-xusb 70090000.usb: Firmware timestamp: 2023-04-25 07:35:59 UTC
+2026-11-18T17:58:43,148436+00:00 tegra-xusb 70090000.usb: xHCI Host Controller
+2026-11-18T17:58:43,154217+00:00 tegra-xusb 70090000.usb: new USB bus registered, assigned bus number 1
+2026-11-18T17:58:43,162137+00:00 tegra-xusb 70090000.usb: hcc params 0x0184f525 hci version 0x100 quirks 0x0000000000000010
+2026-11-18T17:58:43,170662+00:00 tegra-xusb 70090000.usb: irq 76, io mem 0x70090000
+2026-11-18T17:58:43,176748+00:00 tegra-xusb 70090000.usb: xHCI Host Controller
+2026-11-18T17:58:43,182018+00:00 tegra-xusb 70090000.usb: new USB bus registered, assigned bus number 2
+2026-11-18T17:58:43,189331+00:00 tegra-xusb 70090000.usb: Host supports USB 3.0 SuperSpeed
+2026-11-18T17:58:43,195834+00:00 usb usb1: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 7.02
+2026-11-18T17:58:43,204075+00:00 usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+2026-11-18T17:58:43,211154+00:00 usb usb1: Product: xHCI Host Controller
+2026-11-18T17:58:43,215999+00:00 usb usb1: Manufacturer: Linux 7.2.11-1-aarch64-ARCH xhci-hcd
+2026-11-18T17:58:43,222669+00:00 usb usb1: SerialNumber: <serial>
+2026-11-18T17:58:43,228285+00:00 hub 1-0:1.0: USB hub found
+2026-11-18T17:58:43,231059+00:00 hub 1-0:1.0: 5 ports detected
+2026-11-18T17:58:43,235812+00:00 usb usb2: We don't know the algorithms for LPM for this host, disabling LPM.
+2026-11-18T17:58:43,243061+00:00 usb usb2: New USB device found, idVendor=1d6b, idProduct=0003, bcdDevice= 7.02
+2026-11-18T17:58:43,251442+00:00 usb usb2: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+2026-11-18T17:58:43,258613+00:00 usb usb2: Product: xHCI Host Controller
+2026-11-18T17:58:43,263323+00:00 usb usb2: Manufacturer: Linux 7.2.11-1-aarch64-ARCH xhci-hcd
+2026-11-18T17:58:43,269996+00:00 usb usb2: SerialNumber: <serial>
+2026-11-18T17:58:43,275199+00:00 hub 2-0:1.0: USB hub found
+2026-11-18T17:58:43,278380+00:00 hub 2-0:1.0: 4 ports detected
+2026-11-18T17:58:43,296606+00:00 sdhci-tegra 700b0000.mmc: Got CD GPIO
+2026-11-18T17:58:43,352452+00:00 irq: IRQ81: trimming hierarchy from :pmc@7000e400
+2026-11-18T17:58:43,354093+00:00 mmc1: SDHCI controller on 700b0400.mmc [700b0400.mmc] using ADMA 64-bit
+2026-11-18T17:58:43,356994+00:00 mmc0: SDHCI controller on 700b0000.mmc [700b0000.mmc] using ADMA 64-bit
+2026-11-18T17:58:43,483450+00:00 usb 1-2: new high-speed USB device number 2 using tegra-xusb
+2026-11-18T17:58:43,503592+00:00 usb 1-2: New USB device found, idVendor=0bda, idProduct=5411, bcdDevice= 1.01
+2026-11-18T17:58:43,516557+00:00 usb 1-2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+2026-11-18T17:58:43,521326+00:00 usb 1-2: Product: 4-Port USB 2.1 Hub
+2026-11-18T17:58:43,525917+00:00 usb 1-2: Manufacturer: Generic
+2026-11-18T17:58:43,533631+00:00 hub 1-2:1.0: USB hub found
+2026-11-18T17:58:43,534581+00:00 mmc1: Failed to initialize a non-removable card
+2026-11-18T17:58:43,535989+00:00 hub 1-2:1.0: 4 ports detected
+2026-11-18T17:58:43,622113+00:00 usb 2-1: new SuperSpeed USB device number 2 using tegra-xusb
+2026-11-18T17:58:43,642309+00:00 usb 2-1: New USB device found, idVendor=0bda, idProduct=0411, bcdDevice= 1.01
+2026-11-18T17:58:43,653646+00:00 usb 2-1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+2026-11-18T17:58:43,658448+00:00 usb 2-1: Product: 4-Port USB 3.1 Hub
+2026-11-18T17:58:43,664028+00:00 usb 2-1: Manufacturer: Generic
+2026-11-18T17:58:43,679316+00:00 hub 2-1:1.0: USB hub found
+2026-11-18T17:58:43,681764+00:00 hub 2-1:1.0: 4 ports detected
+2026-11-18T17:58:43,802032+00:00 mmc0: new UHS-I speed SDR104 SDXC card at address aaaa
+2026-11-18T17:58:43,809425+00:00 mmcblk0: mmc0:aaaa SD128 119 GiB
+2026-11-18T17:58:43,820167+00:00 GPT:disk_guids don't match.
+2026-11-18T17:58:43,821671+00:00 GPT:partition_entry_array_crc32 values don't match: 0x505c2b4f != 0x9db44f90
+2026-11-18T17:58:43,829738+00:00 GPT: Use GNU Parted to correct GPT errors.
+2026-11-18T17:58:43,834873+00:00  mmcblk0: p1 p2 p3 p4 p5 p6 p7 p8 p9 p10 p11 p12 p13 p14
+2026-11-18T17:58:43,851352+00:00 usb 1-2.1: new full-speed USB device number 3 using tegra-xusb
+2026-11-18T17:58:43,868438+00:00 usb 1-2.1: New USB device found, idVendor=19f5, idProduct=102b, bcdDevice= 0.00
+2026-11-18T17:58:43,877965+00:00 usb 1-2.1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+2026-11-18T17:58:43,886324+00:00 usb 1-2.1: Product: Air65 V3
+2026-11-18T17:58:43,887956+00:00 usb 1-2.1: Manufacturer: NuPhy
+2026-11-18T17:58:43,892958+00:00 usb 1-2.1: SerialNumber: <serial>
+2026-11-18T17:58:43,911816+00:00 input: NuPhy Air65 V3 as /devices/platform/70090000.usb/usb1/1-2/1-2.1/1-2.1:1.0/0003:19F5:102B.0001/input/input0
+2026-11-18T17:58:43,952366+00:00 random: crng init done
+2026-11-18T17:58:43,987504+00:00 hid-generic 0003:19F5:102B.0001: input,hidraw0: USB HID v1.11 Keyboard [NuPhy Air65 V3] on usb-70090000.usb-2.1/input0
+2026-11-18T17:58:44,007768+00:00 input: NuPhy Air65 V3 as /devices/platform/70090000.usb/usb1/1-2/1-2.1/1-2.1:1.1/0003:19F5:102B.0002/input/input1
+2026-11-18T17:58:44,091740+00:00 hid-generic 0003:19F5:102B.0002: input,hidraw1: USB HID v1.11 Keyboard [NuPhy Air65 V3] on usb-70090000.usb-2.1/input1
+2026-11-18T17:58:44,106625+00:00 input: NuPhy Air65 V3 Mouse as /devices/platform/70090000.usb/usb1/1-2/1-2.1/1-2.1:1.2/0003:19F5:102B.0003/input/input2
+2026-11-18T17:58:44,116888+00:00 input: NuPhy Air65 V3 System Control as /devices/platform/70090000.usb/usb1/1-2/1-2.1/1-2.1:1.2/0003:19F5:102B.0003/input/input3
+2026-11-18T17:58:44,180398+00:00 input: NuPhy Air65 V3 Consumer Control as /devices/platform/70090000.usb/usb1/1-2/1-2.1/1-2.1:1.2/0003:19F5:102B.0003/input/input4
+2026-11-18T17:58:44,192494+00:00 hid-generic 0003:19F5:102B.0003: input,hidraw2: USB HID v1.11 Mouse [NuPhy Air65 V3] on usb-70090000.usb-2.1/input2
+2026-11-18T17:58:44,207036+00:00 input: NuPhy Air65 V3 as /devices/platform/70090000.usb/usb1/1-2/1-2.1/1-2.1:1.3/0003:19F5:102B.0004/input/input5
+2026-11-18T17:58:44,217100+00:00 hid-generic 0003:19F5:102B.0004: input,hidraw3: USB HID v1.11 Device [NuPhy Air65 V3] on usb-70090000.usb-2.1/input3
+2026-11-18T17:58:44,305395+00:00 usb 1-2.3: new full-speed USB device number 4 using tegra-xusb
+2026-11-18T17:58:44,324300+00:00 usb 1-2.3: New USB device found, idVendor=046d, idProduct=c094, bcdDevice=25.01
+2026-11-18T17:58:44,332534+00:00 usb 1-2.3: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+2026-11-18T17:58:44,333446+00:00 EXT4-fs (mmcblk0p1): mounted filesystem a79ef9ea-083c-4489-ba8c-02922633d9db r/w with ordered data mode. Quota mode: none.
+2026-11-18T17:58:44,337610+00:00 usb 1-2.3: Product: PRO X Wireless
+2026-11-18T17:58:44,354063+00:00 usb 1-2.3: Manufacturer: Logitech
+2026-11-18T17:58:44,358392+00:00 usb 1-2.3: SerialNumber: <serial>
+2026-11-18T17:58:44,369093+00:00 input: Logitech PRO X Wireless as /devices/platform/70090000.usb/usb1/1-2/1-2.3/1-2.3:1.0/0003:046D:C094.0005/input/input6
+2026-11-18T17:58:44,380632+00:00 hid-generic 0003:046D:C094.0005: input,hidraw4: USB HID v1.11 Mouse [Logitech PRO X Wireless] on usb-70090000.usb-2.3/input0
+2026-11-18T17:58:44,398468+00:00 input: Logitech PRO X Wireless Keyboard as /devices/platform/70090000.usb/usb1/1-2/1-2.3/1-2.3:1.1/0003:046D:C094.0006/input/input7
+2026-11-18T17:58:44,492973+00:00 hid-generic 0003:046D:C094.0006: input,hidraw5: USB HID v1.11 Keyboard [Logitech PRO X Wireless] on usb-70090000.usb-2.3/input1
+2026-11-18T17:58:44,509724+00:00 hid-generic 0003:046D:C094.0007: hiddev96,hidraw6: USB HID v1.11 Device [Logitech PRO X Wireless] on usb-70090000.usb-2.3/input2
+2026-11-18T17:58:44,810768+00:00 systemd-journald[90]: Received SIGTERM from PID 1 (systemd).
+2026-11-18T17:58:45,015048+00:00 systemd[1]: System time advanced to timestamp on /var/lib/systemd/timesync/clock: Wed 2026-11-18 17:58:44 GMT
+2026-11-18T17:58:45,210338+00:00 systemd[1]: systemd 262.1-1-arch running in system mode (+PAM +AUDIT -SELINUX +APPARMOR -IMA +IPE +SMACK +SECCOMP +GNUTLS +OPENSSL +ACL +BLKID +CURL +ELFUTILS +FIDO2 +IDN2 +KMOD +LIBCRYPTSETUP +LIBCRYPTSETUP_PLUGINS +LIBFDISK +PCRE2 +PWQUALITY +P11KIT +QRENCODE +TPM2 +BZIP2 +LZ4 +XZ +ZLIB +ZSTD +BPF_FRAMEWORK -BTF +XKBCOMMON +UTMP +LIBARCHIVE)
+2026-11-18T17:58:45,239499+00:00 systemd[1]: Detected architecture arm64.
+2026-11-18T17:58:45,294914+00:00 systemd[1]: Hostname set to <nano-arch>.
+2026-11-18T17:58:45,576417+00:00 systemd[1]: bpf-restrict-fs: BPF LSM hook not enabled in the kernel, BPF LSM not supported.
+2026-11-18T17:58:45,918648+00:00 zram: Added device: zram0
+2026-11-18T17:58:46,630218+00:00 systemd[1]: initrd-switch-root.service: Deactivated successfully.
+2026-11-18T17:58:46,636338+00:00 systemd[1]: Stopped Switch Root.
+2026-11-18T17:58:46,645827+00:00 systemd[1]: systemd-journald.service: Scheduled restart job, restart counter is at 1.
+2026-11-18T17:58:46,656958+00:00 systemd[1]: Created slice CUPS Slice.
+2026-11-18T17:58:46,662625+00:00 systemd[1]: Created slice Slice /system/dirmngr.
+2026-11-18T17:58:46,668767+00:00 systemd[1]: Created slice Slice /system/getty.
+2026-11-18T17:58:46,674553+00:00 systemd[1]: Created slice Slice /system/gpg-agent.
+2026-11-18T17:58:46,680468+00:00 systemd[1]: Created slice Slice /system/gpg-agent-browser.
+2026-11-18T17:58:46,686922+00:00 systemd[1]: Created slice Slice /system/gpg-agent-extra.
+2026-11-18T17:58:46,693422+00:00 systemd[1]: Created slice Slice /system/gpg-agent-ssh.
+2026-11-18T17:58:46,699569+00:00 systemd[1]: Created slice Slice /system/keyboxd.
+2026-11-18T17:58:46,704970+00:00 systemd[1]: Created slice Slice /system/modprobe.
+2026-11-18T17:58:46,710833+00:00 systemd[1]: Created slice Slice /system/serial-getty.
+2026-11-18T17:58:46,716808+00:00 systemd[1]: Created slice Slice /system/systemd-zram-setup.
+2026-11-18T17:58:46,722825+00:00 systemd[1]: Created slice User and Session Slice.
+2026-11-18T17:58:46,727630+00:00 systemd[1]: Started Forward Password Requests to Wall Directory Watch.
+2026-11-18T17:58:46,735669+00:00 systemd[1]: Set up automount Arbitrary Executable File Formats File System Automount Point.
+2026-11-18T17:58:46,744322+00:00 systemd[1]: Expecting device /dev/ttyS0...
+2026-11-18T17:58:46,749221+00:00 systemd[1]: Expecting device /dev/zram0...
+2026-11-18T17:58:46,754364+00:00 systemd[1]: Reached target Local dm-clone Devices.
+2026-11-18T17:58:46,760191+00:00 systemd[1]: Reached target Image Downloads.
+2026-11-18T17:58:46,765382+00:00 systemd[1]: Stopped target Switch Root.
+2026-11-18T17:58:46,770210+00:00 systemd[1]: Stopped target Initrd File Systems.
+2026-11-18T17:58:46,775735+00:00 systemd[1]: Stopped target Initrd Root File System.
+2026-11-18T17:58:46,781624+00:00 systemd[1]: Reached target Local Integrity Protected Volumes.
+2026-11-18T17:58:46,788458+00:00 systemd[1]: Reached target Remote File Systems.
+2026-11-18T17:58:46,793935+00:00 systemd[1]: Reached target Slice Units.
+2026-11-18T17:58:46,798843+00:00 systemd[1]: Reached target Local Verity Protected Volumes.
+2026-11-18T17:58:46,805693+00:00 systemd[1]: Listening on Device-mapper event daemon FIFOs.
+2026-11-18T17:58:46,816442+00:00 systemd[1]: Listening on Query the User Interactively for a Password.
+2026-11-18T17:58:46,826120+00:00 systemd[1]: Listening on Process Core Dump Socket.
+2026-11-18T17:58:46,832579+00:00 systemd[1]: Listening on Credential Encryption/Decryption.
+2026-11-18T17:58:46,839653+00:00 systemd[1]: Listening on Disk Encryption Enrollment Service Socket.
+2026-11-18T17:58:46,847493+00:00 systemd[1]: Listening on Factory Reset Management.
+2026-11-18T17:58:46,851612+00:00 systemd[1]: Listening on Hostname Service Socket.
+2026-11-18T17:58:46,860759+00:00 systemd[1]: Listening on Console Output Muting Service Socket.
+2026-11-18T17:58:46,866145+00:00 systemd[1]: Listening on Userspace Out-Of-Memory (OOM) Killer Socket.
+2026-11-18T17:58:46,873223+00:00 systemd[1]: TPM PCR Measurements skipped, unmet condition check ConditionSecurity=measured-os
+2026-11-18T17:58:46,882413+00:00 systemd[1]: Make TPM PCR Policy skipped, unmet condition check ConditionSecurity=measured-uki
+2026-11-18T17:58:46,894497+00:00 systemd[1]: Listening on Disk Repartitioning Service Socket.
+2026-11-18T17:58:46,899476+00:00 systemd[1]: Listening on Resolve Monitor Varlink Socket.
+2026-11-18T17:58:46,905663+00:00 systemd[1]: Listening on Resolve Service Varlink Socket.
+2026-11-18T17:58:46,914586+00:00 systemd[1]: Listening on Simple Block Device Backed Storage Provider.
+2026-11-18T17:58:46,923657+00:00 systemd[1]: Listening on Simple File System Backed Storage Provider.
+2026-11-18T17:58:46,931417+00:00 systemd[1]: Listening on System Install Tool.
+2026-11-18T17:58:46,938103+00:00 systemd[1]: Listening on System Updates.
+2026-11-18T17:58:46,941446+00:00 systemd[1]: Listening on udev Varlink Socket.
+2026-11-18T17:58:46,946681+00:00 systemd[1]: Listening on User Database Manager Socket.
+2026-11-18T17:58:46,958483+00:00 systemd[1]: Mounting Huge Pages File System...
+2026-11-18T17:58:46,967679+00:00 systemd[1]: Mounting POSIX Message Queue File System...
+2026-11-18T17:58:46,981747+00:00 systemd[1]: Mounting Arbitrary Executable File Formats File System...
+2026-11-18T17:58:46,993690+00:00 systemd[1]: Mounting Kernel Debug File System...
+2026-11-18T17:58:47,005639+00:00 systemd[1]: Mounting Kernel Trace File System...
+2026-11-18T17:58:47,019583+00:00 systemd[1]: Starting Create List of Static Device Nodes...
+2026-11-18T17:58:47,025063+00:00 systemd[1]: Load Kernel Module configfs skipped, unmet condition check ConditionKernelModuleLoaded=!configfs
+2026-11-18T17:58:47,041317+00:00 systemd[1]: Mounting Kernel Configuration File System...
+2026-11-18T17:58:47,046500+00:00 systemd[1]: Load Kernel Module drm skipped, unmet condition check ConditionKernelModuleLoaded=!drm
+2026-11-18T17:58:47,065744+00:00 systemd[1]: Starting Load Kernel Module fuse...
+2026-11-18T17:58:47,071182+00:00 systemd[1]: Clear Stale Hibernate Storage Info skipped, unmet condition check ConditionPathExists=/sys/firmware/efi/efivars/HibernateLocation-8cf2644b-4b0b-428f-9387-6d876050dc67
+2026-11-18T17:58:47,128516+00:00 systemd[1]: Starting Journal Service...
+2026-11-18T17:58:47,145612+00:00 systemd[1]: Starting Load Kernel Modules...
+2026-11-18T17:58:47,149996+00:00 systemd[1]: TPM PCR Machine ID Measurement skipped, unmet condition check ConditionSecurity=measured-os
+2026-11-18T17:58:47,159501+00:00 systemd[1]: TPM PCR OS Separator skipped, unmet condition check ConditionSecurity=measured-os
+2026-11-18T17:58:47,174475+00:00 fuse: init (API version 7.45)
+2026-11-18T17:58:47,179862+00:00 systemd[1]: Starting Remount Root and Kernel File Systems...
+2026-11-18T17:58:47,186621+00:00 systemd[1]: Early TPM SRK Setup skipped, unmet condition check ConditionSecurity=measured-os
+2026-11-18T17:58:47,194567+00:00 systemd[1]: TPM PCR NvPCR Initialization Separator skipped, unmet condition check ConditionPathExists=/etc/initrd-release
+2026-11-18T17:58:47,206198+00:00 systemd[1]: TPM NvPCR Product ID Measurement skipped, unmet condition check ConditionSecurity=measured-os
+2026-11-18T17:58:47,230798+00:00 systemd[1]: Starting Load udev Rules from Credentials...
+2026-11-18T17:58:47,245775+00:00 systemd[1]: Starting Coldplug All udev Devices...
+2026-11-18T17:58:47,255459+00:00 tegra210_emc: loading out-of-tree module taints kernel.
+2026-11-18T17:58:47,263667+00:00 systemd[1]: Starting Virtual Console Setup...
+2026-11-18T17:58:47,268926+00:00 i2c_dev: i2c /dev entries driver
+2026-11-18T17:58:47,300935+00:00 systemd[1]: Mounted Huge Pages File System.
+2026-11-18T17:58:47,302981+00:00 systemd-journald[222]: Collecting audit messages is disabled.
+2026-11-18T17:58:47,314815+00:00 systemd[1]: Mounted POSIX Message Queue File System.
+2026-11-18T17:58:47,320837+00:00 systemd[1]: Mounted Arbitrary Executable File Formats File System.
+2026-11-18T17:58:47,324942+00:00 EXT4-fs (mmcblk0p1): re-mounted a79ef9ea-083c-4489-ba8c-02922633d9db.
+2026-11-18T17:58:47,343823+00:00 systemd[1]: Started Journal Service.
+2026-11-18T17:58:47,543758+00:00 systemd-journald[222]: Received client request to flush runtime journal.
+2026-11-18T17:58:47,709980+00:00 systemd-journald[222]: /var/log/journal/9b45e8e147464f02971f74add3a19660/system.journal: Realtime clock jumped backwards relative to last journal entry, rotating.
+2026-11-18T17:58:47,723473+00:00 systemd-journald[222]: Rotating system journal.
+2026-11-18T17:58:49,493679+00:00 input: Logitech PRO X Wireless as /devices/platform/70090000.usb/usb1/1-2/1-2.3/1-2.3:1.0/0003:046D:C094.0005/input/input8
+2026-11-18T17:58:49,563975+00:00 logitech-hidpp-device 0003:046D:C094.0005: input,hidraw4: USB HID v1.11 Mouse [Logitech PRO X Wireless] on usb-70090000.usb-2.3/input0
+2026-11-18T17:58:49,565998+00:00 zram_generator::setup[352]: Warning: algorithm "zstd" not recognised; consult /sys/block/zram0/comp_algorithm for a list of available ones
+2026-11-18T17:58:49,593642+00:00 zram0: detected capacity change from 0 to 3966976
+2026-11-18T17:58:49,873766+00:00 Adding 1983484k swap on /dev/zram0.  Priority:100 extents:1 across:1983484k SSDsc
+2026-11-18T17:58:49,912955+00:00 input: Logitech PRO X Wireless as /devices/platform/70090000.usb/usb1/1-2/1-2.3/1-2.3:1.1/0003:046D:C094.0006/input/input9
+2026-11-18T17:58:50,009633+00:00 logitech-hidpp-device 0003:046D:C094.0006: input,hidraw5: USB HID v1.11 Keyboard [Logitech PRO X Wireless] on usb-70090000.usb-2.3/input1
+2026-11-18T17:58:50,124494+00:00 logitech-hidpp-device 0003:046D:C094.0007: hiddev96,hidraw6: USB HID v1.11 Device [Logitech PRO X Wireless] on usb-70090000.usb-2.3/input2
+2026-11-18T17:58:50,127092+00:00 logitech-hidpp-device 0003:046D:C094.0007: HID++ 4.2 device connected.
+2026-11-18T17:58:50,645732+00:00 zswap: loaded using pool lzo
+2026-11-18T17:58:52,186121+00:00 platform 54200000.dc: Adding to iommu group 2
+2026-11-18T17:58:52,197898+00:00 platform 54240000.dc: Adding to iommu group 2
+2026-11-18T17:58:52,235285+00:00 at24 0-0050: 256 byte 24c02 EEPROM, read-only
+2026-11-18T17:58:52,236650+00:00 at24 0-0057: 256 byte 24c02 EEPROM, read-only
+2026-11-18T17:58:52,270444+00:00 platform 54340000.vic: Adding to iommu group 3
+2026-11-18T17:58:52,272491+00:00 platform 54380000.nvjpg: Adding to iommu group 4
+2026-11-18T17:58:52,277658+00:00 platform 54480000.nvdec: Adding to iommu group 5
+2026-11-18T17:58:52,305134+00:00 r8169 0000:01:00.0: enabling device (0000 -> 0003)
+2026-11-18T17:58:52,311129+00:00 platform 544c0000.nvenc: Adding to iommu group 6
+2026-11-18T17:58:52,374665+00:00 r8169 0000:01:00.0 eth0: RTL8168h/8111h, <mac>, XID 541, IRQ 83
+2026-11-18T17:58:52,374681+00:00 r8169 0000:01:00.0 eth0: jumbo features [frames: 9194 bytes, tx checksumming: ko]
+2026-11-18T17:58:52,395146+00:00 tegra_soctherm 700e2000.thermal-sensor: missing thermtrips, will use critical trips as shut down temp
+2026-11-18T17:58:52,407943+00:00 input: NVIDIA Jetson Nano HDA HDMI/DP,pcm=3 as /devices/platform/70030000.hda/sound/card0/input10
+2026-11-18T17:58:52,410928+00:00 tegra_soctherm 700e2000.thermal-sensor: thermtrip: will shut down when cpu reaches 102500 mC
+2026-11-18T17:58:52,410943+00:00 tegra_soctherm 700e2000.thermal-sensor: throttrip: will throttle when cpu reaches 102500 mC
+2026-11-18T17:58:52,411604+00:00 tegra_soctherm 700e2000.thermal-sensor: thermtrip: will shut down when gpu reaches 103000 mC
+2026-11-18T17:58:52,411613+00:00 tegra_soctherm 700e2000.thermal-sensor: throttrip: will throttle when gpu reaches 103000 mC
+2026-11-18T17:58:52,412147+00:00 tegra_soctherm 700e2000.thermal-sensor: thermtrip: will shut down when pll reaches 103000 mC
+2026-11-18T17:58:52,420044+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/processing-engine@702d8400
+2026-11-18T17:58:52,420074+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/processing-engine@702d8000
+2026-11-18T17:58:52,420094+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/amixer@702dbb00
+2026-11-18T17:58:52,420114+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/adx@702d3900
+2026-11-18T17:58:52,420133+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/adx@702d3800
+2026-11-18T17:58:52,420373+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/amx@702d3100
+2026-11-18T17:58:52,420618+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/amx@702d3000
+2026-11-18T17:58:52,420832+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/mvc@702da200
+2026-11-18T17:58:52,420981+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/mvc@702da000
+2026-11-18T17:58:52,421000+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2600
+2026-11-18T17:58:52,421085+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2400
+2026-11-18T17:58:52,421233+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2200
+2026-11-18T17:58:52,421246+00:00 tegra_soctherm 700e2000.thermal-sensor: thermtrip: will shut down when mem reaches 103000 mC
+2026-11-18T17:58:52,421251+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2000
+2026-11-18T17:58:52,421497+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/dmic@702d4100
+2026-11-18T17:58:52,421521+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/dmic@702d4000
+2026-11-18T17:58:52,421539+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/i2s@702d1300
+2026-11-18T17:58:52,421558+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/i2s@702d1200
+2026-11-18T17:58:52,421576+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/admaif@702d0000
+2026-11-18T17:58:52,421615+00:00 /aconnect@702c0000/ahub@702d0800/admaif@702d0000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,421681+00:00 /aconnect@702c0000/ahub@702d0800/i2s@702d1200: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,421719+00:00 /aconnect@702c0000/ahub@702d0800/i2s@702d1300: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,421760+00:00 /aconnect@702c0000/ahub@702d0800/sfc@702d2000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,421796+00:00 /aconnect@702c0000/ahub@702d0800/sfc@702d2200: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,421834+00:00 /aconnect@702c0000/ahub@702d0800/sfc@702d2400: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,421872+00:00 /aconnect@702c0000/ahub@702d0800/sfc@702d2600: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,421909+00:00 /aconnect@702c0000/ahub@702d0800/amx@702d3000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,421956+00:00 /aconnect@702c0000/ahub@702d0800/amx@702d3100: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,422004+00:00 /aconnect@702c0000/ahub@702d0800/adx@702d3800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,422052+00:00 /aconnect@702c0000/ahub@702d0800/adx@702d3900: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,422122+00:00 /aconnect@702c0000/ahub@702d0800/dmic@702d4000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,422162+00:00 /aconnect@702c0000/ahub@702d0800/dmic@702d4100: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,422219+00:00 /aconnect@702c0000/ahub@702d0800/processing-engine@702d8000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,422281+00:00 /aconnect@702c0000/ahub@702d0800/processing-engine@702d8400: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,422325+00:00 /aconnect@702c0000/ahub@702d0800/mvc@702da000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,422364+00:00 /aconnect@702c0000/ahub@702d0800/mvc@702da200: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,422401+00:00 /aconnect@702c0000/ahub@702d0800/amixer@702dbb00: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,457068+00:00 irq: IRQ89: trimming hierarchy from :pmc@7000e400
+2026-11-18T17:58:52,457180+00:00 irq: IRQ90: trimming hierarchy from :pmc@7000e400
+2026-11-18T17:58:52,462769+00:00 input: gpio-keys as /devices/platform/gpio-keys/input/input11
+2026-11-18T17:58:52,554867+00:00 BUG: using smp_processor_id() in preemptible [00000000] code: (udev-worker)/340
+2026-11-18T17:58:52,554880+00:00 caller is debug_smp_processor_id+0x20/0x38
+2026-11-18T17:58:52,554898+00:00 CPU: 2 UID: 0 PID: 340 Comm: (udev-worker) Tainted: G           O        7.2.11-1-aarch64-ARCH #1 PREEMPT(full) 
+2026-11-18T17:58:52,554906+00:00 Tainted: [O]=OOT_MODULE
+2026-11-18T17:58:52,554909+00:00 Hardware name: NVIDIA Jetson Nano Developer Kit B01 (DT)
+2026-11-18T17:58:52,554912+00:00 Call trace:
+2026-11-18T17:58:52,554914+00:00  show_stack+0x18/0x24 (C)
+2026-11-18T17:58:52,554923+00:00  dump_stack_lvl+0x5c/0x7c
+2026-11-18T17:58:52,554930+00:00  dump_stack+0x18/0x24
+2026-11-18T17:58:52,554935+00:00  check_preemption_disabled+0x100/0x108
+2026-11-18T17:58:52,554942+00:00  debug_smp_processor_id+0x20/0x38
+2026-11-18T17:58:52,554948+00:00  gic_cpu_init+0x28/0x118
+2026-11-18T17:58:52,554956+00:00  gic_init_bases+0xc8/0x1e0
+2026-11-18T17:58:52,554961+00:00  gic_of_init_child+0x84/0x180
+2026-11-18T17:58:52,554966+00:00  gic_probe+0x114/0x1f8
+2026-11-18T17:58:52,554971+00:00  platform_probe+0x80/0xb8
+2026-11-18T17:58:52,554980+00:00  really_probe+0xc0/0x3e0
+2026-11-18T17:58:52,554986+00:00  __driver_probe_device+0x164/0x1bc
+2026-11-18T17:58:52,554991+00:00  driver_probe_device+0xb4/0x118
+2026-11-18T17:58:52,554997+00:00  __device_attach_driver+0xa4/0x184
+2026-11-18T17:58:52,555003+00:00  bus_for_each_drv+0x80/0xe0
+2026-11-18T17:58:52,555009+00:00  __device_attach+0x9c/0x1c4
+2026-11-18T17:58:52,555014+00:00  device_initial_probe+0x54/0x5c
+2026-11-18T17:58:52,555020+00:00  bus_probe_device+0x34/0x9c
+2026-11-18T17:58:52,555026+00:00  device_add+0x4b8/0x70c
+2026-11-18T17:58:52,555031+00:00  of_device_add+0x54/0x64
+2026-11-18T17:58:52,555039+00:00  of_platform_device_create_pdata+0x98/0x15c
+2026-11-18T17:58:52,555046+00:00  of_platform_bus_create+0xd0/0x26c
+2026-11-18T17:58:52,555053+00:00  of_platform_populate+0x84/0x17c
+2026-11-18T17:58:52,555059+00:00  tegra_aconnect_probe+0x94/0x100 [tegra_aconnect]
+2026-11-18T17:58:52,555071+00:00  platform_probe+0x80/0xb8
+2026-11-18T17:58:52,555078+00:00  really_probe+0xc0/0x3e0
+2026-11-18T17:58:52,555083+00:00  __driver_probe_device+0x164/0x1bc
+2026-11-18T17:58:52,555089+00:00  driver_probe_device+0xb4/0x118
+2026-11-18T17:58:52,555095+00:00  __driver_attach+0xc8/0x21c
+2026-11-18T17:58:52,555100+00:00  bus_for_each_dev+0x78/0xd8
+2026-11-18T17:58:52,555106+00:00  driver_attach+0x24/0x34
+2026-11-18T17:58:52,555111+00:00  bus_add_driver+0x11c/0x260
+2026-11-18T17:58:52,555116+00:00  driver_register+0x68/0x124
+2026-11-18T17:58:52,555122+00:00  __platform_driver_register+0x24/0x30
+2026-11-18T17:58:52,555129+00:00  tegra_aconnect_driver_init+0x28/0xfdc [tegra_aconnect]
+2026-11-18T17:58:52,555135+00:00  do_one_initcall+0x44/0x3c0
+2026-11-18T17:58:52,555141+00:00  do_init_module+0x54/0x248
+2026-11-18T17:58:52,555147+00:00  load_module+0x810/0x99c
+2026-11-18T17:58:52,555151+00:00  init_module_from_file+0xd8/0xfc
+2026-11-18T17:58:52,555156+00:00  idempotent_init_module+0x1c4/0x2b0
+2026-11-18T17:58:52,555160+00:00  __arm64_sys_finit_module+0x68/0xf0
+2026-11-18T17:58:52,555165+00:00  invoke_syscall.constprop.0+0x40/0x108
+2026-11-18T17:58:52,555171+00:00  el0_svc_common.constprop.0+0xb8/0xd8
+2026-11-18T17:58:52,555177+00:00  do_el0_svc+0x1c/0x28
+2026-11-18T17:58:52,555183+00:00  el0_svc+0x38/0x1ec
+2026-11-18T17:58:52,555188+00:00  el0t_64_sync_handler+0xa0/0xe4
+2026-11-18T17:58:52,555193+00:00  el0t_64_sync+0x198/0x19c
+2026-11-18T17:58:52,555236+00:00 gic 702f9000.interrupt-controller: GIC IRQ controller registered
+2026-11-18T17:58:52,555389+00:00 tegra-aconnect aconnect@702c0000: Tegra ACONNECT bus registered
+2026-11-18T17:58:52,718969+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/admaif@702d0000
+2026-11-18T17:58:52,745438+00:00 /aconnect@702c0000/ahub@702d0800/admaif@702d0000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,758887+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/i2s@702d1200
+2026-11-18T17:58:52,758990+00:00 /aconnect@702c0000/ahub@702d0800/i2s@702d1200: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,766681+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/i2s@702d1300
+2026-11-18T17:58:52,766833+00:00 /aconnect@702c0000/ahub@702d0800/i2s@702d1300: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,771976+00:00 tegra-adma 702e2000.dma-controller: Tegra210 ADMA driver registered 22 channels
+2026-11-18T17:58:52,782053+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2000
+2026-11-18T17:58:52,782182+00:00 /aconnect@702c0000/ahub@702d0800/sfc@702d2000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,801042+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2200
+2026-11-18T17:58:52,801179+00:00 /aconnect@702c0000/ahub@702d0800/sfc@702d2200: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,827309+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2400
+2026-11-18T17:58:52,827432+00:00 /aconnect@702c0000/ahub@702d0800/sfc@702d2400: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,833749+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2600
+2026-11-18T17:58:52,834044+00:00 /aconnect@702c0000/ahub@702d0800/sfc@702d2600: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,840627+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/amx@702d3000
+2026-11-18T17:58:52,840739+00:00 /aconnect@702c0000/ahub@702d0800/amx@702d3000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,843102+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/amx@702d3100
+2026-11-18T17:58:52,843211+00:00 /aconnect@702c0000/ahub@702d0800/amx@702d3100: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,848572+00:00 irq: IRQ120: trimming hierarchy from :pmc@7000e400
+2026-11-18T17:58:52,848858+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/adx@702d3800
+2026-11-18T17:58:52,850328+00:00 /aconnect@702c0000/ahub@702d0800/adx@702d3800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,858363+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/adx@702d3900
+2026-11-18T17:58:52,859063+00:00 /aconnect@702c0000/ahub@702d0800/adx@702d3900: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,865795+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/dmic@702d4000
+2026-11-18T17:58:52,865921+00:00 /aconnect@702c0000/ahub@702d0800/dmic@702d4000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,872885+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/dmic@702d4100
+2026-11-18T17:58:52,872996+00:00 /aconnect@702c0000/ahub@702d0800/dmic@702d4100: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,877429+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/processing-engine@702d8000
+2026-11-18T17:58:52,877780+00:00 /aconnect@702c0000/ahub@702d0800/processing-engine@702d8000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,878665+00:00 [drm] forcing HDMI-A-1 connector on
+2026-11-18T17:58:52,881621+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/processing-engine@702d8400
+2026-11-18T17:58:52,881750+00:00 /aconnect@702c0000/ahub@702d0800/processing-engine@702d8400: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,884438+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/mvc@702da000
+2026-11-18T17:58:52,884544+00:00 /aconnect@702c0000/ahub@702d0800/mvc@702da000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,886841+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/mvc@702da200
+2026-11-18T17:58:52,887321+00:00 Generic FE-GE Realtek PHY r8169-0-100:00: attached PHY driver (mii_bus:phy_addr=r8169-0-100:00, irq=MAC)
+2026-11-18T17:58:52,888291+00:00 /aconnect@702c0000/ahub@702d0800/mvc@702da200: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,889659+00:00 [drm] Initialized tegra 1.0.0 for drm on minor 0
+2026-11-18T17:58:52,891657+00:00 /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/amixer@702dbb00
+2026-11-18T17:58:52,891947+00:00 /aconnect@702c0000/ahub@702d0800/amixer@702dbb00: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+2026-11-18T17:58:52,943900+00:00 Console: switching to colour frame buffer device 160x45
+2026-11-18T17:58:52,962761+00:00 drm drm: [drm] fb0: tegradrmfb frame buffer device
+2026-11-18T17:58:53,046449+00:00 r8169 0000:01:00.0 eth0: Link is Down
+2026-11-18T17:58:55,742920+00:00 r8169 0000:01:00.0 eth0: Link is Up - 1Gbps/Full - flow control rx/tx
+2026-11-18T17:59:03,287440+00:00 tegra-pmc 7000e400.pmc: sync_state() pending due to 7000e000.rtc
+2026-11-18T17:59:03,292304+00:00 tegra-mc 70019000.memory-controller: sync_state() pending due to 6000c800.actmon
+2026-11-18T17:59:03,300714+00:00 tegra-pmc 7000e400.pmc: sync_state() pending due to 54080000.vi
+2026-11-18T17:59:03,307587+00:00 tegra-pmc 7000e400.pmc: sync_state() pending due to 544c0000.nvenc
+2026-11-18T17:59:22,194461+00:00 nvgpu: 57000000.gpu    nvgpu_linux_get_ref_clock_rate:125  [ERR]  failed to get GPCPLL reference clock
+2026-11-18T17:59:22,202558+00:00 nvgpu: 57000000.gpu           gm20b_init_clk_setup_sw:1244 [ERR]  GPCPLL reference clock is zero
+2026-11-18T17:59:22,212351+00:00 nvgpu: 57000000.gpu                       nvgpu_probe:488  [ERR]  platform probe failed
+2026-11-18T17:59:22,221365+00:00 gk20a 57000000.gpu: probe with driver gk20a failed with error -22
+2026-11-18T18:00:48,362790+00:00 gk20a 57000000.gpu: Unbalanced pm_runtime_enable!
+2026-11-18T18:00:48,366919+00:00 nvgpu: 57000000.gpu           gm20b_init_clk_setup_sw:1282 [INFO]  GPCPLL initial settings: M=1, N=34, P=3 (id = 0)
+Timeout, server <lan-ip> not responding.

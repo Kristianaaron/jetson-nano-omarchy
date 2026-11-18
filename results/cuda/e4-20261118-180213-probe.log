@@ -1,0 +1,27 @@
+
+== 1-2. no driver holds 57000000.gpu (nouveau not loaded): nothing to unbind
+
+== 3. firmware search path and driver override
+/home/omarchy/cuda/e4/fw
+
+
+== 4. load nvgpu
+insmod exit=0
+no driver bound
+[   44.038587] nvgpu: 57000000.gpu    nvgpu_linux_get_ref_clock_rate:125  [ERR]  failed to get GPCPLL reference clock
+[   44.046684] nvgpu: 57000000.gpu           gm20b_init_clk_setup_sw:1244 [ERR]  GPCPLL reference clock is zero
+[   44.056477] nvgpu: 57000000.gpu                       nvgpu_probe:488  [ERR]  platform probe failed
+[   44.065491] gk20a 57000000.gpu: probe with driver gk20a failed with error -22
+
+== 5. device nodes
+ls: cannot access '/dev/nvhost-*gpu*': No such file or directory
+ls: cannot access '/dev/nvgpu/igpu0/': No such file or directory
+
+== 6. first power-on: open the control node
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import os; fd=os.open('/dev/nvhost-ctrl-gpu', os.O_RDWR); print('opened ctrl fd', fd); os.close(fd)
+                  ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/dev/nvhost-ctrl-gpu'
+open exit=1
+E4-PROBE-DONE

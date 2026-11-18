@@ -1,0 +1,13 @@
+[connection]
+id=wired-nano
+type=ethernet
+interface-name=eth0
+autoconnect=true
+
+[ipv4]
+method=manual
+address1=@NANO_ADDRESS@,@NANO_GATEWAY@
+dns=@NANO_DNS@
+
+[ipv6]
+method=auto

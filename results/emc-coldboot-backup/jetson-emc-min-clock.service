@@ -1,0 +1,12 @@
+[Unit]
+Description=Jetson Nano EMC 1600 MHz floor (bootloader-trained table)
+After=systemd-modules-load.service sys-kernel-debug.mount
+Requires=sys-kernel-debug.mount
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c "echo 1600000000 > /sys/kernel/debug/emc/min_rate"
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,141 @@
+[   39.219491] nvgpu-e4: run4 listener check
+[   52.463940] nvgpu-e4: run4 insmod
+[   52.538467] nvgpu: 57000000.gpu                     gk20a_pm_init:1589 [DBG]   
+[   52.543526] nvgpu: 57000000.gpu            nvgpu_init_max_comptag:215  [DBG]  total ram pages : 991771
+[   52.553510] nvgpu: 57000000.gpu           gm20b_init_clk_setup_sw:1221 [DBG]   
+[   52.560103] nvgpu: 57000000.gpu           gm20b_init_clk_setup_sw:1281 [DBG]  done
+[   52.567629] nvgpu: 57000000.gpu           gm20b_init_clk_setup_sw:1282 [INFO]  GPCPLL initial settings: M=1, N=34, P=3 (id = 0)
+[   52.584829] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.590067] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.597351] nvgpu: 57000000.gpu      nvgpu_read_support_gpu_tools:76   [DBG]  GPU tools support enabled by default
+[   52.607547] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.614896] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.622160] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.629443] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.636711] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.643999] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.651278] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.658555] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.665828] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.673135] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.680397] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.687680] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.699078] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.704251] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.711523] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.718791] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.726068] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.733343] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.740618] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.747937] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.755222] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.762466] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.769756] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.777025] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[   52.787836] nvgpu: 57000000.gpu           gk20a_fifo_debugfs_init:152  [DBG]  g=000000008eef6fd2
+[   52.794438] nvgpu: 57000000.gpu            nvgpu_gsp_debugfs_init:318  [DBG]  g=000000008eef6fd2
+[   52.803144] nvgpu: 57000000.gpu                gk20a_pm_late_init:1606 [DBG]   
+[   56.820307] nvgpu-e4: run4 opening ctrl
+[   56.873691] nvgpu: 57000000.gpu               gk20a_ctrl_dev_open:119  [DBG]   
+[   56.878761] nvgpu: 57000000.gpu               gk20a_ctrl_dev_open:145  [DBG]  opened ctrl device: 1
+[   56.890923] nvgpu: 57000000.gpu         gk20a_pm_finalize_poweron:465  [DBG]   
+[   56.895989] nvgpu: 57000000.gpu                 nvgpu_detect_chip:135  [DBG]  arch: 120, impl: b, rev: a1
+[   56.895989] 
+[   56.906967] nvgpu: 57000000.gpu                    nvgpu_init_hal:54   [DBG]  gm20b detected
+[   56.915602] nvgpu: 57000000.gpu    gm20b_fuse_check_priv_security:76   [DBG]  gcplex_config = 0x00000006, secure mode: ACR non debug
+[   56.927256] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing &nvgpu_init_slcg_acb_load_gating_prod
+[   56.938781] nvgpu: 57000000.gpu                  nvgpu_early_init:849  [DBG]  Skipping initializing g->ops.ecc.ecc_init_support (enable_flag=0 func=0000000000000000)
+[   56.953510] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing &nvgpu_ipa_pa_rwsem_init
+[   56.963912] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing &nvgpu_device_init
+[   56.974009] nvgpu: 57000000.gpu      gm20b_device_info_parse_enum:37   [DBG]  Entry_enum to be parsed 0x8006183e
+[   56.988049] nvgpu: 57000000.gpu      gm20b_device_info_parse_enum:45   [DBG]  Engine_id: 0
+[   56.994353] nvgpu: 57000000.gpu      gm20b_device_info_parse_enum:53   [DBG]  Runlist_id: 0
+[   57.002661] nvgpu: 57000000.gpu      gm20b_device_info_parse_enum:61   [DBG]  Intr_id: 12
+[   57.010809] nvgpu: 57000000.gpu      gm20b_device_info_parse_enum:69   [DBG]  Reset_id: 12
+[   57.019048] nvgpu: 57000000.gpu      gm20b_device_info_parse_data:48   [DBG]  Entry_data to be parsed 0x400005
+[   57.029009] nvgpu: 57000000.gpu      gm20b_device_info_parse_data:52   [DBG]  Pri Base addr: 0x400000
+[   57.038230] nvgpu: 57000000.gpu      gm20b_device_info_parse_data:60   [DBG]  Fault_id: 0
+[   57.046345] nvgpu: 57000000.gpu      gm20b_device_info_parse_data:66   [DBG]  Inst_id: 0
+[   57.055060] nvgpu: 57000000.gpu      gm20b_device_info_parse_enum:37   [DBG]  Entry_enum to be parsed 0x8403aa3e
+[   57.064549] nvgpu: 57000000.gpu      gm20b_device_info_parse_enum:45   [DBG]  Engine_id: 1
+[   57.072774] nvgpu: 57000000.gpu      gm20b_device_info_parse_enum:53   [DBG]  Runlist_id: 0
+[   57.081096] nvgpu: 57000000.gpu      gm20b_device_info_parse_enum:61   [DBG]  Intr_id: 7
+[   57.089152] nvgpu: 57000000.gpu      gm20b_device_info_parse_enum:69   [DBG]  Reset_id: 21
+[   57.101515] nvgpu: 57000000.gpu      gm20b_device_info_parse_data:48   [DBG]  Entry_data to be parsed 0x1060dd
+[   57.109566] nvgpu: 57000000.gpu      gm20b_device_info_parse_data:52   [DBG]  Pri Base addr: 0x106000
+[   57.118752] nvgpu: 57000000.gpu      gm20b_device_info_parse_data:60   [DBG]  Fault_id: 27
+[   57.126984] nvgpu: 57000000.gpu      gm20b_device_info_parse_data:66   [DBG]  Inst_id: 0
+[   57.138876] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing g->ops.bios.bios_sw_init
+[   57.147412] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing &nvgpu_init_interrupt_setup
+[   57.158066] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing &nvgpu_init_power_gate
+[   57.168289] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing &nvgpu_init_acquire_static_pg_lock
+[   57.179552] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing &nvgpu_init_power_gate_gr
+[   57.190042] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing g->ops.priv_ring.enable_priv_ring
+[   57.201223] nvgpu: 57000000.gpu            gm20b_priv_ring_enable:58   [DBG]  enabling priv ring
+[   57.214107] nvgpu: 57000000.gpu nvgpu_cg_slcg_priring_load_enable:246  [DBG]   
+[   57.220361] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing g->ops.bus.init_hw
+[   57.229437] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing &nvgpu_ptimer_init
+[   57.239300] nvgpu: 57000000.gpu   nvgpu_cg_slcg_timer_load_enable:324  [DBG]   
+[   57.246597] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing g->ops.clk.init_clk_support
+[   57.257239] nvgpu: 57000000.gpu            gm20b_init_clk_support:1490 [DBG]   
+[   57.264519] nvgpu: 57000000.gpu           gm20b_init_clk_setup_hw:1385 [DBG]   
+[   57.272387] nvgpu: 57000000.gpu                      set_pll_freq:1455 [DBG]  last freq: 0MHz, target freq 435200MHz
+[   57.282287] nvgpu: 57000000.gpu               clk_program_gpc_pll:890  [DBG]   
+[   57.289689] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing &nvgpu_init_fbpa_ecc
+[   57.299621] nvgpu: 57000000.gpu                  nvgpu_early_init:849  [DBG]  Skipping initializing g->ops.fb.init_fbpa (enable_flag=0 func=0000000000000000)
+[   57.313659] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing g->ops.fifo.reset_enable_hw
+[   57.328443] nvgpu: 57000000.gpu   gk20a_init_fifo_reset_enable_hw:52   [DBG]   
+[   57.333903] nvgpu: 57000000.gpu             gm20b_mc_enable_units:182  [DBG]  disable units: mc_enable mask = 0x00000100
+[   57.344751] nvgpu: 57000000.gpu             gm20b_mc_enable_units:182  [DBG]  enable units: mc_enable mask = 0x00000100
+[   57.355530] nvgpu: 57000000.gpu    nvgpu_cg_slcg_fifo_load_enable:260  [DBG]   
+[   57.362759] nvgpu: 57000000.gpu    nvgpu_cg_blcg_fifo_load_enable:126  [DBG]   
+[   57.370037] nvgpu: 57000000.gpu   gk20a_init_fifo_reset_enable_hw:67   [DBG]  fifo_fb_timeout reg val = 0xbfffffff
+[   57.380363] nvgpu: 57000000.gpu              gm20b_pbdma_setup_hw:157  [DBG]  pbdma_timeout reg val = 0xffffffff
+[   57.390502] nvgpu: 57000000.gpu           gm20b_pbdma_intr_enable:63   [DBG]  pbdma id:0, intr_en_0 0xefeffeff
+[   57.400460] nvgpu: 57000000.gpu           gm20b_pbdma_intr_enable:72   [DBG]  pbdma id:0, intr_en_1 0x0000001e
+[   57.410432] nvgpu: 57000000.gpu          gk20a_fifo_intr_0_enable:91   [DBG]  fifo_intr_en_0 0x79810111
+[   57.419789] nvgpu: 57000000.gpu          gk20a_fifo_intr_1_enable:47   [DBG]  fifo_intr_en_1 = 0x80000000
+[   57.429315] nvgpu: 57000000.gpu   gk20a_init_fifo_reset_enable_hw:74   [DBG]  done
+[   57.441000] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing &nvgpu_init_fb_support
+[   57.449426] nvgpu: 57000000.gpu                 gm20b_mc_fb_reset:267  [DBG]  reset gk20a fb
+[   57.457839] nvgpu: 57000000.gpu      nvgpu_cg_slcg_fb_load_enable:189  [DBG]   
+[   57.465093] nvgpu: 57000000.gpu      nvgpu_cg_blcg_fb_load_enable:96   [DBG]   
+[   57.472383] nvgpu: 57000000.gpu            fb_gm20b_init_fs_state:44   [DBG]  initialize gm20b fb
+[   57.481215] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing g->ops.ltc.init_ltc_support
+[   57.491872] nvgpu: 57000000.gpu            nvgpu_init_ltc_support:49   [DBG]   
+[   57.499149] nvgpu: 57000000.gpu           gm20b_ltc_init_fs_state:47   [DBG]  initialize gm20b l2
+[   57.508001] nvgpu: 57000000.gpu           gm20b_ltc_init_fs_state:51   [DBG]  2 ltcs out of 2
+[   57.516502] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing nvgpu_fbp_init_support
+[   57.526715] nvgpu: 57000000.gpu            nvgpu_fbp_init_support:54   [DBG]  fbps: 1
+[   57.534514] nvgpu: 57000000.gpu            nvgpu_fbp_init_support:58   [DBG]  max_fbps_count: 1
+[   57.543188] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing g->ops.grmgr.init_gr_manager
+[   57.558040] nvgpu: 57000000.gpu            nvgpu_finalize_poweron:1081 [DBG]   
+[   57.563540] nvgpu: 57000000.gpu            nvgpu_finalize_poweron:1091 [DBG]  Initializing g->ops.mm.pd_cache_init
+[   57.573843] nvgpu: 57000000.gpu            nvgpu_finalize_poweron:1091 [DBG]  Initializing &nvgpu_falcons_sw_init
+[   57.584067] nvgpu: 57000000.gpu              gk20a_falcon_sw_init:77   [DBG]  falcon 0x7 not supported on gm20b
+[   57.594132] nvgpu: 57000000.gpu              gk20a_falcon_sw_init:77   [DBG]  falcon 0x4 not supported on gm20b
+[   57.604185] nvgpu: 57000000.gpu              gk20a_falcon_sw_init:77   [DBG]  falcon 0x5 not supported on gm20b
+[   57.614226] nvgpu: 57000000.gpu              gk20a_falcon_sw_init:77   [DBG]  falcon 0xf not supported on gm20b
+[   57.624284] nvgpu: 57000000.gpu              gk20a_falcon_sw_init:77   [DBG]  falcon 0x10 not supported on gm20b
+[   57.634422] nvgpu: 57000000.gpu            nvgpu_finalize_poweron:1091 [DBG]  Initializing g->ops.pmu.pmu_early_init
+[   57.644909] nvgpu: 57000000.gpu              nvgpu_pmu_early_init:239  [DBG]   
+[   57.652187] nvgpu: 57000000.gpu         nvgpu_pmu_rtos_early_init:500  [DBG]   
+[   57.659469] nvgpu: 57000000.gpu       nvgpu_gm20b_perfmon_sw_init:31   [DBG]   
+[   57.670886] nvgpu: 57000000.gpu                       pmu_fw_read:251  [DBG]   
+[   57.684229] gk20a 57000000.gpu: Direct firmware load for gm20b/gpmu_ucode_image.bin failed with error -2
+[   57.691950] gk20a 57000000.gpu: Direct firmware load for tegra21x/gpmu_ucode_image.bin failed with error -2
+[   57.701599] nvgpu: 57000000.gpu                       pmu_fw_read:257  [ERR]  failed to load pmu ucode!!
+[   57.711043] nvgpu: 57000000.gpu                    pmu_fw_release:193  [DBG]   
+[   57.718317] nvgpu: 57000000.gpu                    pmu_fw_release:193  [DBG]   
+[   57.725601] nvgpu: 57000000.gpu                remove_pmu_support:146  [DBG]   
+[   57.732881] nvgpu: 57000000.gpu        nvgpu_pmu_sequences_deinit:145  [DBG]   
+[   57.740153] nvgpu: 57000000.gpu           nvgpu_pmu_mutexe_deinit:145  [DBG]   
+[   57.747447] nvgpu: 57000000.gpu               nvgpu_pmu_fw_deinit:381  [DBG]   
+[   57.754720] nvgpu: 57000000.gpu                    pmu_fw_release:193  [DBG]   
+[   57.762007] nvgpu: 57000000.gpu            nvgpu_finalize_poweron:1095 [ERR]  Failed initialization for: g->ops.pmu.pmu_early_init
+[   57.777839] nvgpu: 57000000.gpu              nvgpu_falcon_sw_free:587  [DBG]  falcon 0x5 not supported on gm20b
+[   57.786087] nvgpu: 57000000.gpu              nvgpu_falcon_sw_free:587  [DBG]  falcon 0xf not supported on gm20b
+[   57.796127] nvgpu: 57000000.gpu              nvgpu_falcon_sw_free:587  [DBG]  falcon 0x4 not supported on gm20b
+[   57.806185] nvgpu: 57000000.gpu              nvgpu_falcon_sw_free:587  [DBG]  falcon 0x10 not supported on gm20b
+[   57.816311] nvgpu: 57000000.gpu              nvgpu_falcon_sw_free:587  [DBG]  falcon 0x7 not supported on gm20b
+[  102.703736] nvgpu-e4: run5 opening ctrl (firmware links fixed)

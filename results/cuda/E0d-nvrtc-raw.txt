@@ -1,0 +1,18 @@
+lib: /home/omarchy/cuda-e0/src/cuda12/cuda_nvrtc/cuda_nvrtc-linux-sbsa-12.6.85-archive/lib
+NVRTC 12.6
+--gpu-architecture=compute_53 ptx: NVRTC_SUCCESS 
+  wrote k12.ptx (1025 bytes)
+--gpu-architecture=sm_53 cubin: NVRTC_SUCCESS 
+  wrote k12.cubin (2216 bytes)
+rc=0
+.version 8.5
+.target sm_53
+== E0d-a: CUDA 10.2 cuobjdump reading the CUDA 12 cubin
+		Function : axpy
+== E0d-b: CUDA 10.2 ptxas assembling CUDA 12 PTX (ISA lowered to 6.5)
+rc=0 size=1864
+		Function : axpy
+== ELF headers
+k12.cubin:  OS/ABI: CUDA  ABI Version: 7  Flags: 0x350535 
+readelf: Error: the PHDR segment is not covered by a LOAD segment
+k102.cubin:  OS/ABI: CUDA  ABI Version: 7  Flags: 0x350535 

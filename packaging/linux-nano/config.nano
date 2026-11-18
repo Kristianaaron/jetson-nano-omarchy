@@ -1,0 +1,9 @@
+# linux-nano: changes on top of ALARM's linux-aarch64 config (merged in prepare()).
+# nvmap (CUDA memory manager) needs the PMEM cache API; without it CPU cache
+# invalidation for GPU buffers is an empty stub.
+CONFIG_ARM64_PMEM=y
+# Tegra210 EMC driver in tree (was an out-of-tree build of the same source + 0101).
+CONFIG_TEGRA_MC=y
+CONFIG_TEGRA210_EMC=m
+# Fan PWM in tree (was a DKMS module).
+CONFIG_PWM_TEGRA=m

@@ -1,0 +1,10 @@
+old nvgpu unloaded
+
+== 1-2. no driver holds 57000000.gpu (nouveau not loaded): nothing to unbind
+
+== 3. firmware search path and driver override
+/home/omarchy/cuda/e4/fw
+
+
+== 4. load nvgpu
+Timeout, server <lan-ip> not responding.

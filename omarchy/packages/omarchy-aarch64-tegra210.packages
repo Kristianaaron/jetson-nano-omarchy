@@ -1,0 +1,25 @@
+# Additions for the NVIDIA Jetson Nano (Tegra210), composed after
+# omarchy-base.packages and omarchy-aarch64.packages.
+#
+# Deliberately short. The generic aarch64 list already brings zram-generator,
+# pipewire-jack and gst-plugin-pipewire, and the Nano needs no proprietary
+# NVIDIA userspace on the desktop path: CUDA belongs to the vendor-BSP image,
+# not to this one (see docs/decisions/ADR-001-kernel-gpu-strategy.md).
+#
+# What the Nano does need that aarch64 does not give it:
+
+# Mesa's Tegra/DRI path and the tooling the graphics gate uses. drm_info has no
+# aarch64 package in Arch Linux ARM, so the gate uses modetest (libdrm) and
+# glxinfo/eglinfo (mesa-utils) instead.
+mesa
+libdrm
+mesa-utils
+
+# The board's Ethernet is a Realtek PCIe NIC (r8169 in the kernel package); the
+# userspace side is ethtool for link diagnostics.
+ethtool
+
+# Thermal and power observability, since mainline has no nvpmodel.
+lm_sensors
+
+# No x86-only applications, no Steam, no dotnet, no proprietary drivers.

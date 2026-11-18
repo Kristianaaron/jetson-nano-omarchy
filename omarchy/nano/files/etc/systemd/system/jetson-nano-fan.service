@@ -1,0 +1,10 @@
+[Unit]
+Description=Jetson Nano fan trip point
+After=sysinit.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/jetson-nano-fan
+
+[Install]
+WantedBy=multi-user.target

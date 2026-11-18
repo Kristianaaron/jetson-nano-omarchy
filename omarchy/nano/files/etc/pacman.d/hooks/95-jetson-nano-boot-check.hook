@@ -1,0 +1,12 @@
+[Trigger]
+Type = Path
+Operation = Install
+Operation = Upgrade
+Target = usr/lib/modules/*/vmlinuz
+Target = usr/lib/initcpio/*
+Target = boot/*
+
+[Action]
+Description = Checking the Jetson Nano can still boot...
+When = PostTransaction
+Exec = /usr/local/bin/jetson-nano-boot-check

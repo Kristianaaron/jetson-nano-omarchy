@@ -1,0 +1,36 @@
+# Omarchy for the Jetson Nano: the official omarchy 4.5.0-3 package (pinned by sha256, as
+# verified by pacman from pkgs.omarchy.org) with two changes, both upstream-ready:
+#  - agent-usage-perf.py: usage collectors become cached modules behind launchers, and
+#    refreshes run at low CPU/IO priority (upstream form: 0001-agent-usage-perf.patch);
+#  - 0002-keep-background-plugin-loaded.patch: the shell keeps its background service
+#    loaded when owe takes a still over, instead of unloading it (black desktop otherwise).
+# Upstream: https://github.com/omacom/omarchy (MIT).
+
+pkgname=omarchy
+pkgver=4.5.0
+pkgrel=3.1
+pkgdesc="Beautiful, modern, and opinionated Arch Linux by DHH (Jetson Nano build)"
+arch=(aarch64)
+url="https://github.com/omacom/omarchy"
+license=(MIT)
+depends=(omarchy-keyring omarchy-themes-intros 'omarchy-settings=4.5.0' hyprland quickshell uwsm
+         sddm xdg-desktop-portal-hyprland wireplumber pipewire gnome-keyring gum jq git perl
+         omarchy-speedtest fakeroot pacman-contrib ttf-jetbrains-mono-nerd-basic networkmanager
+         omarchy-security-functions)
+makedepends=(python)
+conflicts=(omarchy-dev)
+options=(!strip !debug)
+source=("omarchy-4.5.0-3-aarch64.pkg.tar.zst"
+        agent-usage-perf.py
+        0002-keep-background-plugin-loaded.patch)
+noextract=("omarchy-4.5.0-3-aarch64.pkg.tar.zst")
+sha256sums=('d367067c1e35d6e99f7cd921e0a55ec6e46cb0d2bc681b1a4b39254c8c0416e7'
+            '7276f38d1fffc066068a04cf44f7c4eb656a4c80c43ae8e7756d7133dbecdcea'
+            'f3dec7cff2b42297c05da43564daf7543461db958db107c6ec0b6be611ad7edb')
+
+package() {
+  bsdtar -xpf "$srcdir/omarchy-4.5.0-3-aarch64.pkg.tar.zst" -C "$pkgdir" \
+    --exclude .PKGINFO --exclude .BUILDINFO --exclude .MTREE
+  python3 "$srcdir/agent-usage-perf.py" "$pkgdir/usr/share/omarchy" --bin "$pkgdir/usr/bin"
+  patch -d "$pkgdir/usr/share/omarchy" -p1 < "$srcdir/0002-keep-background-plugin-loaded.patch"
+}

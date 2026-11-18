@@ -1,0 +1,105 @@
+{
+  "phase": 0,
+  "generated": "2026-11-16T12:00:00Z",
+  "hardware_present": true,
+  "hardware_note": "First real capture 2026-05-30T14:13Z over SSH via a USB host. Read-only.",
+  "board": {
+    "expected": "Jetson Nano 4GB developer kit",
+    "verified_on_device": true,
+    "actual": "B01 carrier P3449-0000-B00 + module P3448-0000-B00 (compatible nvidia,p3449-0000-b00+p3448-0000-b00), L4T R32.6.1, kernel 4.9.253-tegra, Ubuntu 20.04.6"
+  },
+  "checks": [
+    {
+      "id": "p0-01",
+      "item": "read-only inventory collected",
+      "status": "pass",
+      "evidence": "results/system/baseline-20260530T141349Z.txt, inventory-summary.md",
+      "blocker": ""
+    },
+    {
+      "id": "p0-02",
+      "item": "board/module revision confirmed",
+      "status": "pass",
+      "evidence": "compatible string nvidia,p3449-0000-b00+p3448-0000-b00; board is B01, not P3450"
+    },
+    {
+      "id": "p0-03",
+      "item": "boot chain recorded (cboot/U-Boot, extlinux, kernel, DTB)",
+      "status": "unknown",
+      "evidence": "boot-chain.md procedure written, not executed"
+    },
+    {
+      "id": "p0-04",
+      "item": "serial console captured",
+      "status": "unknown",
+      "evidence": "not captured; SSH reachable over the USB gadget instead"
+    },
+    {
+      "id": "p0-05",
+      "item": "known-good card imaged and restore-tested",
+      "status": "blocked",
+      "evidence": "procedure in docs/boot-chain.md; needs card reader and a second card"
+    },
+    {
+      "id": "p0-06",
+      "item": "compatibility matrix drafted from sources",
+      "status": "pass",
+      "evidence": "docs/compatibility-matrix.md, all rows cite the tree or package inspected"
+    },
+    {
+      "id": "p0-07",
+      "item": "ADR-001 kernel/GPU strategy recorded",
+      "status": "pass",
+      "evidence": "docs/decisions/ADR-001-kernel-gpu-strategy.md"
+    },
+    {
+      "id": "p0-08",
+      "item": "mainline kernel covers board peripherals",
+      "status": "pass",
+      "evidence": "ALARM linux-aarch64 7.3.4-2 config has ARCH_TEGRA_210_SOC, DRM_TEGRA, HOST1X, NOUVEAU, SDHCI_TEGRA, XHCI_TEGRA, PCI_TEGRA, r8169; ships tegra210-p3450-0000.dtb"
+    },
+    {
+      "id": "p0-09",
+      "item": "quantified baseline: CPU, RAM, GPU clocks, thermals",
+      "status": "blocked",
+      "evidence": "partial: thermals/idle captured (CPU 37C, PMIC 50C, MAXN); CUDA and tegrastats still missing"
+    }
+  ],
+  "deliverables": {
+    "docs/compatibility-matrix.md": "done",
+    "docs/boot-chain.md": "done (procedure, unexecuted)",
+    "docs/decisions/ADR-001-kernel-gpu-strategy.md": "done",
+    "hardware/inventory.sh": "done (read-only, unexecuted)",
+    "scripts/install-nano.sh": "done (manual-only, untested, refuses non-removable targets)",
+    "tests/boot-smoke/README.md": "done (test plan, unexecuted)",
+    "results/phase0.json": "this file"
+  },
+  "next_blocker": "Phase 1 needs a second microSD (32 GB+) and a reader; the known-good image needs the 1 TB USB drive attached or a 128 GB target card.",
+  "new_findings": [
+    "Board is B01 P3449, mainline has no B01 DTS (only p3450 A02 and p3541 2GB), so the first boot uses the p3450 DTB",
+    "Vendor stack exposes no /dev/dri: Hyprland cannot run on L4T; independent confirmation of ADR-001",
+    "Root is a single ext4 partition /dev/mmcblk0p1 with /boot inside it",
+    "eth0 has carrier and the r8168 driver but NetworkManager has no active profile, so there is no IPv4"
+  ],
+  "network": {
+    "reachable": true,
+    "via": "VPN address (redacted)",
+    "lan": "eth0 <lan-ip>/22 observed",
+    "spark_dependency": false
+  },
+  "baseline": {
+    "kernel": "4.9.253-tegra",
+    "l4t": "R32.6.1",
+    "cuda": "10.2.300",
+    "ram_total_gib": 3.9,
+    "ram_used_idle_gib": 1.6,
+    "zram_gib": 1.9,
+    "cpu_idle_mhz": 102,
+    "cpu_burst_mhz": 1479,
+    "cpu_c": 40.5,
+    "gpu_c": 41,
+    "pmic_c": 50,
+    "disk_used_gib": 26,
+    "disk_free_gib": 89
+  }
+}

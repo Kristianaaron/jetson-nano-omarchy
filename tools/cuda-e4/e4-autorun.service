@@ -1,0 +1,12 @@
+[Unit]
+Description=E4 nvgpu probe at boot (only while /root/e4-autorun.enabled exists)
+After=network-online.target
+Wants=network-online.target
+ConditionPathExists=/root/e4-autorun.enabled
+
+[Service]
+Type=oneshot
+ExecStart=/root/e4-autorun.sh
+
+[Install]
+WantedBy=multi-user.target

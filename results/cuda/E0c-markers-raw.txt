@@ -1,0 +1,12 @@
+== E0c: GM20B / sm_53 markers in every NVIDIA library (r32 rows = control)
+nvidia-l4t-cuda: scanned 1 libraries
+nvidia-l4t-core  libnvrm_gpu.so  gm20b=1 sm_53=0 gm20x/t210=2
+nvidia-l4t-core: scanned 33 libraries
+r35.6-l4t-cuda  libcuda.so.1.1  gm20b=0 sm_53=2 gm20x/t210=0
+r35.6-l4t-cuda: scanned 2 libraries
+r35.6-l4t-core  libnvrm_gpu.so  gm20b=1 sm_53=0 gm20x/t210=2
+r35.6-l4t-core: scanned 45 libraries
+r36.4-l4t-cuda  libcuda.so.1.1  gm20b=0 sm_53=2 gm20x/t210=0
+r36.4-l4t-cuda: scanned 3 libraries
+r36.4-l4t-core  libnvrm_gpu.so  gm20b=1 sm_53=0 gm20x/t210=2
+r36.4-l4t-core: scanned 44 libraries

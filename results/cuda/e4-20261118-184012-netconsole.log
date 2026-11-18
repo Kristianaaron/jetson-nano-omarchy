@@ -1,0 +1,815 @@
+[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x411fd071]
+[    0.000000] Linux version 7.2.11-1-aarch64-ARCH (builduser@arch-nspawn-1320980) (aarch64-unknown-linux-gnu-gcc (GCC) 16.1.1 20260430, GNU ld (GNU Binutils) 2.46.0) #1 SMP PREEMPT_DYNAMIC Sat Oct 17 10:08:46 UTC 2026
+[    0.000000] Machine model: NVIDIA Jetson Nano Developer Kit B01
+[    0.000000] earlycon: uart8250 at MMIO32 0x0000000070006000 (options '')
+[    0.000000] printk: legacy bootconsole [uart8250] enabled
+[    0.000000] efi: UEFI not found.
+[    0.000000] cma: Reserved 64 MiB at 0x00000000fae00000
+[    0.000000] psci: probing for conduit method from DT.
+[    0.000000] psci: PSCIv1.0 detected in firmware.
+[    0.000000] psci: Using standard PSCI v0.2 function IDs
+[    0.000000] psci: MIGRATE_INFO_TYPE not supported.
+[    0.000000] psci: SMC Calling Convention v1.1
+[    0.000000] Zone ranges:
+[    0.000000]   DMA      [mem 0x0000000080000000-0x00000000ffffffff]
+[    0.000000]   DMA32    empty
+[    0.000000]   Normal   [mem 0x0000000100000000-0x000000017f1fffff]
+[    0.000000] Movable zone start for each node
+[    0.000000] Early memory node ranges
+[    0.000000]   node   0: [mem 0x0000000080000000-0x00000000fedfffff]
+[    0.000000]   node   0: [mem 0x0000000100000000-0x000000017f1fffff]
+[    0.000000] Initmem setup node 0 [mem 0x0000000080000000-0x000000017f1fffff]
+[    0.000000] On node 0, zone Normal: 4608 pages in unavailable ranges
+[    0.000000] On node 0, zone Normal: 3584 pages in unavailable ranges
+[    0.000000] percpu: Embedded 35 pages/cpu s104408 r8192 d30760 u143360
+[    0.000000] Detected PIPT I-cache on CPU0
+[    0.000000] CPU features: detected: Spectre-v2
+[    0.000000] CPU features: detected: Spectre-BHB
+[    0.000000] CPU features: detected: ARM erratum 834220
+[    0.000000] CPU features: detected: ARM erratum 1742098
+[    0.000000] CPU features: detected: ARM erratum 832075
+[    0.000000] CPU features: detected: ARM errata 1165522, 1319367, or 1530923
+[    0.000000] alternatives: applying boot alternatives
+[    0.000000] Kernel command line: tegraid=21.1.2.0.0 ddr_die=4096M@2048M section=512M memtype=0 vpr_resize usb_port_owner_info=0 lane_owner_info=0 emc_max_dvfs=0 touch_id=0@63 video=tegrafb no_console_suspend=1 console=ttyS0,115200n8 debug_uartport=lsport,4 earlyprintk=uart8250-32bit,0x70006000 maxcpus=4 usbcore.old_scheme_first=1 lp0_vec=0x1000@0xff780000 core_edp_mv=1125 core_edp_ma=4000 gpt tegra_fbmem=0x800000@0x92ca9000 is_hdmi_initialised=1  earlycon=uart8250,mmio32,0x70006000  root=/dev/mmcblk0p1 rw rootwait rootfstype=ext4 console=ttyS0,115200n8 console=tty0 fbcon=map:0 net.ifnames=0 root=LABEL=ALARM rw rootwait rootfstype=ext4 console=ttyS0,115200n8 console=tty0 fbcon=map:0 net.ifnames=0 pcie_aspm=off loglevel=7 panic=10 clk_ignore_unused pd_ignore_unused video=HDMI-A-1:1280x720@60e nouveau.config=NvClkMode=0x07 drm.edid_firmware=HDMI-A-1:edid/aorus.bin
+[    0.000000] PCIe ASPM is disabled
+[    0.000000] Unknown kernel command line parameters "vpr_resize tegraid=21.1.2.0.0 ddr_die=4096M@2048M section=512M memtype=0 usb_port_owner_info=0 lane_owner_info=0 emc_max_dvfs=0 touch_id=0@63 debug_uartport=lsport,4 earlyprintk=uart8250-32bit,0x70006000 lp0_vec=0x1000@0xff780000 core_edp_mv=1125 core_edp_ma=4000 tegra_fbmem=0x800000@0x92ca9000 is_hdmi_initialised=1", will be passed to user space.
+[    0.000000] printk: log buffer data + meta data: 262144 + 1114112 = 1376256 bytes
+[    0.000000] Dentry cache hash table entries: 524288 (order: 10, 4194304 bytes, linear)
+[    0.000000] Inode-cache hash table entries: 262144 (order: 9, 2097152 bytes, linear)
+[    0.000000] software IO TLB: area num 4.
+[    0.000000] software IO TLB: mapped [mem 0x00000000f6e00000-0x00000000fae00000] (64MB)
+[    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 1040384
+[    0.000000] mem auto-init: stack:off, heap alloc:off, heap free:off
+[    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=4, Nodes=1
+[    0.000000] Dynamic Preempt: full
+[    0.000000] rcu: Preemptible hierarchical RCU implementation.
+[    0.000000] rcu: 	RCU restricting CPUs from NR_CPUS=64 to nr_cpu_ids=4.
+[    0.000000] 	Trampoline variant of Tasks RCU enabled.
+[    0.000000] 	Tracing variant of Tasks RCU enabled.
+[    0.000000] rcu: RCU calculated value of scheduler-enlistment delay is 100 jiffies.
+[    0.000000] rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=4
+[    0.000000] RCU Tasks: Setting shift to 2 and lim to 1 rcu_task_cb_adjust=1 rcu_task_cpu_ids=4.
+[    0.000000] NR_IRQS: 64, nr_irqs: 64, preallocated irqs: 0
+[    0.000000] Root IRQ handler: gic_handle_irq
+[    0.000000] GIC: Using split EOI/Deactivate mode
+[    0.000000] /interrupt-controller@60004000: 192 interrupts forwarded to /interrupt-controller@50041000
+[    0.000000] rcu: srcu_init: Setting srcu_struct sizes based on contention.
+[    0.000000] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1911260446275000 ns
+[    0.000000] tegra-clk-debug:pll_a_out0_out_adsp: connection ID is greater than 16
+[    0.000000] tegra-clk-debug:dmic1_sync_clk_mux: connection ID is greater than 16
+[    0.000000] tegra-clk-debug:dmic2_sync_clk_mux: connection ID is greater than 16
+[    0.000000] tegra-clk-debug:dmic3_sync_clk_mux: connection ID is greater than 16
+[    0.000003] sched_clock: 32 bits at 1000kHz, resolution 1000ns, wraps every 2147483647500ns
+[    0.008663] clocksource: timer_us: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1911260446275 ns
+[    0.018867] clocksource: tegra_suspend_timer: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1911260446275000 ns
+[    0.031280] arch_timer: cp15 timer running at 19.20MHz (phys).
+[    0.037296] clocksource: arch_sys_counter: mask: 0xffffffffffffff max_cycles: 0x46d987e47, max_idle_ns: 440795202767 ns
+[    0.048427] sched_clock: 56 bits at 19MHz, resolution 52ns, wraps every 4398046511078ns
+[    0.057411] Console: colour dummy device 80x25
+[    0.062041] printk: legacy console [tty0] enabled
+[    0.066910] printk: legacy bootconsole [uart8250] disabled
+[    0.072651] Calibrating delay loop (skipped), value calculated using timer frequency.. 38.40 BogoMIPS (lpj=19200)
+[    0.072674] pid_max: default: 32768 minimum: 301
+[    0.076151] Yama: becoming mindful.
+[    0.076330] landlock: Up and running.
+[    0.077325] Mount-cache hash table entries: 8192 (order: 4, 65536 bytes, linear)
+[    0.077380] Mountpoint-cache hash table entries: 8192 (order: 4, 65536 bytes, linear)
+[    0.078733] VFS: Finished mounting rootfs on nullfs
+[    0.084698] rcu: Hierarchical SRCU implementation.
+[    0.084732] rcu: 	Max phase no-delay instances is 400.
+[    0.085065] Timer migration: 1 hierarchy levels; 8 children per group; 1 crossnode level
+[    0.088978] Speedo Revision 4
+[    0.089033] Tegra Revision: A02 SKU: 143 CPU Process: 0 SoC Process: 0
+[    0.089158] EFI services will not be available.
+[    0.089781] smp: Bringing up secondary CPUs ...
+[    0.090893] Detected PIPT I-cache on CPU1
+[    0.091188] CPU1: Booted secondary processor 0x0000000001 [0x411fd071]
+[    0.092613] Detected PIPT I-cache on CPU2
+[    0.092801] CPU2: Booted secondary processor 0x0000000002 [0x411fd071]
+[    0.093860] Detected PIPT I-cache on CPU3
+[    0.094035] CPU3: Booted secondary processor 0x0000000003 [0x411fd071]
+[    0.094173] smp: Brought up 1 node, 4 CPUs
+[    0.094233] SMP: Total of 4 processors activated.
+[    0.094245] CPU: All CPU(s) started at EL2
+[    0.094276] CPU features: detected: 32-bit EL0 Support
+[    0.094287] CPU features: detected: 32-bit EL1 Support
+[    0.094302] CPU features: detected: CRC32 instructions
+[    0.094322] CPU features: detected: PMUv3
+[    0.094407] alternatives: applying system-wide alternatives
+[    0.102397] Memory: 3880748K/4161536K available (24896K kernel code, 6486K rwdata, 14720K rodata, 3072K init, 732K bss, 209672K reserved, 65536K cma-reserved)
+[    0.105658] devtmpfs: initialized
+[    0.124213] posixtimers hash table entries: 2048 (order: 3, 32768 bytes, linear)
+[    0.124380] futex hash table entries: 1024 (65536 bytes on 1 NUMA nodes, total 64 KiB, linear).
+[    0.125977] 20240 pages in range for non-PLT usage
+[    0.126000] 511760 pages in range for PLT usage
+[    0.132119] DMI: not present or invalid.
+[    0.135429] NET: Registered PF_NETLINK/PF_ROUTE protocol family
+[    0.137031] DMA: preallocated 512 KiB GFP_KERNEL pool for atomic allocations
+[    0.137313] DMA: preallocated 512 KiB GFP_KERNEL|GFP_DMA pool for atomic allocations
+[    0.137415] audit: initializing netlink subsys (disabled)
+[    0.137738] audit: type=2000 audit(0.061:1): state=initialized audit_enabled=0 res=1
+[    0.143133] thermal_sys: Registered thermal governor 'fair_share'
+[    0.143149] thermal_sys: Registered thermal governor 'bang_bang'
+[    0.143173] thermal_sys: Registered thermal governor 'step_wise'
+[    0.143185] thermal_sys: Registered thermal governor 'user_space'
+[    0.143196] thermal_sys: Registered thermal governor 'power_allocator'
+[    0.143381] cpuidle: using governor ladder
+[    0.143439] cpuidle: using governor menu
+[    0.144018] hw-breakpoint: found 6 breakpoint and 4 watchpoint registers.
+[    0.144183] ASID allocator initialised with 65536 entries
+[    0.149164] Serial: AMBA PL011 UART driver
+[    0.165726] tegra-mc 70019000.memory-controller: no memory timings for RAM code 0 registered
+[    0.166935] platform 50000000.host1x: Adding to iommu group 0
+[    0.167069] platform 57000000.gpu: Adding to iommu group 1
+[    0.181006] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/processing-engine@702d8400
+[    0.181073] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/processing-engine@702d8000
+[    0.181117] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/amixer@702dbb00
+[    0.181159] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/adx@702d3900
+[    0.181201] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/adx@702d3800
+[    0.181241] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/amx@702d3100
+[    0.181280] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/amx@702d3000
+[    0.181320] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/mvc@702da200
+[    0.181359] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/mvc@702da000
+[    0.181398] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2600
+[    0.181438] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2400
+[    0.181478] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2200
+[    0.181519] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2000
+[    0.181560] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/dmic@702d4100
+[    0.181617] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/dmic@702d4000
+[    0.181659] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/i2s@702d1300
+[    0.181700] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/i2s@702d1200
+[    0.181740] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/admaif@702d0000
+[    0.181858] /aconnect@702c0000/ahub@702d0800/admaif@702d0000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.182025] /aconnect@702c0000/ahub@702d0800/i2s@702d1200: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.182154] /aconnect@702c0000/ahub@702d0800/i2s@702d1300: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.182283] /aconnect@702c0000/ahub@702d0800/sfc@702d2000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.182412] /aconnect@702c0000/ahub@702d0800/sfc@702d2200: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.182539] /aconnect@702c0000/ahub@702d0800/sfc@702d2400: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.182682] /aconnect@702c0000/ahub@702d0800/sfc@702d2600: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.182810] /aconnect@702c0000/ahub@702d0800/amx@702d3000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.182950] /aconnect@702c0000/ahub@702d0800/amx@702d3100: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.183092] /aconnect@702c0000/ahub@702d0800/adx@702d3800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.183232] /aconnect@702c0000/ahub@702d0800/adx@702d3900: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.183372] /aconnect@702c0000/ahub@702d0800/dmic@702d4000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.183500] /aconnect@702c0000/ahub@702d0800/dmic@702d4100: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.183642] /aconnect@702c0000/ahub@702d0800/processing-engine@702d8000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.183777] /aconnect@702c0000/ahub@702d0800/processing-engine@702d8400: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.183910] /aconnect@702c0000/ahub@702d0800/mvc@702da000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.184039] /aconnect@702c0000/ahub@702d0800/mvc@702da200: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.184166] /aconnect@702c0000/ahub@702d0800/amixer@702dbb00: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.194767] HugeTLB: registered 1.00 GiB page size, pre-allocated 0 pages
+[    0.194806] HugeTLB: 0 KiB vmemmap can be freed for a 1.00 GiB page
+[    0.194821] HugeTLB: registered 32.0 MiB page size, pre-allocated 0 pages
+[    0.194833] HugeTLB: 0 KiB vmemmap can be freed for a 32.0 MiB page
+[    0.194846] HugeTLB: registered 2.00 MiB page size, pre-allocated 0 pages
+[    0.194857] HugeTLB: 0 KiB vmemmap can be freed for a 2.00 MiB page
+[    0.194871] HugeTLB: registered 64.0 KiB page size, pre-allocated 0 pages
+[    0.194882] HugeTLB: 0 KiB vmemmap can be freed for a 64.0 KiB page
+[    0.197337] raid6: using neon recovery algorithm
+[    0.213585] raid6: int64x1  gen()  1214 MB/s
+[    0.230582] raid6: int64x2  gen()  1586 MB/s
+[    0.247580] raid6: int64x4  gen()  1633 MB/s
+[    0.264576] raid6: int64x8  gen()  1434 MB/s
+[    0.281581] raid6: neonx1   gen()  1770 MB/s
+[    0.298582] raid6: neonx2   gen()  2383 MB/s
+[    0.315576] raid6: neonx4   gen()  2865 MB/s
+[    0.332578] raid6: neonx8   gen()  2882 MB/s
+[    0.332593] raid6: using algorithm neonx8 gen() 2882 MB/s
+[    0.349579] raid6: .... xor() 1976 MB/s, rmw enabled
+[    0.350867] ACPI: Interpreter disabled.
+[    0.355405] iommu: Default domain type: Translated
+[    0.355444] iommu: DMA domain TLB invalidation policy: strict mode
+[    0.357248] SCSI subsystem initialized
+[    0.357897] usbcore: registered new interface driver usbfs
+[    0.357963] usbcore: registered new interface driver hub
+[    0.358006] usbcore: registered new device driver usb
+[    0.359210] pps_core: LinuxPPS API ver. 1 registered
+[    0.359233] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[    0.359260] PTP clock support registered
+[    0.359620] EDAC MC: Ver: 3.0.0
+[    0.360064] scmi_core: SCMI protocol bus registered
+[    0.361363] FPGA manager framework
+[    0.361474] Advanced Linux Sound Architecture Driver Initialized.
+[    0.362548] NetLabel: Initializing
+[    0.362595] NetLabel:  domain hash size = 128
+[    0.362607] NetLabel:  protocols = UNLABELED CIPSOv4 CALIPSO
+[    0.362681] NetLabel:  unlabeled traffic allowed by default
+[    0.363283] vgaarb: loaded
+[    0.364232] clocksource: Switched to clocksource arch_sys_counter
+[    0.366608] VFS: Disk quotas dquot_6.6.0
+[    0.366670] VFS: Dquot-cache hash table entries: 512 (4096 bytes)
+[    0.367664] pnp: PnP ACPI: disabled
+[    0.378110] NET: Registered PF_INET protocol family
+[    0.378620] IP idents hash table entries: 65536 (order: 7, 524288 bytes, linear)
+[    0.382980] tcp_listen_portaddr_hash hash table entries: 2048 (order: 3, 32768 bytes, linear)
+[    0.383062] Table-perturb hash table entries: 65536 (order: 6, 262144 bytes, linear)
+[    0.383098] TCP established hash table entries: 32768 (order: 6, 262144 bytes, linear)
+[    0.383364] TCP bind hash table entries: 32768 (order: 8, 1048576 bytes, linear)
+[    0.384426] TCP: Hash tables configured (established 32768 bind 32768)
+[    0.385078] MPTCP token hash table entries: 4096 (order: 5, 98304 bytes, linear)
+[    0.385480] UDP hash table entries: 2048 (order: 5, 131072 bytes, linear)
+[    0.386088] NET: Registered PF_UNIX/PF_LOCAL protocol family
+[    0.387286] RPC: Registered named UNIX socket transport module.
+[    0.387316] RPC: Registered udp transport module.
+[    0.387327] RPC: Registered tcp transport module.
+[    0.387337] RPC: Registered tcp-with-tls transport module.
+[    0.387347] RPC: Registered tcp NFSv4.1 backchannel transport module.
+[    0.387383] PCI: CLS 0 bytes, default 64
+[    0.387762] Trying to unpack rootfs image as initramfs...
+[    0.397705] kvm [1]: nv: 570 coarse grained trap handlers
+[    0.399035] kvm [1]: nv: 710 fine grained trap handlers
+[    0.399963] kvm [1]: Guests without required CPU erratum workarounds can deadlock system!
+[    0.399963] Only trusted guests should be used on this system.
+[    0.400005] kvm [1]: IPA Size Limit: 44 bits
+[    0.403094] kvm [1]: vgic interrupt IRQ9
+[    0.403202] kvm [1]: Hyp nVHE mode initialized successfully
+[    0.407531] Initialise system trusted keyrings
+[    0.408086] workingset: timestamp_bits=46 (anon: 41) max_order=20 bucket_order=0 (anon: 0)
+[    0.417451] NFS: Registering the id_resolver key type
+[    0.417536] Key type id_resolver registered
+[    0.417548] Key type id_legacy registered
+[    0.417688] nfs4filelayout_init: NFSv4 File Layout Driver Registering...
+[    0.417725] nfs4flexfilelayout_init: NFSv4 Flexfile Layout Driver Registering...
+[    0.417843] ntfs3: Read-only LZX/Xpress compression included
+[    0.418577] SGI XFS with ACLs, security attributes, quota, no debug enabled
+[    0.426881] cryptd: max_cpu_qlen set to 1000
+[    0.474343] NET: Registered PF_ALG protocol family
+[    0.474428] Key type asymmetric registered
+[    0.474442] Asymmetric key parser 'x509' registered
+[    0.474891] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 239)
+[    0.475477] io scheduler mq-deadline registered
+[    0.475509] io scheduler kyber registered
+[    0.475782] io scheduler bfq registered
+[    0.476017] xor: measuring software checksum speed
+[    0.476942]    neon            :  3627 MB/sec
+[    0.477674]    32regs          :  4614 MB/sec
+[    0.478300]    8regs           :  5395 MB/sec
+[    0.478317] xor: using function: 8regs (5395 MB/sec)
+[    0.503365] ledtrig-cpu: registered to indicate activity on CPUs
+[    0.507885] IPMI message handler: version 39.2
+[    0.559010] tegra-apbdma 60020000.dma-controller: Tegra20 APB DMA driver registered 32 channels
+[    0.571678] tegra-pmc: access to PMC is restricted to TZ
+[    0.571810] tegra-pmc 7000e400.pmc: i2c-thermtrip node not found, emergency thermal reset disabled.
+[    0.590650] Serial: 8250/16550 driver, 4 ports, IRQ sharing enabled
+[    0.598115] printk: legacy console [ttyS0] disabled
+[    0.598748] 70006000.serial: ttyS0 at MMIO 0x70006000 (irq = 59, base_baud = 25500000) is a Tegra
+[    0.598877] printk: legacy console [ttyS0] enabled
+[    1.161129] Freeing initrd memory: 12148K
+[    1.176702] msm_serial: driver initialized
+[    2.402397] usbcore: registered new interface driver uas
+[    2.405507] usbcore: registered new interface driver usb-storage
+[    2.411446] usbcore: registered new interface driver ums-alauda
+[    2.417333] usbcore: registered new interface driver ums-cypress
+[    2.423310] usbcore: registered new interface driver ums-datafab
+[    2.429296] usbcore: registered new interface driver ums_eneub6250
+[    2.435448] usbcore: registered new interface driver ums-freecom
+[    2.441423] usbcore: registered new interface driver ums-isd200
+[    2.447339] usbcore: registered new interface driver ums-jumpshot
+[    2.453389] usbcore: registered new interface driver ums-karma
+[    2.459192] usbcore: registered new interface driver ums-onetouch
+[    2.465268] usbcore: registered new interface driver ums-realtek
+[    2.471249] usbcore: registered new interface driver ums-sddr09
+[    2.477133] usbcore: registered new interface driver ums-sddr55
+[    2.483023] usbcore: registered new interface driver ums-usbat
+[    2.489072] usbcore: registered new interface driver usbserial_generic
+[    2.495302] usbserial: USB Serial support registered for generic
+[    2.503919] mousedev: PS/2 mouse device common for all mice
+[    2.515663] device-mapper: uevent: version 1.0.3
+[    2.518342] device-mapper: ioctl: 4.50.0-ioctl (2025-04-28) initialised: dm-devel@lists.linux.dev
+[    2.532746] cpufreq: cpufreq_policy_online: CPU0: Running at unlisted initial frequency: 1017600 kHz, changing to: 1020000 kHz
+[    2.550850] hid: raw HID events driver (C) Jiri Kosina
+[    2.553830] usbcore: registered new interface driver usbhid
+[    2.559186] usbhid: USB HID core driver
+[    2.568871] hw perfevents: enabled with armv8_cortex_a57 PMU driver, 7 (0,8000003f) counters available
+[    2.576209] watchdog: NMI not fully supported
+[    2.582242] watchdog: Hard watchdog permanently disabled
+[    2.591453] Initializing XFRM netlink socket
+[    2.593858] NET: Registered PF_INET6 protocol family
+[    2.600321] Segment Routing with IPv6
+[    2.601993] In-situ OAM (IOAM) with IPv6
+[    2.605924] mip6: Mobile IPv6
+[    2.608814] NET: Registered PF_PACKET protocol family
+[    2.614513] Key type dns_resolver registered
+[    2.639333] registered taskstats version 1
+[    2.641483] Loading compiled-in X.509 certificates
+[    2.656785] debug_vm_pgtable: [debug_vm_pgtable         ]: Validating architecture page table helpers
+[    2.665007] Key type .fscrypt registered
+[    2.667560] Key type fscrypt-provisioning registered
+[    2.675093] Btrfs loaded, zoned=yes, fsverity=no
+[    2.677574] Key type encrypted registered
+[    2.712892] gpio gpiochip0: Static allocation of GPIO base is deprecated, use dynamic allocation.
+[    2.752373] clk: Not disabling unused clocks
+[    2.754311] PM: genpd: Not disabling unused power domains
+[    2.759713] ALSA device list:
+[    2.762621]   No soundcards found.
+[    2.769300] Freeing unused kernel memory: 3072K
+[    2.771809] Run /init as init process
+[    2.800644] systemd[1]: System time advanced to built-in epoch: Sun 2026-10-18 16:25:30 UTC
+[    2.836298] systemd[1]: Successfully made /usr/ read-only.
+[    2.840913] systemd[1]: systemd 262.1-1-arch running in system mode (+PAM +AUDIT -SELINUX +APPARMOR -IMA +IPE +SMACK +SECCOMP +GNUTLS +OPENSSL +ACL +BLKID +CURL +ELFUTILS +FIDO2 +IDN2 +KMOD +LIBCRYPTSETUP +LIBCRYPTSETUP_PLUGINS +LIBFDISK +PCRE2 +PWQUALITY +P11KIT +QRENCODE +TPM2 +BZIP2 +LZ4 +XZ +ZLIB +ZSTD +BPF_FRAMEWORK -BTF +XKBCOMMON +UTMP +LIBARCHIVE)
+[    2.870908] systemd[1]: Detected architecture arm64.
+[    2.875778] systemd[1]: Running in initrd.
+[    2.880900] systemd[1]: Initializing machine ID from random generator.
+[    2.886614] systemd[1]: No hostname configured, using default hostname.
+[    2.893032] systemd[1]: Hostname set to <archlinux>.
+[    2.993681] systemd[1]: Queued start job for default target Initrd Default Target.
+[    3.008020] systemd[1]: Expecting device /dev/disk/by-label/ALARM...
+[    3.012814] systemd[1]: Reached target Path Units.
+[    3.017037] systemd[1]: Reached target Slice Units.
+[    3.021842] systemd[1]: Reached target Swaps.
+[    3.026135] systemd[1]: Reached target Timer Units.
+[    3.031454] systemd[1]: Listening on Journal Socket (/dev/log).
+[    3.037248] systemd[1]: Listening on Journal Sockets.
+[    3.042084] systemd[1]: TPM PCR Measurements skipped, unmet condition check ConditionSecurity=measured-os
+[    3.051530] systemd[1]: Listening on udev Kernel Socket.
+[    3.057258] systemd[1]: Listening on udev Varlink Socket.
+[    3.062151] systemd[1]: Reached target Socket Units.
+[    3.067120] systemd[1]: Create List of Static Device Nodes skipped, unmet condition check ConditionFileNotEmpty=/lib/modules/7.2.11-1-aarch64-ARCH/modules.devname
+[    3.081684] systemd[1]: Early Battery Level Check skipped, unmet condition check ConditionDirectoryNotEmpty=/sys/class/power_supply
+[    3.097742] systemd[1]: Started Display Boot-Time Emergency Messages In Full Screen.
+[    3.117520] systemd[1]: Starting Journal Service...
+[    3.127762] systemd[1]: Starting Load Kernel Modules...
+[    3.131920] systemd[1]: TPM PCR OS Separator skipped, unmet condition check ConditionSecurity=measured-os
+[    3.140609] systemd[1]: TPM PCR Barrier (initrd) skipped, unmet condition check ConditionSecurity=measured-os
+[    3.156709] systemd[1]: Starting Create Static Device Nodes in /dev...
+[    3.161815] systemd[1]: Early TPM SRK Setup skipped, unmet condition check ConditionSecurity=measured-os
+[    3.170877] systemd[1]: TPM PCR NvPCR Initialization Separator skipped, unmet condition check ConditionSecurity=measured-os
+[    3.188772] systemd[1]: Starting Coldplug All udev Devices...
+[    3.210018] /i2c@7000d000/pmic@3c: Fixed dependency cycle(s) with /i2c@7000d000/pmic@3c/pinmux
+[    3.221695] max77620 1-003c: PMIC Version OTP:0x35 and ES:0x8
+[    3.229900] systemd[1]: Finished Create Static Device Nodes in /dev.
+[    3.239544] systemd[1]: Reached target Preparation for Local File Systems.
+[    3.253310] systemd-journald[90]: Collecting audit messages is disabled.
+[    3.253601] systemd[1]: Reached target Local File Systems.
+[    3.260506] VDD_DDR_1V1_PMIC: Bringing 1125000uV into 1150000-1150000uV
+[    3.283338] systemd[1]: Starting Rule-based Manager for Device Events and Files...
+[    3.307616] max77620 1-003c: Failed to create device link (0x180) with supplier regulator-vdd-3v3-sys for /i2c@7000d000/pmic@3c/regulators
+[    3.318856] systemd[1]: Started Journal Service.
+[    3.335644] irq: IRQ72: trimming hierarchy from :pmc@7000e400
+[    3.345726]  usb2-1: supply vbus not found, using dummy regulator
+[    3.352604]  usb2-2: supply vbus not found, using dummy regulator
+[    3.373936] tegra-pcie 1003000.pcie: host bridge /pcie@1003000 ranges:
+[    3.378486] tegra-pcie 1003000.pcie:      MEM 0x0001000000..0x0001001fff -> 0x0001000000
+[    3.386387] tegra-pcie 1003000.pcie:       IO 0x0012000000..0x001200ffff -> 0x0000000000
+[    3.394555] tegra-pcie 1003000.pcie:      MEM 0x0013000000..0x001fffffff -> 0x0013000000
+[    3.402497] tegra-pcie 1003000.pcie:      MEM 0x0020000000..0x003fffffff -> 0x0020000000
+[    3.410844] tegra-pcie 1003000.pcie: 4x1, 1x1 configuration
+[    3.424620] tegra-pcie 1003000.pcie: probing port 0, using 4 lanes
+[    3.430590] tegra-pcie 1003000.pcie: probing port 1, using 1 lanes
+[    4.645322] tegra-pcie 1003000.pcie: link 0 down, ignoring
+[    4.659919] tegra-pcie 1003000.pcie: PCI host bridge to bus 0000:00
+[    4.664598] pci_bus 0000:00: root bus resource [bus 00-ff]
+[    4.671854] pci_bus 0000:00: root bus resource [mem 0x01000000-0x01001fff]
+[    4.676958] pci_bus 0000:00: root bus resource [io  0x0000-0xffff]
+[    4.682585] pci_bus 0000:00: root bus resource [mem 0x13000000-0x1fffffff]
+[    4.689413] pci_bus 0000:00: root bus resource [mem 0x20000000-0x3fffffff pref]
+[    4.698436] pci 0000:00:02.0: [10de:0faf] type 01 class 0x060400 PCIe Root Port
+[    4.704002] pci_bus 0000:00: 2-byte config write to 0000:00:02.0 offset 0x4 may corrupt adjacent RW1C bits
+[    4.713631] pci 0000:00:02.0: PCI bridge to [bus 00]
+[    4.718522] pci 0000:00:02.0:   bridge window [io  0x0000-0x0fff]
+[    4.724642] pci 0000:00:02.0: enabling Extended Tags
+[    4.729620] pci 0000:00:02.0: PME# supported from D0 D1 D2 D3hot D3cold
+[    4.741186] pci 0000:00:02.0: bridge configuration invalid ([bus 00-00]), reconfiguring
+[    4.747326] pci 0000:01:00.0: [10ec:8168] type 00 class 0x020000 PCIe Endpoint
+[    4.754151] pci 0000:01:00.0: BAR 0 [io  0x0000-0x00ff]
+[    4.759276] pci 0000:01:00.0: BAR 2 [mem 0x00000000-0x00000fff 64bit]
+[    4.765694] pci 0000:01:00.0: BAR 4 [mem 0x00000000-0x00003fff 64bit]
+[    4.772318] pci 0000:01:00.0: supports D1 D2
+[    4.776334] pci 0000:01:00.0: PME# supported from D0 D1 D2 D3hot D3cold
+[    4.783731] pci_bus 0000:01: busn_res: [bus 01-ff] end is updated to 01
+[    4.789600] pci 0000:00:02.0: bridge window [mem 0x13000000-0x130fffff]: assigned
+[    4.797381] pci 0000:00:02.0: bridge window [io  0x1000-0x1fff]: assigned
+[    4.805010] pci 0000:01:00.0: BAR 4 [mem 0x13000000-0x13003fff 64bit]: assigned
+[    4.811129] pci 0000:01:00.0: BAR 2 [mem 0x13004000-0x13004fff 64bit]: assigned
+[    4.818336] pci 0000:01:00.0: BAR 0 [io  0x1000-0x10ff]: assigned
+[    4.824372] pci 0000:00:02.0: PCI bridge to [bus 01]
+[    4.829298] pci 0000:00:02.0:   bridge window [io  0x1000-0x1fff]
+[    4.835366] pci 0000:00:02.0:   bridge window [mem 0x13000000-0x130fffff]
+[    4.842135] pci_bus 0000:00: resource 4 [mem 0x01000000-0x01001fff]
+[    4.848361] pci_bus 0000:00: resource 5 [io  0x0000-0xffff]
+[    4.853937] pci_bus 0000:00: resource 6 [mem 0x13000000-0x1fffffff]
+[    4.860160] pci_bus 0000:00: resource 7 [mem 0x20000000-0x3fffffff pref]
+[    4.866824] pci_bus 0000:01: resource 0 [io  0x1000-0x1fff]
+[    4.872369] pci_bus 0000:01: resource 1 [mem 0x13000000-0x130fffff]
+[    4.878656] pci 0000:00:02.0: nv_msi_ht_cap_quirk didn't locate host bridge
+[    4.885864] pcieport 0000:00:02.0: enabling device (0000 -> 0003)
+[    4.891926] pcieport 0000:00:02.0: PME: Signaling with IRQ 73
+[    4.898100] pcieport 0000:00:02.0: AER: enabled with IRQ 73
+[    4.904183] spi-nor spi0.0: supply vcc not found, using dummy regulator
+[    4.957294] tegra-xusb 70090000.usb: Firmware timestamp: 2023-04-25 07:35:59 UTC
+[    4.962815] tegra-xusb 70090000.usb: xHCI Host Controller
+[   14.191096] at24 0-0050: 256 byte 24c02 EEPROM, read-only
+[   14.205298] platform 54480000.nvdec: Adding to iommu group 5
+[   14.211401] at24 0-0057: 256 byte 24c02 EEPROM, read-only
+[   14.222503] platform 544c0000.nvenc: Adding to iommu group 6
+[   14.283151] r8169 0000:01:00.0 eth0: RTL8168h/8111h, <mac>, XID 541, IRQ 83
+[   14.283366] r8169 0000:01:00.0 eth0: jumbo features [frames: 9194 bytes, tx checksumming: ko]
+[   14.293927] input: NVIDIA Jetson Nano HDA HDMI/DP,pcm=3 as /devices/platform/70030000.hda/sound/card0/input10
+[   14.361974] tegra_soctherm 700e2000.thermal-sensor: missing thermtrips, will use critical trips as shut down temp
+[   14.366492] irq: IRQ86: trimming hierarchy from :pmc@7000e400
+[   14.366615] irq: IRQ87: trimming hierarchy from :pmc@7000e400
+[   14.366806] input: gpio-keys as /devices/platform/gpio-keys/input/input11
+[   14.366970] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/processing-engine@702d8400
+[   14.366998] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/processing-engine@702d8000
+[   14.367017] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/amixer@702dbb00
+[   14.367036] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/adx@702d3900
+[   14.367054] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/adx@702d3800
+[   14.367073] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/amx@702d3100
+[   14.367091] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/amx@702d3000
+[   14.367110] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/mvc@702da200
+[   14.367128] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/mvc@702da000
+[   14.367146] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2600
+[   14.367164] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2400
+[   14.367182] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2200
+[   14.367200] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2000
+[   14.367256] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/dmic@702d4100
+[   14.367278] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/dmic@702d4000
+[   14.367297] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/i2s@702d1300
+[   14.367317] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/i2s@702d1200
+[   14.367334] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/admaif@702d0000
+[   14.367373] /aconnect@702c0000/ahub@702d0800/admaif@702d0000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.367445] /aconnect@702c0000/ahub@702d0800/i2s@702d1200: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.367483] /aconnect@702c0000/ahub@702d0800/i2s@702d1300: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.367525] /aconnect@702c0000/ahub@702d0800/sfc@702d2000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.367590] /aconnect@702c0000/ahub@702d0800/sfc@702d2200: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.367628] /aconnect@702c0000/ahub@702d0800/sfc@702d2400: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.367684] /aconnect@702c0000/ahub@702d0800/sfc@702d2600: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.367727] /aconnect@702c0000/ahub@702d0800/amx@702d3000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.367779] /aconnect@702c0000/ahub@702d0800/amx@702d3100: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.367831] /aconnect@702c0000/ahub@702d0800/adx@702d3800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.367882] /aconnect@702c0000/ahub@702d0800/adx@702d3900: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.367932] /aconnect@702c0000/ahub@702d0800/dmic@702d4000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.367970] /aconnect@702c0000/ahub@702d0800/dmic@702d4100: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.368010] /aconnect@702c0000/ahub@702d0800/processing-engine@702d8000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.368052] /aconnect@702c0000/ahub@702d0800/processing-engine@702d8400: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.368096] /aconnect@702c0000/ahub@702d0800/mvc@702da000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.368137] /aconnect@702c0000/ahub@702d0800/mvc@702da200: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.368196] /aconnect@702c0000/ahub@702d0800/amixer@702dbb00: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.400175] BUG: using smp_processor_id() in preemptible [00000000] code: (udev-worker)/357
+[   14.400191] caller is debug_smp_processor_id+0x20/0x38
+[   14.400210] CPU: 0 UID: 0 PID: 357 Comm: (udev-worker) Tainted: G           O        7.2.11-1-aarch64-ARCH #1 PREEMPT(full) 
+[   14.400216] Tainted: [O]=OOT_MODULE
+[   14.400219] Hardware name: NVIDIA Jetson Nano Developer Kit B01 (DT)
+[   14.400222] Call trace:
+[   14.400224]  show_stack+0x18/0x24 (C)
+[   14.400233]  dump_stack_lvl+0x5c/0x7c
+[   14.400240]  dump_stack+0x18/0x24
+[   14.400245]  check_preemption_disabled+0x100/0x108
+[   14.400252]  debug_smp_processor_id+0x20/0x38
+[   14.400258]  gic_cpu_init+0x28/0x118
+[   14.400264]  gic_init_bases+0xc8/0x1e0
+[   14.400269]  gic_of_init_child+0x84/0x180
+[   14.400273]  gic_probe+0x114/0x1f8
+[   14.400278]  platform_probe+0x80/0xb8
+[   14.400286]  really_probe+0xc0/0x3e0
+[   14.737319] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/admaif@702d0000
+[   14.737438] /aconnect@702c0000/ahub@702d0800/admaif@702d0000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.742775] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/i2s@702d1200
+[   14.744357] /aconnect@702c0000/ahub@702d0800/i2s@702d1200: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.765341] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/i2s@702d1300
+[   14.767666] /aconnect@702c0000/ahub@702d0800/i2s@702d1300: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.773569] tegra-adma 702e2000.dma-controller: Tegra210 ADMA driver registered 22 channels
+[   14.774201] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2000
+[   14.774355] /aconnect@702c0000/ahub@702d0800/sfc@702d2000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.776537] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2200
+[   14.776634] /aconnect@702c0000/ahub@702d0800/sfc@702d2200: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.778740] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2400
+[   14.778834] /aconnect@702c0000/ahub@702d0800/sfc@702d2400: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.779393] [drm] Initialized tegra 1.0.0 for drm on minor 0
+[   14.781496] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2600
+[   14.781602] /aconnect@702c0000/ahub@702d0800/sfc@702d2600: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.783986] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/amx@702d3000
+[   14.784178] /aconnect@702c0000/ahub@702d0800/amx@702d3000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.786261] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/amx@702d3100
+[   14.786412] /aconnect@702c0000/ahub@702d0800/amx@702d3100: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.788557] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/adx@702d3800
+[   14.788658] /aconnect@702c0000/ahub@702d0800/adx@702d3800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.790688] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/adx@702d3900
+[   14.790786] /aconnect@702c0000/ahub@702d0800/adx@702d3900: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.792982] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/dmic@702d4000
+[   14.793109] /aconnect@702c0000/ahub@702d0800/dmic@702d4000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.796416] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/dmic@702d4100
+[   14.796518] /aconnect@702c0000/ahub@702d0800/dmic@702d4100: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.798788] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/processing-engine@702d8000
+[   14.798961] /aconnect@702c0000/ahub@702d0800/processing-engine@702d8000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.801048] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/processing-engine@702d8400
+[   14.801156] /aconnect@702c0000/ahub@702d0800/processing-engine@702d8400: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.803183] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/mvc@702da000
+[   14.803325] /aconnect@702c0000/ahub@702d0800/mvc@702da000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.807569] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/mvc@702da200
+[   14.807992] /aconnect@702c0000/ahub@702d0800/mvc@702da200: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.812768] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/amixer@702dbb00
+[   14.813866] /aconnect@702c0000/ahub@702d0800/amixer@702dbb00: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   14.849245] Console: switching to colour frame buffer device 160x45
+[   14.869247] drm drm: [drm] fb0: tegradrmfb frame buffer device
+[   15.200280] Generic FE-GE Realtek PHY r8169-0-100:00: attached PHY driver (mii_bus:phy_addr=r8169-0-100:00, irq=MAC)
+[   15.356725] r8169 0000:01:00.0 eth0: Link is Down
+[   17.040450] systemd-journald[223]: File /var/log/journal/9b45e8e147464f02971f74add3a19660/user-1000.journal corrupted or uncleanly shut down, renaming and replacing: Device or resource busy
+[   18.030578] r8169 0000:01:00.0 eth0: Link is Up - 1Gbps/Full - flow control rx/tx
+[   25.134408] tegra-pmc 7000e400.pmc: sync_state() pending due to 7000e000.rtc
+[   25.139423] tegra-mc 70019000.memory-controller: sync_state() pending due to 6000c800.actmon
+[   25.151828] tegra-pmc 7000e400.pmc: sync_state() pending due to 54080000.vi
+[   25.156571] tegra-pmc 7000e400.pmc: sync_state() pending due to 544c0000.nvenc
+[ 1123.216397] netconsole: netconsole: local port 6665
+[ 1123.219052] netconsole: netconsole: local IPv4 address <lan-ip>
+[ 1123.225372] netconsole: netconsole: interface name 'eth0'
+[ 1123.230740] netconsole: netconsole: local ethernet address '<mac>'
+[ 1123.237928] netconsole: netconsole: remote port 6666
+[ 1123.246991] netconsole: netconsole: remote IPv4 address <lan-ip>
+[ 1123.251155] netconsole: netconsole: remote ethernet address <mac>
+[ 1123.262030] printk: console [netcon0] enabled
+[ 1123.264118] netconsole: network logging started
+[ 1123.269976] nvgpu-e4: netconsole test from the Nano
+[ 1133.155352] nvgpu-e4: insmod nvgpu-debug log_mask=0x3
+[ 1133.179998] nvgpu: 57000000.gpu                     gk20a_pm_init:1589 [DBG]   
+[ 1133.189228] nvgpu: 57000000.gpu            nvgpu_init_max_comptag:215  [DBG]  total ram pages : 991771
+[ 1133.196934] nvgpu: 57000000.gpu           gm20b_init_clk_setup_sw:1221 [DBG]   
+[ 1133.203614] nvgpu: 57000000.gpu           gm20b_init_clk_setup_sw:1281 [DBG]  done
+[ 1133.211089] nvgpu: 57000000.gpu           gm20b_init_clk_setup_sw:1282 [INFO]  GPCPLL initial settings: M=1, N=34, P=3 (id = 0)
+[ 1133.222529] nvgpu-e4: unrailgate: regulator_enable vdd
+[ 1133.230679] nvgpu-e4: unrailgate: clk_prepare_enable gpu
+[ 1133.233736] nvgpu-e4: unrailgate: clk_prepare_enable ref
+[ 1133.239026] nvgpu-e4: unrailgate: clk_prepare_enable pwr
+[ 1133.244306] nvgpu-e4: unrailgate: clk_set_rate pwr, 204000000
+[ 1133.250030] nvgpu-e4: unrailgate: reset_control_assert rst
+[ 1133.255489] nvgpu-e4: unrailgate: tegra_pmc_powergate_remove_clamping pmc,
+[ 1133.262341] nvgpu-e4: unrailgate: reset_control_deassert rst
+[ 1133.267972] nvgpu-e4: unrailgate: done
+[ 1133.272164] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.279138] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.286394] nvgpu: 57000000.gpu      nvgpu_read_support_gpu_tools:76   [DBG]  GPU tools support enabled by default
+[ 1133.296618] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.308104] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.313270] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.320525] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.327807] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.335096] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.342363] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.349661] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.356920] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.364200] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.371484] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.378767] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.386062] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.393324] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.400608] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.407887] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.419282] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.424706] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.431976] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.439257] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.446629] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.453834] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.461123] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.468399] nvgpu: 57000000.gpu               nvgpu_create_device:295  [DBG]   
+[ 1133.475746] nvgpu-e4: unrailgate: regulator_enable vdd
+[ 1133.483825] nvgpu-e4: unrailgate: clk_prepare_enable gpu
+[ 1133.487128] nvgpu-e4: unrailgate: clk_prepare_enable ref
+[ 1133.492421] nvgpu-e4: unrailgate: clk_prepare_enable pwr
+[ 1133.497705] nvgpu-e4: unrailgate: clk_set_rate pwr, 204000000
+[ 1133.503433] nvgpu-e4: unrailgate: reset_control_assert rst
+[ 1133.508891] nvgpu-e4: unrailgate: tegra_pmc_powergate_remove_clamping pmc,
+[ 1133.515735] nvgpu-e4: unrailgate: reset_control_deassert rst
+[ 1133.525503] nvgpu-e4: unrailgate: done
+[ 1133.527768] nvgpu: 57000000.gpu           gk20a_fifo_debugfs_init:152  [DBG]  g=000000006fcc1960
+[ 1133.536018] nvgpu: 57000000.gpu            nvgpu_gsp_debugfs_init:318  [DBG]  g=000000006fcc1960
+[ 1133.544709] nvgpu: 57000000.gpu                gk20a_pm_late_init:1606 [DBG]   
+[ 1196.095665] nvgpu-e4: opening /dev/nvhost-ctrl-gpu
+[ 1196.149995] nvgpu: 57000000.gpu               gk20a_ctrl_dev_open:119  [DBG]   
+[ 1196.155310] nvgpu: 57000000.gpu               gk20a_ctrl_dev_open:145  [DBG]  opened ctrl device: 1
+[ 1196.164354] nvgpu-e4: unrailgate: regulator_enable vdd
+[ 1196.172645] nvgpu-e4: unrailgate: clk_prepare_enable gpu
+[ 1196.175938] nvgpu-e4: unrailgate: clk_prepare_enable ref
+[ 1196.181228] nvgpu-e4: unrailgate: clk_prepare_enable pwr
+[ 1196.186517] nvgpu-e4: unrailgate: clk_set_rate pwr, 204000000
+[ 1196.192235] nvgpu-e4: unrailgate: reset_control_assert rst
+[ 1196.197701] nvgpu-e4: unrailgate: tegra_pmc_powergate_remove_clamping pmc,
+[ 1196.204547] nvgpu-e4: unrailgate: reset_control_deassert rst
+[ 1196.210174] nvgpu-e4: unrailgate: done
+[ 1196.213893] nvgpu: 57000000.gpu         gk20a_pm_finalize_poweron:465  [DBG]   
+[ 1196.221191] nvgpu: 57000000.gpu                 nvgpu_detect_chip:135  [DBG]  arch: 120, impl: b, rev: a1
+[ 1196.221191] 
+[ 1196.236290] nvgpu: 57000000.gpu                    nvgpu_init_hal:54   [DBG]  gm20b detected
+[ 1196.242742] nvgpu: 57000000.gpu nvgpu_tegra_nvmem_read_gcplex_config_fuse:52   [ERR]  gcplex-config-fuse nvmem cell read failed -2
+[ 1196.254423] nvgpu: 57000000.gpu    gm20b_fuse_check_priv_security:51   [ERR]  err reading gcplex config fuse, check fuse clk
+[ 1196.265596] nvgpu: 57000000.gpu                 nvgpu_detect_chip:142  [ERR]  nvgpu_init_hal failure!
+[ 1196.274785] nvgpu: 57000000.gpu               nvgpu_early_poweron:876  [ERR]  nvgpu_detect_chip failed[-19]
+[ 1196.284496] nvgpu: 57000000.gpu         gk20a_pm_finalize_poweron:499  [ERR]  nvgpu_early_poweron failed[-19]
+[ 1952.828236] nvgpu-e4: unrailgate: regulator_enable vdd
+[ 1952.834752] nvgpu-e4: unrailgate: clk_prepare_enable gpu
+[ 1952.838347] nvgpu-e4: unrailgate: clk_prepare_enable ref
+[ 1952.843650] nvgpu-e4: unrailgate: clk_prepare_enable pwr
+[ 1952.848915] nvgpu-e4: unrailgate: clk_set_rate pwr, 204000000
+[ 1952.854641] nvgpu-e4: unrailgate: reset_control_assert rst
+[ 1952.860100] nvgpu-e4: unrailgate: tegra_pmc_powergate_remove_clamping pmc,
+[ 1952.866953] nvgpu-e4: unrailgate: reset_control_deassert rst
+[ 1952.872583] nvgpu-e4: unrailgate: done
+[ 1952.876295] nvgpu: 57000000.gpu         gk20a_pm_finalize_poweron:465  [DBG]   
+[ 1952.883585] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing &nvgpu_init_slcg_acb_load_gating_prod
+[ 1952.895104] nvgpu: 57000000.gpu                  nvgpu_early_init:849  [DBG]  Skipping initializing g->ops.ecc.ecc_init_support (enable_flag=0 func=0000000000000000)
+[ 1952.909836] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing &nvgpu_ipa_pa_rwsem_init
+[ 1952.920236] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing &nvgpu_device_init
+[ 1952.930369] nvgpu: 57000000.gpu      gm20b_device_info_parse_enum:37   [DBG]  Entry_enum to be parsed 0x8006183e
+[ 1952.944383] nvgpu: 57000000.gpu      gm20b_device_info_parse_enum:45   [DBG]  Engine_id: 0
+[ 1952.950914] nvgpu: 57000000.gpu      gm20b_device_info_parse_enum:53   [DBG]  Runlist_id: 0
+[ 1952.959253] nvgpu: 57000000.gpu      gm20b_device_info_parse_enum:61   [DBG]  Intr_id: 12
+[ 1952.967392] nvgpu: 57000000.gpu      gm20b_device_info_parse_enum:69   [DBG]  Reset_id: 12
+[ 1952.975616] nvgpu: 57000000.gpu      gm20b_device_info_parse_data:48   [DBG]  Entry_data to be parsed 0x400005
+[ 1952.985576] nvgpu: 57000000.gpu      gm20b_device_info_parse_data:52   [DBG]  Pri Base addr: 0x400000
+[ 1952.994760] nvgpu: 57000000.gpu      gm20b_device_info_parse_data:60   [DBG]  Fault_id: 0
+[ 1953.002908] nvgpu: 57000000.gpu      gm20b_device_info_parse_data:66   [DBG]  Inst_id: 0
+[ 1953.011639] nvgpu: 57000000.gpu      gm20b_device_info_parse_enum:37   [DBG]  Entry_enum to be parsed 0x8403aa3e
+[ 1953.021107] nvgpu: 57000000.gpu      gm20b_device_info_parse_enum:45   [DBG]  Engine_id: 1
+[ 1953.029353] nvgpu: 57000000.gpu      gm20b_device_info_parse_enum:53   [DBG]  Runlist_id: 0
+[ 1953.037668] nvgpu: 57000000.gpu      gm20b_device_info_parse_enum:61   [DBG]  Intr_id: 7
+[ 1953.045721] nvgpu: 57000000.gpu      gm20b_device_info_parse_enum:69   [DBG]  Reset_id: 21
+[ 1953.058066] nvgpu: 57000000.gpu      gm20b_device_info_parse_data:48   [DBG]  Entry_data to be parsed 0x1060dd
+[ 1953.066314] nvgpu: 57000000.gpu      gm20b_device_info_parse_data:52   [DBG]  Pri Base addr: 0x106000
+[ 1953.075503] nvgpu: 57000000.gpu      gm20b_device_info_parse_data:60   [DBG]  Fault_id: 27
+[ 1953.083730] nvgpu: 57000000.gpu      gm20b_device_info_parse_data:66   [DBG]  Inst_id: 0
+[ 1953.095614] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing g->ops.bios.bios_sw_init
+[ 1953.104278] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing &nvgpu_init_interrupt_setup
+[ 1953.114946] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing &nvgpu_init_power_gate
+[ 1953.125171] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing &nvgpu_init_acquire_static_pg_lock
+[ 1953.136435] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing &nvgpu_init_power_gate_gr
+[ 1953.146924] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing g->ops.priv_ring.enable_priv_ring
+[ 1953.158098] nvgpu: 57000000.gpu            gm20b_priv_ring_enable:58   [DBG]  enabling priv ring
+[ 1953.170979] nvgpu: 57000000.gpu nvgpu_cg_slcg_priring_load_enable:246  [DBG]   
+[ 1953.177229] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing g->ops.bus.init_hw
+[ 1953.186320] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing &nvgpu_ptimer_init
+[ 1953.196181] nvgpu: 57000000.gpu   nvgpu_cg_slcg_timer_load_enable:324  [DBG]   
+[ 1953.203463] nvgpu: 57000000.gpu                  nvgpu_early_init:855  [DBG]  Initializing g->ops.clk.init_clk_support
+[ 1953.214123] nvgpu: 57000000.gpu            gm20b_init_clk_support:1490 [DBG]   
+[ 1953.221408] nvgpu: 57000000.gpu           gm20b_init_clk_setup_hw:1385 [DBG]   
+[ 1953.229281] nvgpu: 57000000.gpu                      set_pll_freq:1455 [DBG]  last freq: 0MHz, target freq 435200MHz
+[ 1953.239192] nvgpu: 57000000.gpu               clk_program_gpc_pll:890  [DBG]   
+[ 1995.354408] SError Interrupt on CPU2, code 0x00000000bf000002 -- SError
+[ 1995.354417] CPU: 2 UID: 0 PID: 14511 Comm: rmmod Tainted: G   M       O        7.2.11-1-aarch64-ARCH #1 PREEMPT(full) 
+[ 1995.354426] Tainted: [M]=MACHINE_CHECK, [O]=OOT_MODULE
+[ 1995.354429] Hardware name: NVIDIA Jetson Nano Developer Kit B01 (DT)
+[ 1995.354432] pstate: 800000c5 (Nzcv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[ 1995.354439] pc : el1_interrupt+0x20/0x58
+[ 1995.354449] lr : el1h_64_irq_handler+0x18/0x24
+[ 1995.354456] sp : ffff8000873e3560
+[ 1995.354458] x29: ffff8000873e3560 x28: ffff000088a3d280 x27: 0000000000000000
+[ 1995.354468] x26: 0000000000009600 x25: 00000000bad00100 x24: 0000000000000001
+[ 1995.354476] x23: 0000000080000005 x22: ffff80007b76f194 x21: ffff8000873e36e0
+[ 1995.354484] x20: 0000000000137000 x19: ffff8000873e35a0 x18: 000000000000000a
+[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x411fd071]
+[    0.000000] Linux version 7.2.11-1-aarch64-ARCH (builduser@arch-nspawn-1320980) (aarch64-unknown-linux-gnu-gcc (GCC) 16.1.1 20260430, GNU ld (GNU Binutils) 2.46.0) #1 SMP PREEMPT_DYNAMIC Sat Oct 17 10:08:46 UTC 2026
+[    0.000000] Machine model: NVIDIA Jetson Nano Developer Kit B01
+[    0.000000] earlycon: uart8250 at MMIO32 0x0000000070006000 (options '')
+[    0.000000] printk: legacy bootconsole [uart8250] enabled
+[    0.000000] efi: UEFI not found.
+[    0.000000] cma: Reserved 64 MiB at 0x00000000fae00000
+[    0.000000] psci: probing for conduit method from DT.
+[    0.000000] psci: PSCIv1.0 detected in firmware.
+[    0.000000] psci: Using standard PSCI v0.2 function IDs
+[    0.000000] psci: MIGRATE_INFO_TYPE not supported.
+[    0.000000] psci: SMC Calling Convention v1.1
+[    0.000000] Zone ranges:
+[    0.000000]   DMA      [mem 0x0000000080000000-0x00000000ffffffff]
+[    0.000000]   DMA32    empty
+[    0.000000]   Normal   [mem 0x0000000100000000-0x000000017f1fffff]
+[    0.000000] Movable zone start for each node
+[    0.000000] Early memory node ranges
+[    0.000000]   node   0: [mem 0x0000000080000000-0x00000000fedfffff]
+[    0.000000]   node   0: [mem 0x0000000100000000-0x000000017f1fffff]
+[    0.000000] Initmem setup node 0 [mem 0x0000000080000000-0x000000017f1fffff]
+[    0.000000] On node 0, zone Normal: 4608 pages in unavailable ranges
+[    0.000000] On node 0, zone Normal: 3584 pages in unavailable ranges
+[    0.000000] percpu: Embedded 35 pages/cpu s104408 r8192 d30760 u143360
+[    0.000000] Detected PIPT I-cache on CPU0
+[    0.000000] CPU features: detected: Spectre-v2
+[    0.000000] CPU features: detected: Spectre-BHB
+[    0.000000] CPU features: detected: ARM erratum 834220
+[    0.000000] CPU features: detected: ARM erratum 1742098
+[    0.000000] CPU features: detected: ARM erratum 832075
+[    0.000000] CPU features: detected: ARM errata 1165522, 1319367, or 1530923
+[    0.000000] alternatives: applying boot alternatives
+[    0.000000] Kernel command line: tegraid=21.1.2.0.0 ddr_die=4096M@2048M section=512M memtype=0 vpr_resize usb_port_owner_info=0 lane_owner_info=0 emc_max_dvfs=0 touch_id=0@63 video=tegrafb no_console_suspend=1 console=ttyS0,115200n8 debug_uartport=lsport,4 earlyprintk=uart8250-32bit,0x70006000 maxcpus=4 usbcore.old_scheme_first=1 lp0_vec=0x1000@0xff780000 core_edp_mv=1125 core_edp_ma=4000 gpt tegra_fbmem=0x800000@0x92ca9000 is_hdmi_initialised=1  earlycon=uart8250,mmio32,0x70006000  root=/dev/mmcblk0p1 rw rootwait rootfstype=ext4 console=ttyS0,115200n8 console=tty0 fbcon=map:0 net.ifnames=0 root=LABEL=ALARM rw rootwait rootfstype=ext4 console=ttyS0,115200n8 console=tty0 fbcon=map:0 net.ifnames=0 pcie_aspm=off loglevel=7 panic=10 clk_ignore_unused pd_ignore_unused video=HDMI-A-1:1280x720@60e nouveau.config=NvClkMode=0x07 drm.edid_firmware=HDMI-A-1:edid/aorus.bin
+[    0.000000] PCIe ASPM is disabled
+[    0.000000] Unknown kernel command line parameters "vpr_resize tegraid=21.1.2.0.0 ddr_die=4096M@2048M section=512M memtype=0 usb_port_owner_info=0 lane_owner_info=0 emc_max_dvfs=0 touch_id=0@63 debug_uartport=lsport,4 earlyprintk=uart8250-32bit,0x70006000 lp0_vec=0x1000@0xff780000 core_edp_mv=1125 core_edp_ma=4000 tegra_fbmem=0x800000@0x92ca9000 is_hdmi_initialised=1", will be passed to user space.
+[    0.000000] printk: log buffer data + meta data: 262144 + 1114112 = 1376256 bytes
+[    0.000000] Dentry cache hash table entries: 524288 (order: 10, 4194304 bytes, linear)
+[    0.000000] Inode-cache hash table entries: 262144 (order: 9, 2097152 bytes, linear)
+[    0.000000] software IO TLB: area num 4.
+[    0.000000] software IO TLB: mapped [mem 0x00000000f6e00000-0x00000000fae00000] (64MB)
+[    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 1040384
+[    0.000000] mem auto-init: stack:off, heap alloc:off, heap free:off
+[    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=4, Nodes=1
+[    0.000000] Dynamic Preempt: full
+[    0.000000] rcu: Preemptible hierarchical RCU implementation.
+[    0.000000] rcu: 	RCU restricting CPUs from NR_CPUS=64 to nr_cpu_ids=4.
+[    0.000000] 	Trampoline variant of Tasks RCU enabled.
+[    0.000000] 	Tracing variant of Tasks RCU enabled.
+[    0.000000] rcu: RCU calculated value of scheduler-enlistment delay is 100 jiffies.
+[    0.000000] rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=4
+[    0.000000] RCU Tasks: Setting shift to 2 and lim to 1 rcu_task_cb_adjust=1 rcu_task_cpu_ids=4.
+[    0.000000] NR_IRQS: 64, nr_irqs: 64, preallocated irqs: 0
+[    0.000000] Root IRQ handler: gic_handle_irq
+[    0.000000] GIC: Using split EOI/Deactivate mode
+[    0.000000] /interrupt-controller@60004000: 192 interrupts forwarded to /interrupt-controller@50041000
+[    0.000000] rcu: srcu_init: Setting srcu_struct sizes based on contention.
+[    0.000000] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1911260446275000 ns
+[    0.000000] tegra-clk-debug:pll_a_out0_out_adsp: connection ID is greater than 16
+[    0.000000] tegra-clk-debug:dmic1_sync_clk_mux: connection ID is greater than 16
+[    0.000000] tegra-clk-debug:dmic2_sync_clk_mux: connection ID is greater than 16
+[    0.000000] tegra-clk-debug:dmic3_sync_clk_mux: connection ID is greater than 16
+[    0.000002] sched_clock: 32 bits at 1000kHz, resolution 1000ns, wraps every 2147483647500ns
+[    0.008659] clocksource: timer_us: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1911260446275 ns
+[    0.018858] clocksource: tegra_suspend_timer: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1911260446275000 ns
+[    0.031222] arch_timer: cp15 timer running at 19.20MHz (phys).
+[    0.037240] clocksource: arch_sys_counter: mask: 0xffffffffffffff max_cycles: 0x46d987e47, max_idle_ns: 440795202767 ns
+[    0.048366] sched_clock: 56 bits at 19MHz, resolution 52ns, wraps every 4398046511078ns
+[    0.057320] Console: colour dummy device 80x25
+[    0.061941] printk: legacy console [tty0] enabled
+[    0.066806] printk: legacy bootconsole [uart8250] disabled
+[    0.072544] Calibrating delay loop (skipped), value calculated using timer frequency.. 38.40 BogoMIPS (lpj=19200)
+[    0.072585] pid_max: default: 32768 minimum: 301
+[    0.076022] Yama: becoming mindful.
+[    0.076205] landlock: Up and running.
+[    0.077206] Mount-cache hash table entries: 8192 (order: 4, 65536 bytes, linear)
+[    0.077260] Mountpoint-cache hash table entries: 8192 (order: 4, 65536 bytes, linear)
+[    0.078610] VFS: Finished mounting rootfs on nullfs
+[    0.084554] rcu: Hierarchical SRCU implementation.
+[    0.084611] rcu: 	Max phase no-delay instances is 400.
+[    0.084950] Timer migration: 1 hierarchy levels; 8 children per group; 1 crossnode level
+[    0.088863] Speedo Revision 4
+[    0.088916] Tegra Revision: A02 SKU: 143 CPU Process: 0 SoC Process: 0
+[    0.089043] EFI services will not be available.
+[    0.089658] smp: Bringing up secondary CPUs ...
+[    0.090693] Detected PIPT I-cache on CPU1
+[    0.091001] CPU1: Booted secondary processor 0x0000000001 [0x411fd071]
+[    0.092423] Detected PIPT I-cache on CPU2
+[    0.092612] CPU2: Booted secondary processor 0x0000000002 [0x411fd071]
+[    0.093592] Detected PIPT I-cache on CPU3
+[    0.093773] CPU3: Booted secondary processor 0x0000000003 [0x411fd071]
+[    0.093907] smp: Brought up 1 node, 4 CPUs
+[    0.093966] SMP: Total of 4 processors activated.
+[    0.093978] CPU: All CPU(s) started at EL2
+[    0.094009] CPU features: detected: 32-bit EL0 Support
+[    0.094019] CPU features: detected: 32-bit EL1 Support
+[    0.094033] CPU features: detected: CRC32 instructions
+[    0.094053] CPU features: detected: PMUv3
+[    0.094135] alternatives: applying system-wide alternatives
+[    0.102116] Memory: 3880748K/4161536K available (24896K kernel code, 6486K rwdata, 14720K rodata, 3072K init, 732K bss, 209672K reserved, 65536K cma-reserved)
+[    0.105348] devtmpfs: initialized
+[    0.123925] posixtimers hash table entries: 2048 (order: 3, 32768 bytes, linear)
+[    0.124091] futex hash table entries: 1024 (65536 bytes on 1 NUMA nodes, total 64 KiB, linear).
+[    0.125683] 20240 pages in range for non-PLT usage
+[    0.125710] 511760 pages in range for PLT usage
+[    0.131975] DMI: not present or invalid.
+[    0.135294] NET: Registered PF_NETLINK/PF_ROUTE protocol family
+[    0.136905] DMA: preallocated 512 KiB GFP_KERNEL pool for atomic allocations
+[    0.137179] DMA: preallocated 512 KiB GFP_KERNEL|GFP_DMA pool for atomic allocations
+[    0.137284] audit: initializing netlink subsys (disabled)
+[    0.137635] audit: type=2000 audit(0.062:1): state=initialized audit_enabled=0 res=1
+[    0.143094] thermal_sys: Registered thermal governor 'fair_share'
+[    0.143112] thermal_sys: Registered thermal governor 'bang_bang'
+[    0.143132] thermal_sys: Registered thermal governor 'step_wise'
+[    0.143143] thermal_sys: Registered thermal governor 'user_space'
+[    0.143155] thermal_sys: Registered thermal governor 'power_allocator'
+[    0.143332] cpuidle: using governor ladder
+[    0.143385] cpuidle: using governor menu
+[    0.143975] hw-breakpoint: found 6 breakpoint and 4 watchpoint registers.
+[    0.144141] ASID allocator initialised with 65536 entries
+[    0.149106] Serial: AMBA PL011 UART driver
+[    0.165757] tegra-mc 70019000.memory-controller: no memory timings for RAM code 0 registered
+[    0.166995] platform 50000000.host1x: Adding to iommu group 0
+[    0.167131] platform 57000000.gpu: Adding to iommu group 1
+[    0.181004] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/processing-engine@702d8400
+[    0.181072] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/processing-engine@702d8000
+[    0.181113] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/amixer@702dbb00
+[    0.181153] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/adx@702d3900
+[    0.181192] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/adx@702d3800
+[    0.181231] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/amx@702d3100
+[    0.181270] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/amx@702d3000
+[    0.181309] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/mvc@702da200
+[    0.181347] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/mvc@702da000
+[    0.181386] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2600
+[    0.181424] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2400
+[    0.181463] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2200
+[    0.181501] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/sfc@702d2000
+[    0.181541] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/dmic@702d4100
+[    0.181596] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/dmic@702d4000
+[    0.181637] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/i2s@702d1300
+[    0.181677] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/i2s@702d1200
+[    0.181716] /aconnect@702c0000/ahub@702d0800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800/admaif@702d0000
+[    0.181832] /aconnect@702c0000/ahub@702d0800/admaif@702d0000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.181995] /aconnect@702c0000/ahub@702d0800/i2s@702d1200: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.182120] /aconnect@702c0000/ahub@702d0800/i2s@702d1300: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.182249] /aconnect@702c0000/ahub@702d0800/sfc@702d2000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.182376] /aconnect@702c0000/ahub@702d0800/sfc@702d2200: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.182503] /aconnect@702c0000/ahub@702d0800/sfc@702d2400: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.182641] /aconnect@702c0000/ahub@702d0800/sfc@702d2600: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.182769] /aconnect@702c0000/ahub@702d0800/amx@702d3000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.182906] /aconnect@702c0000/ahub@702d0800/amx@702d3100: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.183045] /aconnect@702c0000/ahub@702d0800/adx@702d3800: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.183182] /aconnect@702c0000/ahub@702d0800/adx@702d3900: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.183319] /aconnect@702c0000/ahub@702d0800/dmic@702d4000: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[    0.183446] /aconnect@702c0000/ahub@702d0800/dmic@702d4100: Fixed dependency cycle(s) with /aconnect@702c0000/ahub@702d0800
+[   25.645393] tegra-pmc 7000e400.pmc: sync_state() pending due to 7000e000.rtc
+[   25.650229] tegra-mc 70019000.memory-controller: sync_state() pending due to 6000c800.actmon
+[   25.660545] tegra-pmc 7000e400.pmc: sync_state() pending due to 54080000.vi
+[   25.666366] tegra-pmc 7000e400.pmc: sync_state() pending due to 544c0000.nvenc

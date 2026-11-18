@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * NVIDIA Jetson Nano Developer Kit, B01 kit
+ *
+ * The B01 carrier (P3449-0000-B00) with the P3448-0000-B00 module reports:
+ *   nvidia,p3449-0000-b00+p3448-0000-b00 nvidia,jetson-nano nvidia,tegra210
+ *
+ * Mainline has no B01 tree. This is an overlay on the A02 kit tree, the same
+ * shape the 2GB kit (tegra210-p3541-0000.dts) uses. Keep nvidia,p3450-0000 in
+ * the fallback list so existing p3450-based matching keeps working.
+ *
+ * Known B01 differences from A02: a second camera connector (J49), the button
+ * header (J40) removed, and the power-select jumper (J48) moved. None of them
+ * affect display, PCIe/Ethernet, USB, SD or audio, which is why an overlay is
+ * appropriate rather than a full board file.
+ */
+/dts-v1/;
+
+#include "tegra210-p3450-0000.dts"
+
+/ {
+	model = "NVIDIA Jetson Nano Developer Kit B01";
+	compatible = "nvidia,p3449-0000-b00+p3448-0000-b00",
+		     "nvidia,jetson-nano",
+		     "nvidia,p3450-0000",
+		     "nvidia,tegra210";
+};

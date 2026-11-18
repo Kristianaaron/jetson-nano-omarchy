@@ -1,0 +1,40 @@
+#!/bin/bash
+# Omarchy platform detection: NVIDIA Jetson Nano (Tegra210, P3450/P3449 carriers).
+#
+# Exits 0 only on a Tegra210 Jetson Nano class board. Must stay mutually exclusive
+# with omarchy-hw-aarch64-gb10 and omarchy-hw-aarch64-n1x, which match other
+# NVIDIA SoCs.
+#
+# OMARCHY_DT_COMPATIBLE exists so the detection can be tested without hardware;
+# it points at a file holding the NUL-separated compatible strings.
+
+set -euo pipefail
+
+compat="${OMARCHY_DT_COMPATIBLE:-/proc/device-tree/compatible}"
+model="${OMARCHY_DT_MODEL:-/proc/device-tree/model}"
+
+[[ -r $compat ]] || exit 1
+
+strings=$(tr '\0' '\n' < "$compat")
+
+grep -qx 'nvidia,tegra210' <<<"$strings" || exit 1
+
+# Reject the sibling kits that need different treatment.
+grep -qx 'nvidia,tegra234' <<<"$strings" && exit 1
+grep -q 'nvidia,gb10' <<<"$strings" && exit 1
+grep -q 'nvidia,n1x' <<<"$strings" && exit 1
+
+# Board-level confirmation. Both the original A02 kit and the B01 kit qualify.
+if grep -qE 'nvidia,(p3450-0000|p3449-0000)' <<<"$strings"; then
+  if [[ -r $model ]]; then
+    m=$(tr -d '\0' < "$model" 2>/dev/null || true)
+    case "$m" in
+      *"Jetson Nano"*) ;;
+      *) exit 1 ;;
+    esac
+  fi
+  exit 0
+fi
+
+# A Tegra210 board that is not a Nano must not inherit this profile.
+exit 1

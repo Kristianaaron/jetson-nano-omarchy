@@ -1,0 +1,6 @@
+
+== 1. close the graphical session (it holds nouveau's render nodes)
+render nodes free
+
+== 2. unbind nouveau
+Connection to <lan-ip> closed by remote host.
