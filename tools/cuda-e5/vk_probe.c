@@ -58,6 +58,12 @@ int main(void)
          VK_API_VERSION_MAJOR(p.apiVersion), VK_API_VERSION_MINOR(p.apiVersion),
          VK_API_VERSION_PATCH(p.apiVersion), p.driverVersion, p.vendorID, p.deviceID, p.deviceType);
 
+  VkPhysicalDeviceDrmPropertiesEXT drm = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DRM_PROPERTIES_EXT};
+  VkPhysicalDeviceProperties2 p2 = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2, .pNext = &drm};
+  vkGetPhysicalDeviceProperties2(pd, &p2);
+  printf("drm: hasPrimary %u (%lld:%lld) hasRender %u (%lld:%lld)\n", drm.hasPrimary,
+         (long long)drm.primaryMajor, (long long)drm.primaryMinor, drm.hasRender,
+         (long long)drm.renderMajor, (long long)drm.renderMinor);
   uint32_t en = 0;
   vkEnumerateDeviceExtensionProperties(pd, NULL, &en, NULL);
   VkExtensionProperties *ext = calloc(en, sizeof(*ext));

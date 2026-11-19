@@ -651,3 +651,33 @@ VK_KHR_external_fence_fd, VK_KHR_timeline_semaphore, VK_EXT_physical_device_drm,
 Next (G2): Mesa with the Zink driver on this ICD, headless GL first, then GBM on the tegra-drm
 card, then Hyprland. Open question: how Zink matches the tegra-drm card to a Vulkan device whose
 DRM node identity (VK_EXT_physical_device_drm) is not a tegra-drm node.
+
+## 16. G2 result (2026-11-19, measured): OpenGL 4.6 through Zink on NVIDIA Vulkan over nvgpu
+
+Mesa 26.2.5 (packaging/mesa-tegra, release 1.6) with Zink, on NVIDIA's R36 Vulkan driver, on
+nvgpu, in the CUDA boot mode (the same driver stack CUDA uses):
+
+```
+OpenGL core profile renderer: zink Vulkan 1.3(NVIDIA Tegra X1 (nvgpu) (NVIDIA_PROPRIETARY))
+OpenGL core profile version: 4.6 (Core Profile) Mesa 26.2.5
+OpenGL ES profile version: OpenGL ES 3.1 Mesa 26.2.5
+gbmclear /dev/dri/card0 and renderD128 (GBM + EGL + GLES clear + readback): pixel 0 255 0 255 (expected)
+```
+
+Three Zink blockers, each fixed by a Mesa patch in packaging/mesa-tegra:
+
+| Blocker | Cause | Patch |
+|---|---|---|
+| `failed to choose pdev` | the only DRM device is tegra-drm (display); NVIDIA's Vulkan device has no DRM node (nvgpu is not DRM) | 0002: pair a display-only DRM device with the only Vulkan device that has no DRM node |
+| silent failure in feature detection | Zink 26 requires VK_KHR_maintenance5; NVIDIA R36 (540, Vulkan 1.3.251) predates it | 0003: maintenance5 optional; keep PointSize stores and skip VkBufferUsageFlags2CreateInfo without it |
+| `vkCreateDevice` VK_ERROR_DEVICE_LOST | Zink adds a queue on the sparse-only family 1, a host1x engine queue that issues downstream nvhost ioctls ('H') on the mainline tegra-drm node (ENOTTY) | 0004: retry with the graphics family (which supports sparse binding) when the extra queue fails |
+
+Test setup (not yet packaged): VK_DRIVER_FILES = R36 ICD, __EGL_VENDOR_LIBRARY_FILENAMES = Mesa
+then NVIDIA (NVIDIA's Vulkan initialises through its own EGL), MESA_LOADER_DRIVER_OVERRIDE=zink,
+LD_LIBRARY_PATH = unpacked R36 core, cuda and 3d-core. Log: results/cuda/g2-20261119-0200-*.log.
+
+Known issue: a GL process can crash at exit (SIGSEGV in a libnvidia-eglcore worker thread after
+teardown starts; seen once on card0, rendering result already correct). Must be fixed before the
+desktop uses this stack.
+
+Next: Hyprland (Omarchy) on this stack, scanout through tegra-drm.

@@ -1,0 +1,49 @@
+From: Kristianaaron <25537000+Kristianaaron@users.noreply.github.com>
+Subject: [PATCH] zink: pair a display-only DRM device with a render-only Vulkan GPU
+
+On Tegra with NVIDIA's nvgpu driver, the GPU is not a DRM device: its Vulkan
+device reports no DRM node (VK_EXT_physical_device_drm hasPrimary/hasRender
+false), while the only DRM device is the display controller (tegra-drm).
+zink_get_display_device() then finds no Vulkan device for the DRM fd it is
+given (GBM, EGL), and Zink fails with "failed to choose pdev".
+
+When no Vulkan device matches the DRM device and exactly one Vulkan device
+has no DRM node at all, pair them. The screen keeps the display fd, which it
+needs to turn dma-bufs into KMS handles, as kmsro does for other
+render-only/display-only pairs.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+--- a/src/gallium/drivers/zink/zink_screen.c
++++ b/src/gallium/drivers/zink/zink_screen.c
+@@ -1713,11 +1713,30 @@
+       .pNext = &drm_props,
+    };
+ 
++   int no_node = -1, no_node_count = 0;
+    for (uint32_t i = 0; i < pdev_count; ++i) {
++      drm_props.hasPrimary = drm_props.hasRender = VK_FALSE;
+       VKSCR(GetPhysicalDeviceProperties2)(pdevs[i], &props);
+       if (drm_props.renderMajor == dev_major &&
+           drm_props.renderMinor == dev_minor)
+          return i;
++      if (!drm_props.hasPrimary && !drm_props.hasRender) {
++         no_node = i;
++         no_node_count++;
++      }
++   }
++
++   /* Render-only GPU next to a separate display controller (for example the NVIDIA nvgpu
++    * driver on Tegra, which is not a DRM device, beside tegra-drm): the DRM device we were
++    * given belongs to no Vulkan device. If exactly one Vulkan device has no DRM node at all,
++    * it is the GPU behind this display: pair them, and keep the display fd for KMS handles.
++    */
++   if (no_node_count == 1) {
++      VKSCR(GetPhysicalDeviceProperties2)(pdevs[no_node], &props);
++      mesa_logw("ZINK: no Vulkan device for DRM device %d:%d; pairing it with %s, "
++                "the only device without a DRM node", (int)dev_major, (int)dev_minor,
++                props.properties.deviceName);
++      return no_node;
+    }
+ 
+    return -1;

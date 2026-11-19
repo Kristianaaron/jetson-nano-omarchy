@@ -1,0 +1,70 @@
+From: Kristianaaron <25537000+Kristianaaron@users.noreply.github.com>
+Subject: [PATCH] zink: fall back to the graphics queue when the sparse queue fails
+
+Zink creates a second queue on a sparse-binding-only family when the driver
+advertises one. NVIDIA's Tegra driver (R36, on Tegra X1 with nvgpu and the
+mainline host1x driver) lists such a family for a host1x engine that needs
+NVIDIA's downstream host1x driver; vkCreateDevice then fails with
+VK_ERROR_DEVICE_LOST, although the graphics family supports sparse binding.
+
+If vkCreateDevice fails with the extra queue and the graphics family has
+VK_QUEUE_SPARSE_BINDING_BIT, retry with the graphics queue alone and use it
+for sparse binds. The shared zink_device records the family it was created
+with, so later screens on the same device use the same one.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+--- a/src/gallium/drivers/zink/zink_screen.c
++++ b/src/gallium/drivers/zink/zink_screen.c
+@@ -146,6 +146,7 @@
+    unsigned refcount;
+    VkPhysicalDevice pdev;
+    VkDevice dev;
++   uint32_t sparse_queue; /* queue family the device was created with for sparse binds */
+    struct zink_device_info *info;
+    simple_mtx_t queue_lock;
+ };
+@@ -2825,11 +2826,35 @@
+       if (zdev->pdev != screen->pdev)
+          continue;
+       zdev->refcount++;
++      screen->sparse_queue = zdev->sparse_queue;
+       simple_mtx_unlock(&device_lock);
+       return zdev;
+    }
+ 
+    VkResult result = VKSCR(CreateDevice)(screen->pdev, dci, NULL, &dev);
++   if (result != VK_SUCCESS && dci->queueCreateInfoCount > 1) {
++      /* A driver may advertise a sparse-binding queue family it cannot back on this system
++       * (NVIDIA's Tegra driver lists a host1x engine family that needs its downstream host1x
++       * driver). The graphics family can do sparse binds too: retry with it alone.
++       */
++      uint32_t count = 0;
++      VKSCR(GetPhysicalDeviceQueueFamilyProperties)(screen->pdev, &count, NULL);
++      VkQueueFamilyProperties *props = calloc(count, sizeof(*props));
++      if (props) {
++         VKSCR(GetPhysicalDeviceQueueFamilyProperties)(screen->pdev, &count, props);
++         if (screen->gfx_queue < count &&
++             (props[screen->gfx_queue].queueFlags & VK_QUEUE_SPARSE_BINDING_BIT)) {
++            mesa_logw("ZINK: vkCreateDevice with sparse queue family %u failed (%s); "
++                      "using the graphics queue family %u for sparse binds",
++                      screen->sparse_queue, vk_Result_to_str(result), screen->gfx_queue);
++            dci->queueCreateInfoCount = 1;
++            result = VKSCR(CreateDevice)(screen->pdev, dci, NULL, &dev);
++            if (result == VK_SUCCESS)
++               screen->sparse_queue = screen->gfx_queue;
++         }
++         free(props);
++      }
++   }
+    if (result != VK_SUCCESS)
+       mesa_loge("ZINK: vkCreateDevice failed (%s)", vk_Result_to_str(result));
+ 
+@@ -2837,6 +2862,7 @@
+    zdev->refcount = 1;
+    zdev->pdev = screen->pdev;
+    zdev->dev = dev;
++   zdev->sparse_queue = screen->sparse_queue;
+    simple_mtx_init(&zdev->queue_lock, mtx_plain);
+    _mesa_set_add(&device_table, zdev);
+    simple_mtx_unlock(&device_lock);
