@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# E4/E5 test at boot: runs only while /root/e4-autorun.enabled exists. Streams the kernel log to the
+# E4/E5 test at boot: runs only while /root/e4-autorun.enabled exists and the kernel command
+# line has nano.mode=cuda. Streams the kernel log to the
 # listener with netconsole, loads nvmap (optional) and nvgpu, triggers the first power-on, then runs
 # an optional CUDA test. Nothing is installed.
 #
@@ -13,6 +14,8 @@
 #                              /root/e5-smoke.log and its last line to the kernel log
 set -u
 [[ -f /root/e4-autorun.enabled ]] || exit 0
+# Only in the CUDA boot mode (boot entry nano-cuda: nouveau blacklisted, nano.mode=cuda).
+grep -qw 'nano.mode=cuda' /proc/cmdline || exit 0
 DIR=/home/omarchy/cuda/e4; NVMAP=; LOG_MASK=; SMOKE=
 . /root/e4-autorun.enabled
 FW=/home/omarchy/cuda/e4/fw; D=57000000.gpu
