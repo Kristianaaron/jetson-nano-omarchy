@@ -625,3 +625,29 @@ nvdisplay); with only mainline tegra-drm present, it finds no device it accepts.
    the E0a ioctl map (212 of 238 ioctls identical);
 3. fallback for desktop + CUDA together: keep CUDA on nvgpu and look at a shared-GPU design only
    if 1 and 2 fail.
+
+## 15. G1 result (2026-11-19, measured): NVIDIA Vulkan 1.3 runs on GM20B through nvgpu
+
+The §14 failure had a simple cause: the R36 Vulkan ICD (`libGLX_nvidia.so.0`) initialises through
+NVIDIA's EGL, and glvnd only had Mesa's EGL vendor registered. With NVIDIA's `tegra-egl/nvidia.json`
+registered (`__EGL_VENDOR_LIBRARY_FILENAMES`, test only), in the CUDA boot mode:
+
+```
+device: NVIDIA Tegra X1 (nvgpu), Vulkan 1.3.251, vendor 0x10de
+queue family 0: flags 0xf (graphics, compute, transfer, sparse), 16 queues
+compute shader: 0 wrong of 1048576
+G1 PASS
+```
+
+Test: tools/cuda-e5/vk_probe.c (+ vk_probe.comp), no window system. Logs:
+results/cuda/g1-20261119-*.log. `vulkaninfo` itself stops at VK_KHR_display, which wants the
+downstream display device `/dev/tegra_dc_ctrl` (nvdc); the desktop does not need that path.
+
+Extensions that matter for a compositor on this stack: VK_EXT_external_memory_dma_buf,
+VK_EXT_image_drm_format_modifier, VK_KHR_external_memory_fd, VK_KHR_external_semaphore_fd,
+VK_KHR_external_fence_fd, VK_KHR_timeline_semaphore, VK_EXT_physical_device_drm, VK_KHR_swapchain
+(155 device extensions in all).
+
+Next (G2): Mesa with the Zink driver on this ICD, headless GL first, then GBM on the tegra-drm
+card, then Hyprland. Open question: how Zink matches the tegra-drm card to a Vulkan device whose
+DRM node identity (VK_EXT_physical_device_drm) is not a tegra-drm node.

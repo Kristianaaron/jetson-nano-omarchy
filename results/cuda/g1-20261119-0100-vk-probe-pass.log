@@ -1,0 +1,51 @@
+7.2.11-1-nano-ARCH
+nvdc: open: No such file or directory
+nvdc: failed to open '/dev/tegra_dc_ctrl'.
+nvdc: open: No such file or directory
+nvdc: failed to open '/dev/tegra_dc_ctrl'.
+nvdc: open: No such file or directory
+nvdc: failed to open '/dev/tegra_dc_ctrl'.
+ok   vkCreateInstance(&ici, NULL, &inst)
+ok   vkEnumeratePhysicalDevices(inst, &n, NULL)
+physical devices: 1
+ok   vkEnumeratePhysicalDevices(inst, &n, pds)
+device: NVIDIA Tegra X1 (nvgpu), Vulkan 1.3.251, driver 0x87010000, vendor 0x10de, device 0x92ba03d7, type 1
+device extensions: 155
+  ext VK_KHR_external_fence
+  ext VK_KHR_external_fence_fd
+  ext VK_KHR_external_memory
+  ext VK_KHR_external_memory_fd
+  ext VK_KHR_external_semaphore
+  ext VK_KHR_external_semaphore_fd
+  ext VK_KHR_swapchain
+  ext VK_KHR_swapchain_mutable_format
+  ext VK_KHR_timeline_semaphore
+  ext VK_EXT_external_memory_dma_buf
+  ext VK_EXT_external_memory_host
+  ext VK_EXT_image_drm_format_modifier
+  ext VK_EXT_physical_device_drm
+queue family 0: flags 0xf count 16
+queue family 1: flags 0x2c count 1
+ok   vkCreateDevice(pd, &dci, NULL, &dev)
+ok   vkCreateBuffer(dev, &bci, NULL, &buf[b])
+ok   vkAllocateMemory(dev, &mai, NULL, &mem[b])
+ok   vkBindBufferMemory(dev, buf[b], mem[b], 0)
+ok   vkMapMemory(dev, mem[b], 0, VK_WHOLE_SIZE, 0, (void **)&map[b])
+ok   vkCreateBuffer(dev, &bci, NULL, &buf[b])
+ok   vkAllocateMemory(dev, &mai, NULL, &mem[b])
+ok   vkBindBufferMemory(dev, buf[b], mem[b], 0)
+ok   vkMapMemory(dev, mem[b], 0, VK_WHOLE_SIZE, 0, (void **)&map[b])
+ok   vkCreateShaderModule(dev, &smi, NULL, &sm)
+ok   vkCreateDescriptorSetLayout(dev, &dli, NULL, &dsl)
+ok   vkCreatePipelineLayout(dev, &pli, NULL, &pl)
+ok   vkCreateComputePipelines(dev, VK_NULL_HANDLE, 1, &cpi, NULL, &pipe)
+ok   vkCreateDescriptorPool(dev, &dpi, NULL, &dp)
+ok   vkAllocateDescriptorSets(dev, &dsa, &ds)
+ok   vkCreateCommandPool(dev, &cpci, NULL, &cp)
+ok   vkAllocateCommandBuffers(dev, &cba, &cb)
+ok   vkBeginCommandBuffer(cb, &cbi)
+ok   vkEndCommandBuffer(cb)
+ok   vkQueueSubmit(q, 1, &si, VK_NULL_HANDLE)
+ok   vkQueueWaitIdle(q)
+compute shader: 0 wrong of 1048576
+G1 PASS
