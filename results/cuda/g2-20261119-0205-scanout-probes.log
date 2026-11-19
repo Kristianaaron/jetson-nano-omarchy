@@ -1,0 +1,27 @@
+backend drm
+SCANOUT|RENDERING (no modifier)    fd -1 modifier 0x00ffffffffffffff stride 0 import FAIL addfb FAIL
+SCANOUT|RENDERING|LINEAR           create FAILED
+with_modifiers2(LINEAR)            create FAILED
+RENDERING only                     fd -1 modifier 0x00ffffffffffffff stride 0 import FAIL addfb FAIL
+B8G8R8A8_UNORM (XR24/AR24)               optimal: result 0 features 0x6 (export 1 import 1 dedicated 0) exportFrom 0x200 compat 0x200
+B8G8R8A8_UNORM (XR24/AR24)               linear: result 0 features 0x6 (export 1 import 1 dedicated 0) exportFrom 0x200 compat 0x200
+B8G8R8A8_UNORM (XR24/AR24)               optimal: result 0 features 0x6 (export 1 import 1 dedicated 0) exportFrom 0x1 compat 0x1
+  7 DRM modifiers:
+    0x03000000000fe015 planes 1 features 0x1dd83
+    0x03000000000fe014 planes 1 features 0x1dd83
+    0x03000000000fe013 planes 1 features 0x1dd83
+    0x03000000000fe012 planes 1 features 0x1dd83
+    0x03000000000fe011 planes 1 features 0x1dd83
+    0x03000000000fe010 planes 1 features 0x1dd83
+    0x0000000000000000 planes 1 features 0x1d403
+R8G8B8A8_UNORM (XB24/AB24)               optimal: result 0 features 0x6 (export 1 import 1 dedicated 0) exportFrom 0x200 compat 0x200
+R8G8B8A8_UNORM (XB24/AB24)               linear: result 0 features 0x6 (export 1 import 1 dedicated 0) exportFrom 0x200 compat 0x200
+R8G8B8A8_UNORM (XB24/AB24)               optimal: result 0 features 0x6 (export 1 import 1 dedicated 0) exportFrom 0x1 compat 0x1
+  7 DRM modifiers:
+    0x03000000000fe015 planes 1 features 0x1dd83
+    0x03000000000fe014 planes 1 features 0x1dd83
+    0x03000000000fe013 planes 1 features 0x1dd83
+    0x03000000000fe012 planes 1 features 0x1dd83
+    0x03000000000fe011 planes 1 features 0x1dd83
+    0x03000000000fe010 planes 1 features 0x1dd83
+    0x0000000000000000 planes 1 features 0x1d403

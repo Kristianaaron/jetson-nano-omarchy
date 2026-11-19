@@ -12,11 +12,13 @@
 #   NETCON=...                 netconsole target, see Documentation/networking/netconsole.rst
 #   SMOKE="cmd args"           optional, run after a successful power-on; output goes to
 #                              /root/e5-smoke.log and its last line to the kernel log
+#   DESKTOP_ENV=/path/script   optional, run after power-on to set the desktop up on nvgpu
+#                              (the unit runs before display-manager.service)
 set -u
 [[ -f /root/e4-autorun.enabled ]] || exit 0
 # Only in the CUDA boot mode (boot entry nano-cuda: nouveau blacklisted, nano.mode=cuda).
 grep -qw 'nano.mode=cuda' /proc/cmdline || exit 0
-DIR=/home/omarchy/cuda/e4; NVMAP=; LOG_MASK=; SMOKE=
+DIR=/home/omarchy/cuda/e4; NVMAP=; LOG_MASK=; SMOKE=; DESKTOP_ENV=
 . /root/e4-autorun.enabled
 FW=/home/omarchy/cuda/e4/fw; D=57000000.gpu
 kmsg() { echo "<$1>nvgpu-e4: $2" > /dev/kmsg; }
@@ -44,6 +46,10 @@ if python3 -c "import os; fd=os.open('/dev/nvhost-ctrl-gpu', os.O_RDWR); os.clos
     rc=$?
     while IFS= read -r line; do kmsg 6 "smoke: $line"; done < /root/e5-smoke.log
     kmsg 6 "autorun smoke exit=$rc"
+  fi
+  if [[ -n $DESKTOP_ENV ]]; then
+    "$DESKTOP_ENV" > /root/g2-desktop-env.log 2>&1
+    kmsg 6 "autorun desktop env exit=$? ($DESKTOP_ENV)"
   fi
 else
   kmsg 3 "autorun power-on failed"

@@ -1,0 +1,62 @@
+From: Kristianaaron <25537000+Kristianaaron@users.noreply.github.com>
+Subject: [PATCH] drm/tegra: accept canonical NVIDIA block-linear modifiers (page kind 0xfe)
+
+drm_fourcc.h defines the legacy 16Bx2 block-linear modifiers, which encode
+page kind 0, as the same layouts as the canonical modifiers with page kind
+0xfe (drm_fourcc_canonicalize_nvidia_format_mod()). NVIDIA's GPU stack on
+Tegra produces the canonical form; tegra-drm accepts only the legacy one, so
+a compositor finds no common block-linear modifier and the only shared one,
+LINEAR, cannot be rendered to by that stack.
+
+Map the canonical kind back to the legacy form when reading a framebuffer's
+tiling (the display engine does not use the page kind), and advertise the
+canonical modifiers on Tegra124 and later planes.
+
+STATUS (2026-11-19): NOT applied to linux-nano. Tested once as an
+out-of-tree module: buffers then flowed from NVIDIA's stack to tegra-drm and
+the kernel hit page-allocator corruption seconds later
+(results/cuda/g2-20261119-0209-page-corruption-oops-netconsole.log). The
+corruption is most likely in the nvmap dma-buf export path this patch first
+exercised, not in this patch, but that is unproven.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+diff --git i/drivers/gpu/drm/tegra/dc.c w/drivers/gpu/drm/tegra/dc.c
+index 0b3fcc701..41782319c 100644
+--- i/drivers/gpu/drm/tegra/dc.c
++++ w/drivers/gpu/drm/tegra/dc.c
+@@ -711,6 +711,13 @@ static const u64 tegra124_modifiers[] = {
+ 	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(3),
+ 	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(4),
+ 	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(5),
++	/* the same layouts in canonical form (page kind 0xfe), as used by NVIDIA's GPU stack */
++	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 0, 0, 0xfe, 0),
++	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 0, 0, 0xfe, 1),
++	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 0, 0, 0xfe, 2),
++	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 0, 0, 0xfe, 3),
++	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 0, 0, 0xfe, 4),
++	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 0, 0, 0xfe, 5),
+ 	DRM_FORMAT_MOD_INVALID
+ };
+ 
+diff --git i/drivers/gpu/drm/tegra/fb.c w/drivers/gpu/drm/tegra/fb.c
+index 0a7cb9e46..f319135b2 100644
+--- i/drivers/gpu/drm/tegra/fb.c
++++ w/drivers/gpu/drm/tegra/fb.c
+@@ -46,6 +46,16 @@ int tegra_fb_get_tiling(struct drm_framebuffer *framebuffer,
+ 			tiling->sector_layout = TEGRA_BO_SECTOR_LAYOUT_GPU;
+ 
+ 		modifier &= ~DRM_FORMAT_MOD_NVIDIA_SECTOR_LAYOUT;
++
++		/*
++		 * Page kind 0xfe ("generic" single-sample uncompressed color) is the
++		 * canonical form of the legacy 16Bx2 block-linear modifiers, which
++		 * encode it as 0 (see drm_fourcc_canonicalize_nvidia_format_mod()).
++		 * The display engine does not use the page kind: map the canonical
++		 * form back to the legacy one.
++		 */
++		if ((modifier & 0x10) && ((modifier >> 12) & 0xff) == 0xfe)
++			modifier &= ~(0xffULL << 12);
+ 	}
+ 
+ 	switch (modifier) {

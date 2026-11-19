@@ -1,0 +1,1217 @@
+DEBUG ]: Old rlimit: soft -> 65536, hard -> 524288
+DEBUG ]: New rlimit: soft -> 524288, hard -> 524288
+DEBUG ]: Creating the EventLoopManager!
+DEBUG ]: Creating the KeybindManager!
+DEBUG ]: Creating the AnimationManager!
+DEBUG ]: Creating the DynamicPermissionManager!
+DEBUG ]: Creating the MonitorState!
+DEBUG ]: Creating the WorkspaceState!
+DEBUG ]: Creating the ConfigManager!
+DEBUG ]: [cfg] Regular config at /home/omarchy/.config/hypr/hyprland.lua
+DEBUG ]: [cfg] Using lua config found at /home/omarchy/.config/hypr/hyprland.lua
+DEBUG ]: Creating the Error Overlay!
+DEBUG ]: Creating the LayoutManager!
+DEBUG ]: Creating the TokenManager!
+DEBUG ]: Creating the EventManager!
+DEBUG ]: Disabling stdout logs (debug.enable_stdout_logs = 0). Further logs will be written to /run/user/1000/hypr/efb50993780079460b0cbed1363e2166a2de1d9f_1795053220_15807413/hyprland.log
+DEBUG ]: Creating the PointerManager!
+DEBUG ]: Creating the AsyncResourceGatherer!
+DEBUG from aquamarine ]: Creating an Aquamarine backend!
+DEBUG from aquamarine ]: [libseat] [libseat/backend/seatd.c:64] Could not connect to socket /run/seatd.sock: No such file or directory
+DEBUG from aquamarine ]: [libseat] [libseat/libseat.c:76] Backend 'seatd' failed to open seat, skipping
+DEBUG from aquamarine ]: [libseat] [libseat/libseat.c:73] Seat opened with backend 'logind'
+DEBUG from aquamarine ]: [libinput] event9  - NVIDIA Jetson Nano HDA HDMI/DP,pcm=3: is tagged by udev as: Switch
+DEBUG from aquamarine ]: [libinput] event9  - not using input device '/dev/input/event9'
+DEBUG from aquamarine ]: [libinput] event0  - NuPhy Air65 V3: is tagged by udev as: Keyboard
+DEBUG from aquamarine ]: [libinput] event0  - NuPhy Air65 V3: device is a keyboard
+DEBUG from aquamarine ]: [libinput] event1  - NuPhy Air65 V3: is tagged by udev as: Keyboard
+DEBUG from aquamarine ]: [libinput] event1  - NuPhy Air65 V3: device is a keyboard
+DEBUG from aquamarine ]: [libinput] event2  - NuPhy Air65 V3 Mouse: is tagged by udev as: Mouse
+DEBUG from aquamarine ]: [libinput] event2  - NuPhy Air65 V3 Mouse: device is a pointer
+DEBUG from aquamarine ]: [libinput] event3  - NuPhy Air65 V3 System Control: is tagged by udev as: Keyboard Joystick
+DEBUG from aquamarine ]: [libinput] event3  - NuPhy Air65 V3 System Control: device is a keyboard
+DEBUG from aquamarine ]: [libinput] event4  - NuPhy Air65 V3 Consumer Control: is tagged by udev as: Keyboard
+DEBUG from aquamarine ]: [libinput] event4  - NuPhy Air65 V3 Consumer Control: device is a keyboard
+DEBUG from aquamarine ]: [libinput] event5  - NuPhy Air65 V3: not tagged as supported input device
+DEBUG from aquamarine ]: [libinput] event5  - not using input device '/dev/input/event5'
+DEBUG from aquamarine ]: [libinput] event6  - Logitech PRO X Wireless: is tagged by udev as: Mouse
+DEBUG from aquamarine ]: [libinput] event6  - Logitech PRO X Wireless: device is a pointer
+DEBUG from aquamarine ]: [libinput] event7  - Logitech PRO X Wireless: is tagged by udev as: Keyboard
+DEBUG from aquamarine ]: [libinput] event7  - Logitech PRO X Wireless: device is a keyboard
+DEBUG from aquamarine ]: [libinput] event8  - gpio-keys: is tagged by udev as: Keyboard
+DEBUG from aquamarine ]: [libinput] event8  - gpio-keys: device is a keyboard
+DEBUG from aquamarine ]: drm: Enumerated device /sys/devices/platform/50000000.host1x/drm/drm/card0
+DEBUG from aquamarine ]: libseat: Device /dev/dri/card0 supports kms
+DEBUG from aquamarine ]: drm: Explicit device list /dev/dri/by-path/platform-50000000.host1x-card
+DEBUG from aquamarine ]: drm: Explicit device /dev/dri/card0 found
+DEBUG from aquamarine ]: drm: Found 1 GPUs
+DEBUG from aquamarine ]: drm: Starting backend for /dev/dri/card0, with driver tegra
+DEBUG from aquamarine ]: drm: Registered gpu /dev/dri/card0
+DEBUG from aquamarine ]: drm: Atomic supported, using atomic for modesetting
+DEBUG from aquamarine ]: drm: drmProps.supportsAsyncCommit: false
+DEBUG from aquamarine ]: drm: drmProps.supportsAddFb2Modifiers: true
+DEBUG from aquamarine ]: drm: drmProps.supportsTimelines: false
+DEBUG from aquamarine ]: drm: found 2 CRTCs
+DEBUG from aquamarine ]: drm: Plane 35 has type 1
+DEBUG from aquamarine ]: drm: Plane 35 has 18 formats
+DEBUG from aquamarine ]: drm: Plane: checking for modifiers
+DEBUG from aquamarine ]: drm: Plane 39 has type 0
+DEBUG from aquamarine ]: drm: Plane 39 has 28 formats
+DEBUG from aquamarine ]: drm: Plane: checking for modifiers
+DEBUG from aquamarine ]: drm: Plane 43 has type 0
+DEBUG from aquamarine ]: drm: Plane 43 has 28 formats
+DEBUG from aquamarine ]: drm: Plane: checking for modifiers
+DEBUG from aquamarine ]: drm: Plane 47 has type 2
+DEBUG from aquamarine ]: drm: Plane 47 has 1 formats
+DEBUG from aquamarine ]: drm: Plane: checking for modifiers
+DEBUG from aquamarine ]: drm: Plane 51 has type 1
+DEBUG from aquamarine ]: drm: Plane 51 has 18 formats
+DEBUG from aquamarine ]: drm: Plane: checking for modifiers
+DEBUG from aquamarine ]: drm: Plane 55 has type 0
+DEBUG from aquamarine ]: drm: Plane 55 has 28 formats
+DEBUG from aquamarine ]: drm: Plane: checking for modifiers
+DEBUG from aquamarine ]: drm: Plane 59 has type 0
+DEBUG from aquamarine ]: drm: Plane 59 has 28 formats
+DEBUG from aquamarine ]: drm: Plane: checking for modifiers
+DEBUG from aquamarine ]: drm: Plane 63 has type 2
+DEBUG from aquamarine ]: drm: Plane 63 has 1 formats
+DEBUG from aquamarine ]: drm: Plane: checking for modifiers
+DEBUG from aquamarine ]: drm: Basic init pass for gpu /dev/dri/card0
+DEBUG from aquamarine ]: drm: Scanning connectors for /dev/dri/card0
+DEBUG from aquamarine ]: drm: Scanning connector id 67
+DEBUG from aquamarine ]: drm: Initializing connector id 67
+DEBUG from aquamarine ]: drm: Connector gets name DP-1
+ERR from aquamarine ]: drm: getCurrentCRTC: No CRTC 0
+DEBUG from aquamarine ]: drm: Connector 67 connection state: 2
+DEBUG from aquamarine ]: drm: Scanning connector id 69
+DEBUG from aquamarine ]: drm: Initializing connector id 69
+DEBUG from aquamarine ]: drm: Connector gets name HDMI-A-1
+DEBUG from aquamarine ]: drm: Connector 69 connection state: 1
+DEBUG from aquamarine ]: drm: Rechecking CRTCs
+DEBUG from aquamarine ]: drm: connector DP-1, has crtc -1, will be rechecked
+DEBUG from aquamarine ]: drm: Skipping connector HDMI-A-1, has crtc 50 and is connected
+DEBUG from aquamarine ]: drm: slot 0 crtc 50 taken by HDMI-A-1, skipping
+DEBUG from aquamarine ]: drm: slot 1 crtc 66 unassigned
+DEBUG from aquamarine ]: drm: Connector HDMI-A-1 connected
+DEBUG from aquamarine ]: drm: Connecting connector HDMI-A-1, CRTC ID 50
+DEBUG from aquamarine ]: drm: Dumping detected modes:
+DEBUG from aquamarine ]: drm: Mode 0: 2560x1440@59.95Hz  (preferred)
+DEBUG from aquamarine ]: drm: Mode 1: 3840x2160@120.00Hz 
+DEBUG from aquamarine ]: drm: Mode 2: 3840x2160@119.88Hz 
+DEBUG from aquamarine ]: drm: Mode 3: 3840x2160@100.00Hz 
+DEBUG from aquamarine ]: drm: Mode 4: 3840x2160@60.00Hz 
+DEBUG from aquamarine ]: drm: Mode 5: 3840x2160@59.94Hz 
+DEBUG from aquamarine ]: drm: Mode 6: 3840x2160@50.00Hz 
+DEBUG from aquamarine ]: drm: Mode 7: 3840x2160@30.00Hz 
+DEBUG from aquamarine ]: drm: Mode 8: 3840x2160@29.97Hz 
+DEBUG from aquamarine ]: drm: Mode 9: 3840x2160@25.00Hz 
+DEBUG from aquamarine ]: drm: Mode 10: 3840x2160@24.00Hz 
+DEBUG from aquamarine ]: drm: Mode 11: 3840x2160@23.98Hz 
+DEBUG from aquamarine ]: drm: Mode 12: 2560x1440@240.00Hz 
+DEBUG from aquamarine ]: drm: Mode 13: 2560x1440@120.00Hz 
+DEBUG from aquamarine ]: drm: Mode 14: 1920x1080@239.99Hz 
+DEBUG from aquamarine ]: drm: Mode 15: 1920x1080@120.00Hz 
+DEBUG from aquamarine ]: drm: Mode 16: 1920x1080@119.88Hz 
+DEBUG from aquamarine ]: drm: Mode 17: 1920x1080@100.00Hz 
+DEBUG from aquamarine ]: drm: Mode 18: 1920x1080@60.00Hz 
+DEBUG from aquamarine ]: drm: Mode 19: 1920x1080@59.94Hz 
+DEBUG from aquamarine ]: drm: Mode 20: 1920x1080@50.00Hz 
+DEBUG from aquamarine ]: drm: Mode 21: 1920x1080@24.00Hz 
+DEBUG from aquamarine ]: drm: Mode 22: 1920x1080@23.98Hz 
+DEBUG from aquamarine ]: drm: Mode 23: 1680x1050@59.88Hz 
+DEBUG from aquamarine ]: drm: Mode 24: 1600x900@60.00Hz 
+DEBUG from aquamarine ]: drm: Mode 25: 1280x1024@75.03Hz 
+DEBUG from aquamarine ]: drm: Mode 26: 1280x1024@60.02Hz 
+DEBUG from aquamarine ]: drm: Mode 27: 1440x900@59.90Hz 
+DEBUG from aquamarine ]: drm: Mode 28: 1280x960@60.00Hz 
+DEBUG from aquamarine ]: drm: Mode 29: 1280x800@59.91Hz 
+DEBUG from aquamarine ]: drm: Mode 30: 1152x864@75.00Hz 
+DEBUG from aquamarine ]: drm: Mode 31: 1280x720@100.00Hz 
+DEBUG from aquamarine ]: drm: Mode 32: 1280x720@60.00Hz 
+DEBUG from aquamarine ]: drm: Mode 33: 1280x720@60.00Hz 
+DEBUG from aquamarine ]: drm: Mode 34: 1280x720@59.94Hz 
+DEBUG from aquamarine ]: drm: Mode 35: 1280x720@50.00Hz 
+DEBUG from aquamarine ]: drm: Mode 36: 1024x768@75.03Hz 
+DEBUG from aquamarine ]: drm: Mode 37: 1024x768@70.07Hz 
+DEBUG from aquamarine ]: drm: Mode 38: 1024x768@60.00Hz 
+DEBUG from aquamarine ]: drm: Mode 39: 1440x480@60.00Hz 
+DEBUG from aquamarine ]: drm: Mode 40: 1440x480@59.94Hz 
+DEBUG from aquamarine ]: drm: Mode 41: 832x624@74.55Hz 
+DEBUG from aquamarine ]: drm: Mode 42: 800x600@75.00Hz 
+DEBUG from aquamarine ]: drm: Mode 43: 800x600@72.19Hz 
+DEBUG from aquamarine ]: drm: Mode 44: 800x600@60.32Hz 
+DEBUG from aquamarine ]: drm: Mode 45: 800x600@56.25Hz 
+DEBUG from aquamarine ]: drm: Mode 46: 720x480@60.00Hz 
+DEBUG from aquamarine ]: drm: Mode 47: 720x480@59.94Hz 
+DEBUG from aquamarine ]: drm: Mode 48: 640x480@75.00Hz 
+DEBUG from aquamarine ]: drm: Mode 49: 640x480@72.81Hz 
+DEBUG from aquamarine ]: drm: Mode 50: 640x480@66.67Hz 
+DEBUG from aquamarine ]: drm: Mode 51: 640x480@60.00Hz 
+DEBUG from aquamarine ]: drm: Mode 52: 640x480@59.94Hz 
+DEBUG from aquamarine ]: drm: Mode 53: 720x400@70.08Hz 
+DEBUG from aquamarine ]: drm: Physical size [Vector2D: x: 590, y: 330] (mm)
+DEBUG from aquamarine ]: drm: Description GIGA-BYTE TECHNOLOGY CO., LTD. AORUS FO27Q2 0x01010101 (HDMI-A-1)
+DEBUG from aquamarine ]: drm: connector HDMI-A-1 crtc is incapable of vrr: props.vrr_capable -> 0, crtc->props.vrr_enabled -> 25
+DEBUG from aquamarine ]: drm: Explicit sync unsupported
+DEBUG from aquamarine ]: drm: connector HDMI-A-1 crtc doesn't support CTM
+DEBUG from aquamarine ]: drm: connector HDMI-A-1 crtc doesn't support HDR (0)
+DEBUG from aquamarine ]: drm: connector HDMI-A-1 crtc doesn't support Colorspace (0)
+DEBUG from aquamarine ]: drm: gpu /dev/dri/card0 becomes primary drm
+DEBUG from aquamarine ]: DRM Dumb: created a dumb allocator
+DEBUG from aquamarine ]: Starting the Aquamarine backend!
+DEBUG from aquamarine ]: Starting the Wayland backend!
+ERR from aquamarine ]: Wayland backend cannot start: wl_display_connect failed (is a wayland compositor running?)
+ERR from aquamarine ]: Requested backend (wayland) could not start, enabling fallbacks
+ERR from aquamarine ]: Implementation wayland failed, erasing.
+DEBUG from aquamarine ]: Created a GBM allocator with drm fd 33
+DEBUG from aquamarine ]: drm: Connectors size2 2
+DEBUG from aquamarine ]: Created a GBM allocator with drm fd 63
+DEBUG from aquamarine ]: Supported EGL client extensions: (16) EGL_EXT_device_base EGL_EXT_device_enumeration EGL_EXT_device_query EGL_EXT_platform_base EGL_KHR_client_get_all_proc_addresses EGL_EXT_client_extensions EGL_KHR_debug EGL_EXT_platform_device EGL_EXT_explicit_device EGL_EXT_platform_wayland EGL_KHR_platform_wayland EGL_EXT_platform_x11 EGL_KHR_platform_x11 EGL_EXT_platform_xcb EGL_MESA_platform_gbm EGL_KHR_platform_gbm EGL_MESA_platform_surfaceless
+DEBUG from aquamarine ]: CDRMRenderer(drm): Using device /dev/dri/card0
+DEBUG from aquamarine ]: CDRMRenderer: EXT_create_context_robustness supported, requesting lose on reset
+DEBUG from aquamarine ]: CDRMRenderer: Using KHR_context_flush_control
+ERR from aquamarine ]: [EGL] Command eglCreateContext errored out with EGL_BAD_MATCH (0x12297): dri2_create_context
+ERR from aquamarine ]: CDRMRenderer: eglCreateContext failed with GLES 3.2, retrying GLES 3.0
+DEBUG from aquamarine ]: Creating CDRMRenderer on gpu /dev/dri/renderD128
+DEBUG from aquamarine ]: Using: OpenGL ES 3.1 Mesa 26.2.5
+DEBUG from aquamarine ]: Vendor: Mesa
+DEBUG from aquamarine ]: Renderer: zink Vulkan 1.3(NVIDIA Tegra X1 (nvgpu) (NVIDIA_PROPRIETARY))
+DEBUG from aquamarine ]: Supported context extensions: (161) GL_EXT_blend_minmax GL_EXT_multi_draw_arrays GL_EXT_texture_filter_anisotropic GL_EXT_texture_compression_s3tc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_format_BGRA8888 GL_OES_compressed_ETC1_RGB8_texture GL_OES_depth24 GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_mapbuffer GL_OES_rgb8_rgba8 GL_OES_standard_derivatives GL_OES_stencil8 GL_OES_texture_3D GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_vertex_half_float GL_EXT_draw_instanced GL_EXT_texture_sRGB_decode GL_OES_EGL_image GL_OES_depth_texture GL_AMD_performance_monitor GL_OES_packed_depth_stencil GL_EXT_texture_type_2_10_10_10_REV GL_NV_conditional_render GL_OES_get_program_binary GL_APPLE_texture_max_level GL_EXT_discard_framebuffer GL_EXT_read_format_bgra GL_EXT_texture_storage GL_NV_pack_subimage GL_NV_texture_barrier GL_EXT_frag_depth GL_NV_fbo_color_attachments GL_OES_EGL_image_external GL_OES_EGL_sync GL_OES_vertex_array_object GL_OES_viewport_array GL_ANGLE_pack_reverse_row_order GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_EXT_occlusion_query_boolean GL_EXT_robustness GL_EXT_sRGB GL_EXT_texture_rg GL_EXT_unpack_subimage GL_NV_draw_buffers GL_NV_read_buffer GL_NV_read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_APPLE_sync GL_EXT_draw_buffers GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_shadow_samplers GL_KHR_debug GL_KHR_robustness GL_KHR_texture_compression_astc_hdr GL_KHR_texture_compression_astc_ldr GL_NV_generate_mipmap_sRGB GL_NV_pixel_buffer_object GL_OES_depth_texture_cube_map GL_OES_required_internalformat GL_OES_surfaceless_context GL_EXT_color_buffer_float GL_EXT_debug_label GL_EXT_sRGB_write_control GL_EXT_separate_shader_objects GL_EXT_shader_group_vote GL_EXT_shader_implicit_conversions GL_EXT_shader_integer_mix GL_EXT_tessellation_point_size GL_EXT_tessellation_shader GL_EXT_base_instance GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_copy_image GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_gpu_shader5 GL_EXT_multi_draw_indirect GL_EXT_polygon_offset_clamp GL_EXT_primitive_bounding_box GL_EXT_render_snorm GL_EXT_shader_io_blocks GL_EXT_texture_border_clamp GL_EXT_texture_buffer GL_EXT_texture_cube_map_array GL_EXT_texture_norm16 GL_EXT_texture_view GL_KHR_context_flush_control GL_KHR_robust_buffer_access_behavior GL_NV_image_formats GL_NV_shader_noperspective_interpolation GL_OES_copy_image GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_gpu_shader5 GL_OES_primitive_bounding_box GL_OES_sample_shading GL_OES_sample_variables GL_OES_shader_io_blocks GL_OES_shader_multisample_interpolation GL_OES_tessellation_point_size GL_OES_tessellation_shader GL_OES_texture_border_clamp GL_OES_texture_buffer GL_OES_texture_cube_map_array GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_texture_view GL_EXT_blend_func_extended GL_EXT_buffer_storage GL_EXT_float_blend GL_EXT_geometry_point_size GL_EXT_geometry_shader GL_EXT_texture_sRGB_R8 GL_KHR_no_error GL_KHR_texture_compression_astc_sliced_3d GL_NV_fragment_shader_interlock GL_NV_sample_locations GL_OES_EGL_image_external_essl3 GL_OES_geometry_point_size GL_OES_geometry_shader GL_OES_shader_image_atomic GL_EXT_clear_texture GL_EXT_clip_cull_distance GL_EXT_conservative_depth GL_EXT_disjoint_timer_query GL_EXT_multisampled_render_to_texture GL_EXT_multisampled_render_to_texture2 GL_EXT_texture_compression_s3tc_srgb GL_MESA_shader_integer_functions GL_EXT_clip_control GL_EXT_color_buffer_half_float GL_EXT_memory_object GL_EXT_memory_object_fd GL_EXT_semaphore GL_EXT_semaphore_fd GL_EXT_texture_compression_bptc GL_EXT_texture_mirror_clamp_to_edge GL_KHR_parallel_shader_compile GL_EXT_EGL_image_storage GL_MESA_framebuffer_flip_y GL_OVR_multiview GL_OVR_multiview2 GL_OVR_multiview_multisampled_render_to_texture GL_EXT_demote_to_helper_invocation GL_EXT_depth_clamp GL_EXT_texture_query_lod GL_KHR_shader_subgroup GL_MESA_sampler_objects GL_EXT_EGL_image_storage_compression GL_EXT_texture_storage_compression GL_MESA_bgra GL_EXT_shader_clock 
+DEBUG from aquamarine ]: drm: onReady: connector 67
+DEBUG from aquamarine ]: drm: onReady: connector 69
+DEBUG from aquamarine ]: drm: onReady: connector 69 has output name HDMI-A-1
+DEBUG from aquamarine ]: Swapchain: Clearing
+DEBUG from aquamarine ]: Supported EGL client extensions: (16) EGL_EXT_device_base EGL_EXT_device_enumeration EGL_EXT_device_query EGL_EXT_platform_base EGL_KHR_client_get_all_proc_addresses EGL_EXT_client_extensions EGL_KHR_debug EGL_EXT_platform_device EGL_EXT_explicit_device EGL_EXT_platform_wayland EGL_KHR_platform_wayland EGL_EXT_platform_x11 EGL_KHR_platform_x11 EGL_EXT_platform_xcb EGL_MESA_platform_gbm EGL_KHR_platform_gbm EGL_MESA_platform_surfaceless
+DEBUG from aquamarine ]: CDRMRenderer(drm): Using device /dev/dri/card0
+DEBUG from aquamarine ]: CDRMRenderer: EXT_create_context_robustness supported, requesting lose on reset
+DEBUG from aquamarine ]: CDRMRenderer: Using KHR_context_flush_control
+ERR from aquamarine ]: [EGL] Command eglCreateContext errored out with EGL_BAD_MATCH (0x12297): dri2_create_context
+ERR from aquamarine ]: CDRMRenderer: eglCreateContext failed with GLES 3.2, retrying GLES 3.0
+DEBUG from aquamarine ]: Creating CDRMRenderer on gpu /dev/dri/renderD128
+DEBUG from aquamarine ]: Using: OpenGL ES 3.1 Mesa 26.2.5
+DEBUG from aquamarine ]: Vendor: Mesa
+DEBUG from aquamarine ]: Renderer: zink Vulkan 1.3(NVIDIA Tegra X1 (nvgpu) (NVIDIA_PROPRIETARY))
+DEBUG from aquamarine ]: Supported context extensions: (161) GL_EXT_blend_minmax GL_EXT_multi_draw_arrays GL_EXT_texture_filter_anisotropic GL_EXT_texture_compression_s3tc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_format_BGRA8888 GL_OES_compressed_ETC1_RGB8_texture GL_OES_depth24 GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_mapbuffer GL_OES_rgb8_rgba8 GL_OES_standard_derivatives GL_OES_stencil8 GL_OES_texture_3D GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_vertex_half_float GL_EXT_draw_instanced GL_EXT_texture_sRGB_decode GL_OES_EGL_image GL_OES_depth_texture GL_AMD_performance_monitor GL_OES_packed_depth_stencil GL_EXT_texture_type_2_10_10_10_REV GL_NV_conditional_render GL_OES_get_program_binary GL_APPLE_texture_max_level GL_EXT_discard_framebuffer GL_EXT_read_format_bgra GL_EXT_texture_storage GL_NV_pack_subimage GL_NV_texture_barrier GL_EXT_frag_depth GL_NV_fbo_color_attachments GL_OES_EGL_image_external GL_OES_EGL_sync GL_OES_vertex_array_object GL_OES_viewport_array GL_ANGLE_pack_reverse_row_order GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_EXT_occlusion_query_boolean GL_EXT_robustness GL_EXT_sRGB GL_EXT_texture_rg GL_EXT_unpack_subimage GL_NV_draw_buffers GL_NV_read_buffer GL_NV_read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_APPLE_sync GL_EXT_draw_buffers GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_shadow_samplers GL_KHR_debug GL_KHR_robustness GL_KHR_texture_compression_astc_hdr GL_KHR_texture_compression_astc_ldr GL_NV_generate_mipmap_sRGB GL_NV_pixel_buffer_object GL_OES_depth_texture_cube_map GL_OES_required_internalformat GL_OES_surfaceless_context GL_EXT_color_buffer_float GL_EXT_debug_label GL_EXT_sRGB_write_control GL_EXT_separate_shader_objects GL_EXT_shader_group_vote GL_EXT_shader_implicit_conversions GL_EXT_shader_integer_mix GL_EXT_tessellation_point_size GL_EXT_tessellation_shader GL_EXT_base_instance GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_copy_image GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_gpu_shader5 GL_EXT_multi_draw_indirect GL_EXT_polygon_offset_clamp GL_EXT_primitive_bounding_box GL_EXT_render_snorm GL_EXT_shader_io_blocks GL_EXT_texture_border_clamp GL_EXT_texture_buffer GL_EXT_texture_cube_map_array GL_EXT_texture_norm16 GL_EXT_texture_view GL_KHR_context_flush_control GL_KHR_robust_buffer_access_behavior GL_NV_image_formats GL_NV_shader_noperspective_interpolation GL_OES_copy_image GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_gpu_shader5 GL_OES_primitive_bounding_box GL_OES_sample_shading GL_OES_sample_variables GL_OES_shader_io_blocks GL_OES_shader_multisample_interpolation GL_OES_tessellation_point_size GL_OES_tessellation_shader GL_OES_texture_border_clamp GL_OES_texture_buffer GL_OES_texture_cube_map_array GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_texture_view GL_EXT_blend_func_extended GL_EXT_buffer_storage GL_EXT_float_blend GL_EXT_geometry_point_size GL_EXT_geometry_shader GL_EXT_texture_sRGB_R8 GL_KHR_no_error GL_KHR_texture_compression_astc_sliced_3d GL_NV_fragment_shader_interlock GL_NV_sample_locations GL_OES_EGL_image_external_essl3 GL_OES_geometry_point_size GL_OES_geometry_shader GL_OES_shader_image_atomic GL_EXT_clear_texture GL_EXT_clip_cull_distance GL_EXT_conservative_depth GL_EXT_disjoint_timer_query GL_EXT_multisampled_render_to_texture GL_EXT_multisampled_render_to_texture2 GL_EXT_texture_compression_s3tc_srgb GL_MESA_shader_integer_functions GL_EXT_clip_control GL_EXT_color_buffer_half_float GL_EXT_memory_object GL_EXT_memory_object_fd GL_EXT_semaphore GL_EXT_semaphore_fd GL_EXT_texture_compression_bptc GL_EXT_texture_mirror_clamp_to_edge GL_KHR_parallel_shader_compile GL_EXT_EGL_image_storage GL_MESA_framebuffer_flip_y GL_OVR_multiview GL_OVR_multiview2 GL_OVR_multiview_multisampled_render_to_texture GL_EXT_demote_to_helper_invocation GL_EXT_depth_clamp GL_EXT_texture_query_lod GL_KHR_shader_subgroup GL_MESA_sampler_objects GL_EXT_EGL_image_storage_compression GL_EXT_texture_storage_compression GL_MESA_bgra GL_EXT_shader_clock 
+ERR from aquamarine ]: [EGL] Command eglCreateContext errored out with EGL_BAD_MATCH (0x12297): dri2_create_context
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 720] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 2560, y: 1440] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 720] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 2560, y: 1440] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 3840, y: 2160] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 2560, y: 1440] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1920, y: 1080] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1680, y: 1050] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1600, y: 900] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 1024] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1440, y: 900] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 960] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 800] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1152, y: 864] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 720] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1024, y: 768] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1440, y: 480] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 832, y: 624] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 800, y: 600] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 720, y: 480] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 640, y: 480] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 720, y: 400] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+DEBUG from aquamarine ]: drm: Modesetting HDMI-A-1 with 720x400@70.08Hz
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+DEBUG from aquamarine ]: backend: poll fd 13 for implementation headless
+DEBUG from aquamarine ]: backend: poll fd 30 for implementation drm
+DEBUG from aquamarine ]: backend: poll fd 31 for implementation drm
+DEBUG from aquamarine ]: backend: poll fd 15 for session
+DEBUG from aquamarine ]: backend: poll fd 17 for session
+DEBUG from aquamarine ]: backend: poll fd 18 for session
+DEBUG from aquamarine ]: backend: poll fd 32 for idle
+DEBUG from aquamarine ]: udev: new udev change event for card0
+DEBUG from aquamarine ]: udev: DRM device card0 changed
+DEBUG from aquamarine ]: drm: Got a lease event for /dev/dri/card0
+DEBUG from aquamarine ]: libinput: New device NuPhy Air65 V3: 6645-4139
+DEBUG from aquamarine ]: libinput: New device NuPhy Air65 V3: 6645-4139
+DEBUG from aquamarine ]: libinput: New device NuPhy Air65 V3 Mouse: 6645-4139
+DEBUG from aquamarine ]: libinput: New device NuPhy Air65 V3 System Control: 6645-4139
+DEBUG from aquamarine ]: libinput: New device NuPhy Air65 V3 Consumer Control: 6645-4139
+DEBUG from aquamarine ]: libinput: New device Logitech PRO X Wireless: 1133-49300
+DEBUG from aquamarine ]: libinput: New device Logitech PRO X Wireless: 1133-49300
+DEBUG from aquamarine ]: libinput: New device gpio-keys: 1-1
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 720] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 2560, y: 1440] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 720] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 2560, y: 1440] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 3840, y: 2160] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 2560, y: 1440] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1920, y: 1080] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1680, y: 1050] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1600, y: 900] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 1024] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1440, y: 900] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 960] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 800] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1152, y: 864] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 720] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1024, y: 768] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1440, y: 480] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 832, y: 624] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 800, y: 600] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 720, y: 480] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 640, y: 480] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 720, y: 400] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 720] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 2560, y: 1440] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 720] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 2560, y: 1440] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 3840, y: 2160] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 2560, y: 1440] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1920, y: 1080] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1680, y: 1050] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1600, y: 900] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 1024] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1440, y: 900] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 960] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 800] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1152, y: 864] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 720] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1024, y: 768] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1440, y: 480] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 832, y: 624] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 800, y: 600] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 720, y: 480] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 640, y: 480] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 720, y: 400] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 720] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 2560, y: 1440] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 720] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 2560, y: 1440] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 3840, y: 2160] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 2560, y: 1440] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1920, y: 1080] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1680, y: 1050] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1600, y: 900] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 1024] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1440, y: 900] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 960] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 800] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1152, y: 864] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+WARN from aquamarine ]: GBM: Using modifier-less allocation
+ERR from aquamarine ]: GBM: Failed to query fd for plane 0
+DEBUG from aquamarine ]: Swapchain: Reconfigured a swapchain to [Vector2D: x: 1280, y: 720] XR24 of length 3
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS
+ERR from aquamarine ]: drm: Buffer submitted has no dmabuf or a drm handle
+ERR from aquamarine ]: drm: Buffer failed to import to KMS

@@ -1,0 +1,271 @@
+[   25.146645] nvgpu-e4: smoke: ok   nvrtc --gpu-architecture=compute_53 -> PTX, 1098 bytes
+[   25.154707] nvgpu-e4: smoke: --- sm_53 cubin
+[   25.158953] nvgpu-e4: smoke: ok   cuModuleLoadData(&mod, image)
+[   25.164825] nvgpu-e4: smoke: ok   cuModuleGetFunction(&fn, mod, "axpb")
+[   25.171409] nvgpu-e4: smoke: ok   cuMemsetD32(dc, 0, N)
+[   25.176622] nvgpu-e4: smoke: ok   cuEventCreate(&t0, CU_EVENT_DEFAULT)
+[   25.183110] nvgpu-e4: smoke: ok   cuEventCreate(&t1, CU_EVENT_DEFAULT)
+[   25.189704] nvgpu-e4: smoke: ok   cuEventRecord(t0, 0)
+[   25.194740] nvgpu-e4: smoke: ok   cuLaunchKernel(fn, N / 256, 1, 1, 256, 1, 1, 0, 0, args, NULL)
+[   25.203520] nvgpu-e4: smoke: ok   cuEventRecord(t1, 0)
+[   25.208622] nvgpu-e4: smoke: ok   cuCtxSynchronize()
+[   25.213539] nvgpu-e4: smoke: ok   cuEventElapsedTime(&ms, t0, t1)
+[   25.219622] nvgpu-e4: smoke: ok   cuMemcpyDtoH(c, dc, N * sizeof(float))
+[   25.226278] nvgpu-e4: smoke: sm_53 cubin: 0 wrong of 1048576, kernel 3.164 ms, 3.98 GB/s
+[   25.234332] nvgpu-e4: smoke: --- compute_53 PTX (driver JIT)
+[   25.239999] nvgpu-e4: smoke: ok   cuModuleLoadData(&mod, image)
+[   25.245865] nvgpu-e4: smoke: ok   cuModuleGetFunction(&fn, mod, "axpb")
+[   25.252448] nvgpu-e4: smoke: ok   cuMemsetD32(dc, 0, N)
+[   25.257657] nvgpu-e4: smoke: ok   cuEventCreate(&t0, CU_EVENT_DEFAULT)
+[   25.264164] nvgpu-e4: smoke: ok   cuEventCreate(&t1, CU_EVENT_DEFAULT)
+[   25.270664] nvgpu-e4: smoke: ok   cuEventRecord(t0, 0)
+[   25.275776] nvgpu-e4: smoke: ok   cuLaunchKernel(fn, N / 256, 1, 1, 256, 1, 1, 0, 0, args, NULL)
+[   25.284564] nvgpu-e4: smoke: ok   cuEventRecord(t1, 0)
+[   25.289662] nvgpu-e4: smoke: ok   cuCtxSynchronize()
+[   25.295591] nvgpu-e4: smoke: ok   cuEventElapsedTime(&ms, t0, t1)
+[   25.301599] nvgpu-e4: smoke: ok   cuMemcpyDtoH(c, dc, N * sizeof(float))
+[   25.308967] nvgpu-e4: smoke: compute_53 PTX (driver JIT): 0 wrong of 1048576, kernel 1.388 ms, 9.07 GB/s
+[   25.319102] nvgpu-e4: smoke: E5 PASS
+[   25.323337] nvgpu-e4: smoke: G1 vulkaninfo --summary
+[   25.328975] nvgpu-e4: smoke: 'DISPLAY' environment variable not set... skipping surface info
+[   25.338129] nvgpu-e4: smoke: error: XDG_RUNTIME_DIR is invalid or not set in the environment.
+[   25.347225] nvgpu-e4: smoke: nvdc: open: No such file or directory
+[   25.353343] nvgpu-e4: smoke: nvdc: failed to open '/dev/tegra_dc_ctrl'.
+[   25.359952] nvgpu-e4: smoke: ERROR while creating surface for extension VK_KHR_display : /build/vulkan-tools/src/Vulkan-Tools/vulkaninfo/./vulkaninfo.h:249:vkGetPhysicalDeviceDisplayPropertiesKHR failed with ERROR_INITIALIZATION_FAILED
+[   25.380746] nvgpu-e4: smoke: nvdc: open: No such file or directory
+[   25.386916] nvgpu-e4: smoke: nvdc: failed to open '/dev/tegra_dc_ctrl'.
+[   25.393480] nvgpu-e4: smoke: nvdc: open: No such file or directory
+[   25.399624] nvgpu-e4: smoke: nvdc: failed to open '/dev/tegra_dc_ctrl'.
+[   25.406267] nvgpu-e4: smoke: nvdc: open: No such file or directory
+[   25.412367] nvgpu-e4: smoke: nvdc: failed to open '/dev/tegra_dc_ctrl'.
+[   25.418943] nvgpu-e4: smoke: nvdc: open: No such file or directory
+[   25.425107] nvgpu-e4: smoke: nvdc: failed to open '/dev/tegra_dc_ctrl'.
+[   25.431727] nvgpu-e4: smoke: ERROR at /build/vulkan-tools/src/Vulkan-Tools/vulkaninfo/./vulkaninfo.h:249:vkGetPhysicalDeviceDisplayPlanePropertiesKHR failed with ERROR_INITIALIZATION_FAILED
+[   25.448507] nvgpu-e4: smoke: G1 vulkaninfo exit=1
+[   25.453186] nvgpu-e4: autorun smoke exit=0
+[   25.459711] as
+[   25.459711] channel
+[   25.459711] ctrl
+[   25.459711] ctxsw
+[   25.459711] dbg
+[   25.459711] nvsched
+[   25.459711] nvsched_ctrl_fifo
+[   25.459711] power
+[   25.459711] prof
+[   25.459711] prof-ctx
+[   25.459711] prof-dev
+[   25.459711] sched
+[   25.459711] tsg
+[   25.484022] nvgpu-e4: autorun end
+[   27.691013] tegra-pmc 7000e400.pmc: sync_state() pending due to 7000e000.rtc
+[   27.695832] tegra-mc 70019000.memory-controller: sync_state() pending due to 6000c800.actmon
+[   27.705908] tegra-pmc 7000e400.pmc: sync_state() pending due to 54080000.vi
+[   27.711956] tegra-pmc 7000e400.pmc: sync_state() pending due to 544c0000.nvenc
+[   26.171200] nvgpu-e4: autorun opening ctrl
+[   26.411181] tegra-mc 70019000.memory-controller: gpuswr2: write @0x000000026d693ec0: EMEM address decode error (EMEM decode error)
+[   26.513781] nvgpu-e4: autorun POWER-ON OK
+[   26.516210] nvgpu-e4: autorun smoke start: /home/omarchy/cuda/run-smoke.sh
+[   28.299991] nvgpu-e4: smoke: kernel 7.2.11-1-nano-ARCH; nvmap /dev/nvmap; gpu driver gk20a
+[   28.306683] nvgpu-e4: smoke: DrmCreateEventPollFd: failed to open host1x-fence device: -1
+[   28.314785] nvgpu-e4: smoke: ok   cuInit(0)
+[   28.318925] nvgpu-e4: smoke: ok   cuDriverGetVersion(&drv)
+[   28.324371] nvgpu-e4: smoke: ok   cuDeviceGet(&dev, 0)
+[   28.329483] nvgpu-e4: smoke: ok   cuDeviceGetName(name, sizeof name, dev)
+[   28.336250] nvgpu-e4: smoke: ok   cuDeviceGetAttribute(&major, CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MAJOR, dev)
+[   28.346466] nvgpu-e4: smoke: ok   cuDeviceGetAttribute(&minor, CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MINOR, dev)
+[   28.356805] nvgpu-e4: smoke: ok   cuDeviceGetAttribute(&sms, CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT, dev)
+[   28.366493] nvgpu-e4: smoke: ok   cuDeviceGetAttribute(&clk, CU_DEVICE_ATTRIBUTE_CLOCK_RATE, dev)
+[   28.375294] nvgpu-e4: smoke: ok   cuDeviceTotalMem(&total, dev)
+[   28.381168] nvgpu-e4: smoke: device: NVIDIA Tegra X1, compute 5.3, 1 SM, 998 MHz, 3874 MiB, driver API 12060
+[   28.390938] nvgpu-e4: smoke: ok   cuCtxCreate(&ctx, 0, dev)
+[   28.396478] nvgpu-e4: smoke: ok   cuMemAlloc(&da, N * sizeof(float))
+[   28.402796] nvgpu-e4: smoke: ok   cuMemAlloc(&db, N * sizeof(float))
+[   28.409126] nvgpu-e4: smoke: ok   cuMemAlloc(&dc, N * sizeof(float))
+[   28.415460] nvgpu-e4: smoke: ok   cuMemcpyHtoD(da, a, N * sizeof(float))
+[   28.422132] nvgpu-e4: smoke: ok   cuMemcpyHtoD(db, b, N * sizeof(float))
+[   28.428810] nvgpu-e4: smoke: ok   nvrtc --gpu-architecture=sm_53 -> cubin, 2216 bytes
+[   28.436627] nvgpu-e4: smoke: ok   nvrtc --gpu-architecture=compute_53 -> PTX, 1098 bytes
+[   28.444656] nvgpu-e4: smoke: --- sm_53 cubin
+[   28.448907] nvgpu-e4: smoke: ok   cuModuleLoadData(&mod, image)
+[   28.454802] nvgpu-e4: smoke: ok   cuModuleGetFunction(&fn, mod, "axpb")
+[   28.461426] nvgpu-e4: smoke: ok   cuMemsetD32(dc, 0, N)
+[   28.466586] nvgpu-e4: smoke: ok   cuEventCreate(&t0, CU_EVENT_DEFAULT)
+[   28.473076] nvgpu-e4: smoke: ok   cuEventCreate(&t1, CU_EVENT_DEFAULT)
+[   28.479618] nvgpu-e4: smoke: ok   cuEventRecord(t0, 0)
+[   28.488841] nvgpu-e4: smoke: ok   cuLaunchKernel(fn, N / 256, 1, 1, 256, 1, 1, 0, 0, args, NULL)
+[   28.495932] nvgpu-e4: smoke: ok   cuEventRecord(t1, 0)
+[   28.501101] nvgpu-e4: smoke: ok   cuCtxSynchronize()
+[   28.506004] nvgpu-e4: smoke: ok   cuEventElapsedTime(&ms, t0, t1)
+[   28.512066] nvgpu-e4: smoke: ok   cuMemcpyDtoH(c, dc, N * sizeof(float))
+[   28.518753] nvgpu-e4: smoke: sm_53 cubin: 0 wrong of 1048576, kernel 2.833 ms, 4.44 GB/s
+[   28.526823] nvgpu-e4: smoke: --- compute_53 PTX (driver JIT)
+[   28.532435] nvgpu-e4: smoke: ok   cuModuleLoadData(&mod, image)
+[   28.538303] nvgpu-e4: smoke: ok   cuModuleGetFunction(&fn, mod, "axpb")
+[   28.544892] nvgpu-e4: smoke: ok   cuMemsetD32(dc, 0, N)
+[   28.550104] nvgpu-e4: smoke: ok   cuEventCreate(&t0, CU_EVENT_DEFAULT)
+[   28.556602] nvgpu-e4: smoke: ok   cuEventCreate(&t1, CU_EVENT_DEFAULT)
+[   28.563094] nvgpu-e4: smoke: ok   cuEventRecord(t0, 0)
+[   28.568238] nvgpu-e4: smoke: ok   cuLaunchKernel(fn, N / 256, 1, 1, 256, 1, 1, 0, 0, args, NULL)
+[   28.576959] nvgpu-e4: smoke: ok   cuEventRecord(t1, 0)
+[   28.582082] nvgpu-e4: smoke: ok   cuCtxSynchronize()
+[   28.587018] nvgpu-e4: smoke: ok   cuEventElapsedTime(&ms, t0, t1)
+[   28.593087] nvgpu-e4: smoke: ok   cuMemcpyDtoH(c, dc, N * sizeof(float))
+[   28.603890] nvgpu-e4: smoke: compute_53 PTX (driver JIT): 0 wrong of 1048576, kernel 1.356 ms, 9.28 GB/s
+[   28.611561] nvgpu-e4: smoke: E5 PASS
+[   28.615111] nvgpu-e4: autorun smoke exit=0
+[   42.480011] nvgpu-e4: autorun desktop env exit=0 (/root/g2-desktop-env.sh)
+[   42.487593] as
+[   42.487593] channel
+[   42.487593] ctrl
+[   42.487593] ctxsw
+[   42.487593] dbg
+[   42.487593] nvsched
+[   42.487593] nvsched_ctrl_fifo
+[   42.487593] power
+[   42.487593] prof
+[   42.487593] prof-ctx
+[   42.487593] prof-dev
+[   42.487593] sched
+[   42.487593] tsg
+[   42.516287] nvgpu-e4: autorun end
+[   43.696040] systemd-journald[222]: File /var/log/journal/9b45e8e147464f02971f74add3a19660/user-1000.journal corrupted or uncleanly shut down, renaming and replacing: Device or resource busy
+[   46.226981] page: refcount:13828096 mapcount:1345847296 mapping:00000000abe239c4 index:0xb700000033 pfn:0x146ef7
+[   46.234857] memcg:df0071000000
+[   46.237891] invalid mapping:00007f00001a0000
+[   46.242136] flags: 0x808891c100b40000(unevictable|mlocked|arch_2|zone=2)
+[   46.248812] raw: 808891c100b40000 ffff800082f6b810 ffff800082f6b810 00007f00001a0000
+[   46.256523] raw: 000000b700000033 0000000000000000 00d300005037ffff 0000df0071000000
+[   46.264235] page dumped because: VM_BUG_ON_PAGE(({ __kcsan_disable_current(); ; __auto_type __v = (page->page_type); ; __kcsan_enable_current(); __v; }) != (~0U))
+[   46.278727] ------------[ cut here ]------------
+[   46.283302] kernel BUG at ./include/linux/page-flags.h:992!
+[   46.288851] Internal error: Oops - BUG: 00000000f2000800 [#1]  SMP
+[   46.295004] Modules linked in: nvgpu(O) nvmap(O) netconsole rfkill snd_soc_tegra210_mixer snd_soc_tegra210_admaif snd_soc_tegra210_i2s snd_soc_tegra_pcm snd_soc_simple_card_utils snd_soc_tegra210_adx snd_soc_tegra210_mvc snd_soc_tegra210_dmic snd_soc_tegra210_sfc snd_soc_tegra210_amx snd_soc_tegra210_ope tegra_drm(O) snd_soc_tegra210_ahub drm_client_lib tegra210_adma pwm_fan tegra_soctherm gpio_keys tegra_aconnect tegra_xudc max77620_wdt max77620_thermal snd_hda_codec_tegrahdmi snd_hda_codec_hdmi snd_hda_tegra at24 r8169 snd_hda_codec host1x pwm_tegra(O) snd_hda_core snd_hwdep joydev hid_logitech_hidpp xt_hl ip6t_rt ipt_REJECT xt_LOG nf_log_syslog nft_limit xt_limit xt_addrtype xt_conntrack nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 nft_compat nf_tables tcp_bbr sch_fq tegra210_emc i2c_dev crypto_user fuse zstd zram spi_tegra210_quad i2c_tegra
+[   46.369452] CPU: 2 UID: 1000 PID: 705 Comm: mise Tainted: G           O        7.2.11-1-nano-ARCH #1 PREEMPT(full) 
+[   46.379850] Tainted: [O]=OOT_MODULE
+[   46.383316] Hardware name: NVIDIA Jetson Nano Developer Kit B01 (DT)
+[   46.389643] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   46.396576] pc : set_buddy_order.part.0+0x18/0x1c
+[   46.401255] lr : set_buddy_order.part.0+0x18/0x1c
+[   46.405935] sp : ffff800087ce3640
+[   46.409228] x29: ffff800087ce3640 x28: 0000000000000000 x27: 0000000000000000
+[   46.416335] x26: fffffdffc31bbdc0 x25: ffff8000825d6000 x24: fffffdffc31bbdc8
+[   46.423442] x23: 00000000000000d0 x22: 0000000000000000 x21: 0000000000000001
+[   46.430548] x20: 0000000000000001 x19: ffff800082f6b740 x18: 000000000000000a
+[   46.437656] x17: ffff800087ce3290 x16: ffff800082a29d28 x15: 0000000000000000
+[   46.444761] x14: 000000000000000d x13: 425f4d56203a6573 x12: 7561636562206465
+[   46.451868] x11: ffff800082a124e8 x10: 000000000000035d x9 : ffff800082a124e8
+[   46.458975] x8 : 3fffffffffffdfff x7 : ffff800082af24e8 x6 : 0000000000000002
+[   46.466082] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000000
+[   46.473189] x2 : 0000000000000000 x1 : ffff00008ad0a100 x0 : 0000000000000096
+[   46.480294] Call trace:
+[   46.482723]  set_buddy_order.part.0+0x18/0x1c (P)
+[   46.487402]  expand+0x238/0x240
+[   46.490523]  rmqueue_bulk+0x478/0x770
+[   46.494163]  __rmqueue_pcplist+0x224/0x2c0
+[   46.498235]  rmqueue.isra.0+0x930/0xd20
+[   46.502047]  get_page_from_freelist+0x134/0x450
+[   46.506555]  __alloc_frozen_pages_noprof+0xcc/0x2bc
+[   46.511410]  __folio_alloc_noprof+0x14/0x60
+[   46.515569]  page_cache_ra_unbounded+0xb0/0x304
+[   46.520074]  do_page_cache_ra+0x6c/0x94
+[   46.523890]  page_cache_ra_order+0x18c/0x1b4
+[   46.528135]  do_sync_mmap_readahead+0xf0/0x1d0
+[   46.532554]  filemap_fault+0x548/0xa08
+[   46.536282]  __do_fault+0x3c/0x198
+[   46.539662]  do_read_fault+0x40/0x2f8
+[   46.543303]  do_pte_missing+0x28c/0x438
+[   46.547115]  handle_pte_fault+0x124/0x180
+[   46.551102]  __handle_mm_fault+0x110/0x1ac
+[   46.555175]  handle_mm_fault+0x78/0x254
+[   46.558989]  do_page_fault+0x40c/0x7a8
+[   46.562716]  do_translation_fault+0x4c/0x78
+[   46.566876]  do_mem_abort+0x40/0x90
+[   46.570342]  el0_ia+0x60/0x138
+[   46.573375]  el0t_64_sync_handler+0xe0/0xe4
+[   46.577535]  el0t_64_sync+0x198/0x19c
+[   46.581177] Code: f000fd01 913b6021 910003fd 97ff0a11 (d4210000) 
+[   46.587244] ---[ end trace 0000000000000000 ]---
+[   46.591836] note: mise[705] exited with irqs disabled
+[   46.601034] note: mise[705] exited with preempt_count 4
+[   46.603984] ------------[ cut here ]------------
+[   46.608555] Unexpected DAIF value: 0x3c0 (expected 0xc0)
+[   46.613841] WARNING: arch/arm64/kernel/process.c:721 at __switch_to+0x1d0/0x200, CPU#2: mise/705
+[   46.622593] Modules linked in: nvgpu(O) nvmap(O) netconsole rfkill snd_soc_tegra210_mixer snd_soc_tegra210_admaif snd_soc_tegra210_i2s snd_soc_tegra_pcm snd_soc_simple_card_utils snd_soc_tegra210_adx snd_soc_tegra210_mvc snd_soc_tegra210_dmic snd_soc_tegra210_sfc snd_soc_tegra210_amx snd_soc_tegra210_ope tegra_drm(O) snd_soc_tegra210_ahub drm_client_lib tegra210_adma pwm_fan tegra_soctherm gpio_keys tegra_aconnect tegra_xudc max77620_wdt max77620_thermal snd_hda_codec_tegrahdmi snd_hda_codec_hdmi snd_hda_tegra at24 r8169 snd_hda_codec host1x pwm_tegra(O) snd_hda_core snd_hwdep joydev hid_logitech_hidpp xt_hl ip6t_rt ipt_REJECT xt_LOG nf_log_syslog nft_limit xt_limit xt_addrtype xt_conntrack nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 nft_compat nf_tables tcp_bbr sch_fq tegra210_emc i2c_dev crypto_user fuse zstd zram spi_tegra210_quad i2c_tegra
+[   46.697042] CPU: 2 UID: 1000 PID: 705 Comm: mise Tainted: G      D    O        7.2.11-1-nano-ARCH #1 PREEMPT(full) 
+[   46.707442] Tainted: [D]=DIE, [O]=OOT_MODULE
+[   46.711686] Hardware name: NVIDIA Jetson Nano Developer Kit B01 (DT)
+[   46.718015] pstate: 600003c5 (nZCv DAIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   46.724947] pc : __switch_to+0x1d0/0x200
+[   46.728847] lr : __switch_to+0x1d0/0x200
+[   46.732747] sp : ffff800087ce32d0
+[   46.736039] x29: ffff800087ce32d0 x28: ffff0000fe945c00 x27: ffff8000825d63f0
+[   46.743146] x26: ffff00008ad0a818 x25: ffff80007c05f000 x24: 0000000000000001
+[   46.750254] x23: ffff8000828e6c00 x22: 0000000000000001 x21: 0000000000000000
+[   46.757359] x20: ffff00008ad0a100 x19: ffff00008bc4a100 x18: 000000000000000a
+[   46.764466] x17: ffff800087ce2f20 x16: ffff800082a2b458 x15: 0000000000000000
+[   46.771574] x14: 0000000000000000 x13: 2930637830206465 x12: 7463657078652820
+[   46.778679] x11: ffff800082a124e8 x10: 0000000000000392 x9 : ffff800082a124e8
+[   46.785788] x8 : 3fffffffffffdfff x7 : ffff800082af24e8 x6 : 0000000000000002
+[   46.792894] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000004
+[   46.800000] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff00008ad0a100
+[   46.807107] Call trace:
+[   46.809533]  __switch_to+0x1d0/0x200 (P)
+[   46.813432]  __schedule+0x2e4/0x7a8
+[   46.816900]  preempt_schedule_common+0x38/0xb8
+[   46.821320]  dynamic_preempt_schedule+0x30/0x40
+[   46.825826]  _raw_spin_unlock_irq+0x38/0x50
+[   46.829986]  do_exit+0x7c/0x40c
+[   46.833106]  make_task_dead+0x78/0x15c
+[   46.836834]  die+0x138/0x150
+[   46.839693]  bug_brk_handler+0x60/0x98
+[   46.843419]  call_el1_break_hook+0x6c/0xc8
+[   46.847494]  do_el1_brk64+0x24/0x4c
+[   46.850960]  el1_brk64+0x38/0x60
+[   46.854167]  el1h_64_sync_handler+0x68/0xac
+[   46.858325]  el1h_64_sync+0x6c/0x70
+[   46.861792]  set_buddy_order.part.0+0x18/0x1c (P)
+[   46.866472]  expand+0x238/0x240
+[   46.869593]  rmqueue_bulk+0x478/0x770
+[   46.873233]  __rmqueue_pcplist+0x224/0x2c0
+[   46.877306]  rmqueue.isra.0+0x930/0xd20
+[   46.881120]  get_page_from_freelist+0x134/0x450
+[   46.885626]  __alloc_frozen_pages_noprof+0xcc/0x2bc
+[   46.890480]  __folio_alloc_noprof+0x14/0x60
+[   46.894639]  page_cache_ra_unbounded+0xb0/0x304
+[   46.899146]  do_page_cache_ra+0x6c/0x94
+[   46.902959]  page_cache_ra_order+0x18c/0x1b4
+[   46.907207]  do_sync_mmap_readahead+0xf0/0x1d0
+[   46.911626]  filemap_fault+0x548/0xa08
+[   46.915353]  __do_fault+0x3c/0x198
+[   46.918733]  do_read_fault+0x40/0x2f8
+[   46.922372]  do_pte_missing+0x28c/0x438
+[   46.926186]  handle_pte_fault+0x124/0x180
+[   46.930174]  __handle_mm_fault+0x110/0x1ac
+[   46.934246]  handle_mm_fault+0x78/0x254
+[   46.938060]  do_page_fault+0x40c/0x7a8
+[   46.941787]  do_translation_fault+0x4c/0x78
+[   46.945946]  do_mem_abort+0x40/0x90
+[   46.949412]  el0_ia+0x60/0x138
+[   46.952447]  el0t_64_sync_handler+0xe0/0xe4
+[   46.956607]  el0t_64_sync+0x198/0x19c
+[   46.960247] ---[ end trace 0000000000000000 ]---
+[   46.969063] ------------[ cut here ]------------
+[   46.971383] WARNING: kernel/context_tracking.c:107 at ct_kernel_exit.constprop.0+0xd8/0xe0, CPU#2: swapper/2/0
+[   46.981350] Modules linked in: nvgpu(O) nvmap(O) netconsole rfkill snd_soc_tegra210_mixer snd_soc_tegra210_admaif snd_soc_tegra210_i2s snd_soc_tegra_pcm snd_soc_simple_card_utils snd_soc_tegra210_adx snd_soc_tegra210_mvc snd_soc_tegra210_dmic snd_soc_tegra210_sfc snd_soc_tegra210_amx snd_soc_tegra210_ope tegra_drm(O) snd_soc_tegra210_ahub drm_client_lib tegra210_adma pwm_fan tegra_soctherm gpio_keys tegra_aconnect tegra_xudc max77620_wdt max77620_thermal snd_hda_codec_tegrahdmi snd_hda_codec_hdmi snd_hda_tegra at24 r8169 snd_hda_codec host1x pwm_tegra(O) snd_hda_core snd_hwdep joydev hid_logitech_hidpp xt_hl ip6t_rt ipt_REJECT xt_LOG nf_log_syslog nft_limit xt_limit xt_addrtype xt_conntrack nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 nft_compat nf_tables tcp_bbr sch_fq tegra210_emc i2c_dev crypto_user fuse zstd zram spi_tegra210_quad i2c_tegra
+[   47.055798] CPU: 2 UID: 0 PID: 0 Comm: swapper/2 Tainted: G      D W  O        7.2.11-1-nano-ARCH #1 PREEMPT(full) 
+[   47.066198] Tainted: [D]=DIE, [W]=WARN, [O]=OOT_MODULE
+[   47.071308] Hardware name: NVIDIA Jetson Nano Developer Kit B01 (DT)
+[   47.077636] pstate: 200003c5 (nzCv DAIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   47.084572] pc : ct_kernel_exit.constprop.0+0xd8/0xe0
+[   47.089595] lr : ct_kernel_exit.constprop.0+0x44/0xe0
+[   47.094622] sp : ffff80008327bd50
+[   47.097919] x29: ffff80008327bd50 x28: 0000000000000000 x27: 0000000000000000
+[   47.105026] x26: 0000000000000000 x25: 0000000000000000 x24: 0000000aef92c420
+[   47.112130] x23: ffff000080f44880 x22: ffff8000829ee080 x21: ffff8000825a7a10
+[   47.119235] x20: ffff8000828e2288 x19: ffff0000fe941288 x18: ffff80007c05f000
+[   47.126346] x17: 0000000000000000 x16: 0000000000000bff x15: ffff8000829ee080
+[   47.133449] x14: ffff8000828d3100 x13: 0000000000000000 x12: ffff0000fe932100
+[   47.140556] x11: 0000000000000028 x10: 000000000fb86eb0 x9 : 00ffffffffffffff
+[   47.147663] x8 : 0000000000000015 x7 : ffff800082b2df88 x6 : 0000000000000002
+[   47.154768] x5 : ffff8000801e7b20 x4 : 0000000000000006 x3 : 0000000000000001
+[   47.161876] x2 : ffff0000802a8000 x1 : 4000000000000002 x0 : 4000000000000000

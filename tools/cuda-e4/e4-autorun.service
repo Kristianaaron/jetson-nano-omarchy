@@ -1,6 +1,7 @@
 [Unit]
 Description=E4 nvgpu probe at boot (only while /root/e4-autorun.enabled exists)
 After=network-online.target
+Before=display-manager.service
 Wants=network-online.target
 ConditionPathExists=/root/e4-autorun.enabled
 

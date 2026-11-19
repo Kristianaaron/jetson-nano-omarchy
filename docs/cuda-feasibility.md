@@ -681,3 +681,28 @@ teardown starts; seen once on card0, rendering result already correct). Must be 
 desktop uses this stack.
 
 Next: Hyprland (Omarchy) on this stack, scanout through tegra-drm.
+
+## 17. G2 desktop attempts (2026-11-19, measured): Hyprland on Zink/nvgpu, scanout blocked, then a crash
+
+Run 1 (01:53, CUDA boot mode, test environment for SDDM and the session): Hyprland starts and
+renders through Zink on NVIDIA Vulkan, but the monitor stays at mode 0x0. aquamarine:
+`GBM: Failed to query fd for plane 0`, `Buffer failed to import to KMS`. Probes
+(results/cuda/g2-20261119-0205-scanout-probes.log):
+- NVIDIA Vulkan can export dma-buf for B8G8R8A8/R8G8B8A8 (optimal and linear).
+- Its DRM modifiers are LINEAR and NVIDIA block-linear with page kind 0xfe
+  (0x03000000000fe010-15); LINEAR is not a colour attachment (features 0x1d403), so Zink cannot
+  render to it.
+- tegra-drm advertises LINEAR and block-linear with page kind 0 only. drm_fourcc.h defines kind 0
+  as the legacy spelling of kind 0xfe, but tegra-drm does not canonicalise, so the only common
+  modifier is LINEAR, which the GPU cannot render to.
+
+Run 2 (02:09): tegra-drm patched to accept and advertise the canonical form
+(packaging/linux-nano/pending/0102-*.patch, out-of-tree module). 4 s after the desktop started:
+`kernel BUG at include/linux/page-flags.h:992`, a free page with corrupted state (still
+mapped, mlocked), then a hang. Run 1 had no import path and ran ~10 min without a fault, so the
+leading suspect is the nvmap dma-buf export to tegra-drm import (our nvmap port changed the
+dma-buf ops: cache_sgt_mapping removed, file refcount API). Unproven.
+
+The desktop test is runtime-only and off: tools/cuda-e5/g2-desktop-env.sh writes /run files only
+when DESKTOP_ENV is set for the CUDA boot mode. Next: a debug kernel (DEBUG_PAGEALLOC, KASAN,
+DMA-API debug) to find the faulting free; then nvmap's dma-buf map/unmap against 7.2 semantics.
