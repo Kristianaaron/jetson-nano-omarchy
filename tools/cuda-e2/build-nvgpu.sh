@@ -5,11 +5,13 @@
 # Usage: build-nvgpu.sh [SRC_DIR (default ~/cuda)] [extra make args...]
 set -uo pipefail
 SRC=${1:-$HOME/cuda}; shift || true
-KDIR=/usr/lib/modules/$(uname -r)/build
+# KVER selects the target kernel (default: the running one); conftest output is per kernel.
+KVER=${KVER:-$(uname -r)}
+KDIR=/usr/lib/modules/$KVER/build
 NVGPU=$SRC/linux-nvgpu
 OOT=$SRC/linux-nv-oot
-CONF=$SRC/build/conftest
-LOG=$SRC/build/logs
+CONF=$SRC/build/$KVER/conftest
+LOG=$SRC/build/$KVER/logs
 mkdir -p "$CONF/nvidia" "$LOG"
 JOBS=${JOBS:-3}
 

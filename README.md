@@ -7,14 +7,14 @@ NVIDIA's own GPU driver ported to that kernel so CUDA 12 can run next to the des
 This is a research project. Every result in `docs/` and `results/` is labelled **measured** (seen on
 the board, with the log named) or **inferred**. Nothing here is supported by NVIDIA or Omarchy.
 
-## Status (2026-11-18)
+## Status (2026-11-19)
 
 | Area | State |
 |---|---|
 | Omarchy 4.5 desktop (Hyprland, SDDM) on mainline 7.2.11 | works, GPU-accelerated through nouveau and a patched Mesa `tegra` driver ([packaging/mesa-tegra](packaging/mesa-tegra)) |
 | NVIDIA nvgpu (L4T R36) on mainline 7.2.11 | **GPU powers on**: ACR secure boot, PMU, FECS/GPCCS, golden context, all device nodes ([docs/cuda-feasibility.md §12](docs/cuda-feasibility.md)) |
-| Kernel package `linux-nano` | ALARM `linux-aarch64` 7.2.11-1 + PMEM for nvmap + in-tree EMC/PWM; building ([packaging/linux-nano](packaging/linux-nano)) |
-| CUDA 12 on GM20B | next test: driver API + NVRTC smoke test ready ([tools/cuda-e5](tools/cuda-e5)) |
+| Kernel package `linux-nano` | ALARM `linux-aarch64` 7.2.11-1 + PMEM for nvmap + in-tree EMC/PWM; built and booting ([packaging/linux-nano](packaging/linux-nano)) |
+| CUDA 12 on GM20B | **works**: CUDA 12.6 driver API, sm_53 cubin and PTX JIT, all results correct; GPU still at boot clock ([docs/cuda-feasibility.md §13](docs/cuda-feasibility.md)) |
 | Desktop and CUDA on one driver stack | design: Mesa Zink on NVIDIA's R36 Vulkan driver over nvgpu; desk check promising, untested on hardware |
 | EMC (memory) at 1600 MHz | works with the trained-table patch; per-boot table work open |
 | HDMI hot-plug / EDID | broken (mode is forced) |

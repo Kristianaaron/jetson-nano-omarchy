@@ -574,3 +574,37 @@ the live desktop/AI switch needs a nouveau fix first.
 
 Next: kernel with CONFIG_ARM64_PMEM=y (nvmap cache maintenance), then the R36 userspace and a
 CUDA 12 deviceQuery.
+
+## 13. E5 result (2026-11-19, measured on the Nano): CUDA 12.6 runs on GM20B
+
+First CUDA work on this GPU through the R36 stack on mainline Linux, kernel `linux-nano`
+7.2.11-1 (packaging/linux-nano: ALARM config + `CONFIG_ARM64_PMEM`), nvgpu and nvmap from the
+forks, L4T R36.4.7 userspace (libcuda driver API 12060 = CUDA 12.6), NVRTC 12.6.
+
+```
+device: NVIDIA Tegra X1, compute 5.3, 1 SM, 3874 MiB, driver API 12060
+sm_53 cubin: 0 wrong of 1048576, kernel 1.370 ms, 9.18 GB/s
+compute_53 PTX (driver JIT): 0 wrong of 1048576, kernel 1.372 ms, 9.17 GB/s
+E5 PASS
+```
+
+Test: tools/cuda-e5/cuda_smoke.c (driver API only; `y = 2a + b` over 1 Mi floats, every element
+checked on the CPU). Logs: results/cuda/e5-20261119-*.log.
+
+What it took after E4:
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| no /dev/nvmap | nvmap binds only to an `nvidia,carveouts` DT node | images/mainline-kernel/b01/nvmap-carveouts.dtsi, built into a separate `-nano.dtb` by make-nano-dtb.sh |
+| kernel oops at pc 0x0 on cuInit | gm20b has no clk_arb range op; without Tegra DVFS nvgpu called it anyway | fork commit 7db245e: unset clk_arb ops return an error |
+| CUDA_ERROR_JIT_COMPILER_NOT_FOUND for PTX | libnvidia-ptxjitcompiler ships in nvidia-l4t-3d-core | add that package's libraries |
+
+Open items:
+- Clocks: with no DVFS, nvgpu neither scales the GPU voltage nor raises GPCPLL, so the GPU stays at
+  its boot clock (the 998 MHz CUDA reports is the chip-table value, not the running clock). The
+  9.2 GB/s above is 36% of the 25.6 GB/s peak. Next: mainline-style voltage/frequency scaling (CVB
+  tables from the speedo fuses, as nouveau does) so the GPU can run at its rated clock.
+- `/dev/host1x-fence` is missing (nv-oot host1x-fence); libcuda logs it and continues. Needed for
+  sync-fd interop with other engines, not for compute.
+- Packaging: nvgpu/nvmap module package, GM20B firmware, R36 userspace (core, cuda, 3d-core) with
+  a linker config instead of LD_LIBRARY_PATH, udev rules for the device nodes.

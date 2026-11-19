@@ -11,10 +11,12 @@
 # NVMAP_CONFIG_SCIIPC=n: NvSciIpc buffer sharing needs nv-oot's nvsciipc module; not needed for CUDA.
 set -uo pipefail
 SRC=${1:-$HOME/cuda}
-KDIR=/usr/lib/modules/$(uname -r)/build
+# KVER selects the target kernel (default: the running one); conftest output is per kernel.
+KVER=${KVER:-$(uname -r)}
+KDIR=/usr/lib/modules/$KVER/build
 OOT=$SRC/linux-nv-oot
-CONF=$SRC/build/conftest
-LOG=$SRC/build/logs
+CONF=$SRC/build/$KVER/conftest
+LOG=$SRC/build/$KVER/logs
 N=$OOT/drivers/video/tegra/nvmap
 JOBS=${JOBS:-3}
 mkdir -p "$CONF/nvidia" "$LOG"

@@ -1,0 +1,10 @@
+// SPDX-License-Identifier: GPL-2.0
+// nvmap (NVIDIA's Tegra memory manager, linux-nv-oot) binds to this node; CUDA allocates through
+// /dev/nvmap. Same compatible as NVIDIA's L4T device trees. No carveout memory-region: nvmap then
+// allocates from system memory only (IOVMM heap), which is all CUDA needs on Tegra210.
+/ {
+	tegra-carveouts {
+		compatible = "nvidia,carveouts";
+		status = "okay";
+	};
+};

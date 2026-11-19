@@ -1,0 +1,36 @@
+kernel 7.2.11-1-nano-ARCH; nvmap /dev/nvmap; gpu driver gk20a
+DrmCreateEventPollFd: failed to open host1x-fence device: -1
+ok   cuInit(0)
+ok   cuDriverGetVersion(&drv)
+ok   cuDeviceGet(&dev, 0)
+ok   cuDeviceGetName(name, sizeof name, dev)
+ok   cuDeviceGetAttribute(&major, CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MAJOR, dev)
+ok   cuDeviceGetAttribute(&minor, CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MINOR, dev)
+ok   cuDeviceGetAttribute(&sms, CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT, dev)
+ok   cuDeviceGetAttribute(&clk, CU_DEVICE_ATTRIBUTE_CLOCK_RATE, dev)
+ok   cuDeviceTotalMem(&total, dev)
+device: NVIDIA Tegra X1, compute 5.3, 1 SM, 998 MHz, 3874 MiB, driver API 12060
+ok   cuCtxCreate(&ctx, 0, dev)
+ok   cuMemAlloc(&da, N * sizeof(float))
+ok   cuMemAlloc(&db, N * sizeof(float))
+ok   cuMemAlloc(&dc, N * sizeof(float))
+ok   cuMemcpyHtoD(da, a, N * sizeof(float))
+ok   cuMemcpyHtoD(db, b, N * sizeof(float))
+ok   nvrtc --gpu-architecture=sm_53 -> cubin, 2216 bytes
+ok   nvrtc --gpu-architecture=compute_53 -> PTX, 1098 bytes
+--- sm_53 cubin
+ok   cuModuleLoadData(&mod, image)
+ok   cuModuleGetFunction(&fn, mod, "axpb")
+ok   cuMemsetD32(dc, 0, N)
+ok   cuEventCreate(&t0, CU_EVENT_DEFAULT)
+ok   cuEventCreate(&t1, CU_EVENT_DEFAULT)
+ok   cuEventRecord(t0, 0)
+ok   cuLaunchKernel(fn, N / 256, 1, 1, 256, 1, 1, 0, 0, args, NULL)
+ok   cuEventRecord(t1, 0)
+ok   cuCtxSynchronize()
+ok   cuEventElapsedTime(&ms, t0, t1)
+ok   cuMemcpyDtoH(c, dc, N * sizeof(float))
+sm_53 cubin: 0 wrong of 1048576, kernel 2.885 ms, 4.36 GB/s
+--- compute_53 PTX (driver JIT)
+FAIL cuModuleLoadData(&mod, image): CUDA_ERROR_JIT_COMPILER_NOT_FOUND (221)
+E5 FAIL
