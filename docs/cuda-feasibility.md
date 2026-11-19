@@ -608,3 +608,20 @@ Open items:
   sync-fd interop with other engines, not for compute.
 - Packaging: nvgpu/nvmap module package, GM20B firmware, R36 userspace (core, cuda, 3d-core) with
   a linker config instead of LD_LIBRARY_PATH, udev rules for the device nodes.
+
+## 14. G1 first attempt (2026-11-19, measured): NVIDIA R36 Vulkan on nvgpu
+
+`vulkaninfo` with only the R36 ICD (`libGLX_nvidia.so.0`, Vulkan 1.3.251, from nvidia-l4t-3d-core
+36.4.7) and nvgpu + nvmap loaded: the loader opens the ICD, but `vk_icdGetInstanceProcAddr` returns
+no `vkCreateInstance` (VK_ERROR_INCOMPATIBLE_DRIVER). strace: the driver stats `/dev/dri/card0`
+and `renderD128` (both mainline tegra-drm) and stops; it never opens an nvgpu, nvmap or nvhost node.
+No library is missing (only the optional application-profile files).
+
+Reading (inferred): R36 graphics on Orin expects NVIDIA's own display stack (nvidia-drm on
+nvdisplay); with only mainline tegra-drm present, it finds no device it accepts. Options to test:
+1. what device check the ICD makes (ltrace/gdb on the DRM probe), and whether a render-only
+   path exists that accepts a non-NVIDIA DRM node or none at all;
+2. R32.7.6 graphics libraries (built for T210 with nvgpu + tegra-udrm) on the R36 nvgpu, using
+   the E0a ioctl map (212 of 238 ioctls identical);
+3. fallback for desktop + CUDA together: keep CUDA on nvgpu and look at a shared-GPU design only
+   if 1 and 2 fail.
