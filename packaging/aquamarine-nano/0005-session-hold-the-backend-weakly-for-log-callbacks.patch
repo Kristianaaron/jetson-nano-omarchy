@@ -1,0 +1,32 @@
+From: Kristianaaron <25537000+Kristianaaron@users.noreply.github.com>
+Subject: [PATCH] session: hold the backend weakly for log callbacks
+
+backendInUse, which only routes libseat and libinput log messages to the
+backend's logger, held a strong reference that nothing released. The
+backend therefore outlived the compositor's own reset and was destroyed by
+libaquamarine's static destructors at process exit. By then other
+libraries' destructors may have run: with NVIDIA's EGL driver (libEGL_nvidia
+unloads libnvidia-eglcore in its destructor), freeing the outputs' GBM
+buffers calls into unloaded code and the compositor crashes on every exit.
+
+Hold it weakly, so the backend is destroyed when its owner drops it, while
+the renderer is still alive. The log callbacks already return early when it
+is unset.
+
+Tested on a Jetson Nano (Tegra210) with Hyprland on Mesa Zink over NVIDIA's
+L4T R36 Vulkan driver: no crash when the session ends.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_018sL3QMUPGLPrQaT1qEGWwE
+---
+--- a/src/backend/Session.cpp
++++ b/src/backend/Session.cpp
+@@ -24,7 +24,7 @@
+ // we can't really do better with libseat/libinput logs
+ // because they don't allow us to pass "data" or anything...
+ // Nobody should create multiple backends anyways really
+-Hyprutils::Memory::CSharedPointer<CBackend> backendInUse;
++Hyprutils::Memory::CWeakPointer<CBackend> backendInUse;
+ 
+ //
+ static Aquamarine::eBackendLogLevel logLevelFromLibseat(libseat_log_level level) {

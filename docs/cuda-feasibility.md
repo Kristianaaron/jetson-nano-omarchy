@@ -770,10 +770,23 @@ again.
 - /dev/host1x-fence: not needed. NVIDIA's R36 host1x-fence driver matches Tegra186/194/234 only,
   and nvgpu on GM20B uses semaphores, not host1x syncpoints; the R36 libraries only log that the
   node is missing.
-- Hyprland exit crash: libEGL_nvidia's destructor unloads libnvidia-eglcore before aquamarine's
-  static backend frees its GBM buffers in __cxa_finalize; only at logout, after the session ended.
-- Hardware cursor: with cursor:use_cpu_buffer Hyprland allocates DRM dumb cursor buffers but does
-  not use the cursor plane; reason not logged by this build. Software cursor in use.
+- Hyprland exit crash: aquamarine's `backendInUse` (src/backend/Session.cpp, used only to route
+  libseat/libinput logs) held a strong reference nothing released, so the backend outlived
+  Hyprland's cleanup and was destroyed by libaquamarine's static destructors, after
+  libEGL_nvidia's destructor had unloaded libnvidia-eglcore; freeing the GBM buffers then jumped
+  into unloaded code. Upstream main still has it. Fixed in `packaging/aquamarine-nano` (Omarchy's
+  0.15.1-1.3 plus 0005: a weak reference). Measured: patched Hyprland exits with no core dump
+  (the unpatched one dumped core on every exit).
+- Hardware cursor: blocked in tegra-drm, not in Hyprland. On Tegra20 to Tegra210 the cursor plane
+  advertises only DRM_FORMAT_RGBA8888 (`tegra_legacy_cursor_plane_formats`; Tegra186+ takes
+  ARGB8888). Cursors are ARGB8888 everywhere (Hyprland's CPU-buffer path, modetest -C, X), and
+  the atomic check rejects them (`__setplane_check: Invalid pixel format AR24, modifier 0x0`, with
+  DRM debug on). Hyprland's GBM path picks RA24 but needs a LINEAR buffer, which NVIDIA's Vulkan
+  driver cannot render to. So any compositor falls back to a software cursor on this display.
+  Fixed in `packaging/hyprland-nano` (Omarchy's 0.56.2-7 plus 0001): with
+  `cursor:use_cpu_buffer = 1`, the CPU cursor path allocates RGBA8888 when the plane has no
+  ARGB8888 and moves alpha to the low byte while copying. Measured: the cursor plane carries a
+  framebuffer (crtc-0) and aquamarine allocates RA24 dumb buffers.
 
 ## 20. Packaging (2026-11-20)
 

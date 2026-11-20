@@ -266,6 +266,14 @@ stage_9() {
 hl.config({ decoration = { blur = { enabled = false }, shadow = { enabled = false } }, animations = { enabled = false } })
 EOF
   fi
+  if [[ -f "$looknfeel" ]] && ! grep -q 'use_cpu_buffer' "$looknfeel"; then
+    cat >> "$looknfeel" <<'EOF'
+
+-- Jetson Nano: hardware cursor. The Tegra210 cursor plane takes RGBA8888 only, which the
+-- Nano's Hyprland build (packaging/hyprland-nano) writes from a CPU buffer.
+hl.config({ cursor = { use_cpu_buffer = 1 } })
+EOF
+  fi
   if [[ -d "/home/$USER_NAME/.config/hypr" ]]; then
     chown -R "$USER_NAME:$USER_NAME" "/home/$USER_NAME/.config/hypr"
   fi

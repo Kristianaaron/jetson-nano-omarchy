@@ -1,0 +1,69 @@
+From: Kristianaaron <25537000+Kristianaaron@users.noreply.github.com>
+Subject: [PATCH] pointer: CPU cursor buffers for planes that take RGBA8888 only
+
+The cursor plane of Tegra20 to Tegra210 display controllers takes
+DRM_FORMAT_RGBA8888 only (tegra-drm's tegra_legacy_cursor_plane_formats),
+so the ARGB8888 dumb buffer of cursor:use_cpu_buffer fails the atomic check
+("Invalid pixel format AR24") and Hyprland falls back to a software cursor.
+
+The CPU path copies the cursor itself: when the backend's cursor formats
+have no ARGB8888 but do have RGBA8888, allocate RGBA8888 and move alpha
+from the top byte to the bottom byte while copying.
+
+Tested on a Jetson Nano (Tegra210, mainline tegra-drm) with
+cursor:use_cpu_buffer = 1.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_018sL3QMUPGLPrQaT1qEGWwE
+---
+--- a/src/pointer/PointerManager.cpp
++++ b/src/pointer/PointerManager.cpp
+@@ -22,6 +22,7 @@
+ #include "../helpers/Drm.hpp"
+ #include "../event/EventBus.hpp"
+ #include "../state/MonitorState.hpp"
++#include <algorithm>
+ #include <climits>
+ #include <cstring>
+ #include <gbm.h>
+@@ -444,6 +445,16 @@
+ 
+     const bool  shouldUseCpuBuffer = *PCPUBUFFER == 1 || (*PCPUBUFFER != 0 && g_pHyprRenderer->isNvidia());
+ 
++    // Not every cursor plane takes ARGB8888: Tegra20 to Tegra210 take RGBA8888 only. The CPU path
++    // copies the cursor itself, so it can write that byte order instead.
++    uint32_t cpuFormat = DRM_FORMAT_ARGB8888;
++    if (shouldUseCpuBuffer) {
++        const auto CURSORFORMATS = state->monitor->m_output->getBackend()->getCursorFormats();
++        const auto HASFORMAT     = [&CURSORFORMATS](uint32_t fmt) { return std::ranges::any_of(CURSORFORMATS, [fmt](const auto& f) { return f.drmFormat == fmt; }); };
++        if (!CURSORFORMATS.empty() && !HASFORMAT(DRM_FORMAT_ARGB8888) && HASFORMAT(DRM_FORMAT_RGBA8888))
++            cpuFormat = DRM_FORMAT_RGBA8888;
++    }
++
+     if (maxSize == Vector2D{}) {
+         Log::logger->log(Log::TRACE, "hardware cursor has zero max size {}, current {}", maxSize, m_currentCursorImage.size);
+         return nullptr;
+@@ -486,7 +497,7 @@
+         // We do not set the format (unless shm). If it's unset (DRM_FORMAT_INVALID) then the swapchain will pick for us,
+         // but if it's set, we don't wanna change it.
+         if (shouldUseCpuBuffer)
+-            options.format = DRM_FORMAT_ARGB8888;
++            options.format = cpuFormat;
+ 
+         if (!state->monitor->m_cursorSwapchain->reconfigure(options)) {
+             Log::logger->log(Log::TRACE, "Failed to reconfigure cursor swapchain");
+@@ -601,6 +612,14 @@
+         cairo_pattern_destroy(PATTERNPRE);
+ 
+         memcpy(data, cairo_image_surface_get_data(CAIROSURFACE), sc<size_t>(cairo_image_surface_get_height(CAIROSURFACE)) * cairo_image_surface_get_stride(CAIROSURFACE));
++
++        if (cpuFormat == DRM_FORMAT_RGBA8888) {
++            // Cairo's ARGB32 is ARGB8888 (alpha in the top byte); RGBA8888 has it in the bottom byte.
++            auto*        px    = reinterpret_cast<uint32_t*>(data);
++            const size_t count = sc<size_t>(cairo_image_surface_get_height(CAIROSURFACE)) * cairo_image_surface_get_stride(CAIROSURFACE) / 4;
++            for (size_t i = 0; i < count; i++)
++                px[i] = (px[i] << 8) | (px[i] >> 24);
++        }
+ 
+         cairo_destroy(CAIRO);
+         cairo_surface_destroy(CAIROSURFACE);
