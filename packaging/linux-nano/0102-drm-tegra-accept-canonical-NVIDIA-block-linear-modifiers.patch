@@ -12,14 +12,13 @@ Map the canonical kind back to the legacy form when reading a framebuffer's
 tiling (the display engine does not use the page kind), and advertise the
 canonical modifiers on Tegra124 and later planes.
 
-STATUS (2026-11-19): NOT applied to linux-nano. Tested once as an
-out-of-tree module: buffers then flowed from NVIDIA's stack to tegra-drm and
-the kernel hit page-allocator corruption seconds later
-(results/cuda/g2-20261119-0209-page-corruption-oops-netconsole.log). The
-corruption is most likely in the nvmap dma-buf export path this patch first
-exercised, not in this patch, but that is unproven.
+Tested on Jetson Nano B01 (Tegra210, Linux 7.2.11) with NVIDIA's R36
+Vulkan driver on nvgpu and Mesa Zink: Hyprland scans out NVIDIA
+block-linear buffers (0x03000000000fe014) directly; a cross-process
+render/import pixel check and desktop restarts show correct output.
 
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_018sL3QMUPGLPrQaT1qEGWwE
 ---
 diff --git i/drivers/gpu/drm/tegra/dc.c w/drivers/gpu/drm/tegra/dc.c
 index 0b3fcc701..41782319c 100644

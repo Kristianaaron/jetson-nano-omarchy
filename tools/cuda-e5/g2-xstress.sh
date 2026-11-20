@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 # g2-xstress.sh N: run the cross-process render/import/check (g2-xproc.c) N times at 1280x720 and
-# count the runs with wrong pixels. Needs the desktop environment file from g2-desktop-env.sh.
-# Run as root (pidfd_getfd on the exporter).
+# count the runs with wrong pixels. Takes the desktop environment from nvgpu-nano's environment
+# generator (empty unless booted with nano.mode=cuda). Run as root (pidfd_getfd on the exporter).
 cd "$(dirname "$0")"
-E=$(grep -v "^$" /run/environment.d/90-g2-nvgpu-desktop.conf | grep -v ZINK_DEBUG | tr "\n" " ")
+E=$(/usr/lib/systemd/system-environment-generators/60-nvgpu-nano-env | tr "\n" " ")
+[[ -n $E ]] || { echo "no nvgpu desktop environment (boot with nano.mode=cuda)"; exit 1; }
 [[ -x xproc_1280 ]] || gcc -O2 -DW=1280 -DH=720 -o xproc_1280 g2-xproc.c $(pkg-config --cflags --libs egl glesv2 gbm libdrm)
 N=${1:-20}; bad=0
 for i in $(seq 1 $N); do

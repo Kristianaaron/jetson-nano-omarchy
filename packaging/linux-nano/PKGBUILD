@@ -1,5 +1,6 @@
 # linux-nano: Arch Linux ARM's linux-aarch64 7.2.11-1 for the NVIDIA Jetson Nano (Tegra210),
-# plus a small config fragment (config.nano) and one Tegra210 EMC patch (0101).
+# plus a small config fragment (config.nano), a Tegra210 EMC patch (0101) and a tegra-drm patch
+# (0102) so the display accepts NVIDIA's canonical block-linear modifiers.
 #
 # Derived from Arch Linux ARM PKGBUILDs core/linux-aarch64 at commit b7704835b
 # ("core/linux-aarch64 to 7.2.11-1"), maintained by Kevin Mihelich and graysky; patches
@@ -13,7 +14,7 @@ pkgbase=linux-nano
 _srcname=linux-7.2
 _desc="NVIDIA Jetson Nano (Tegra210), based on ALARM linux-aarch64"
 pkgver=7.2.11
-pkgrel=1
+pkgrel=2
 arch=('aarch64')
 url="https://github.com/Kristianaaron/jetson-nano-omarchy"
 license=('GPL-2.0-only')
@@ -27,6 +28,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v7.x/${_srcname}.tar.xz"
         '0004-serial-amba-pl011-add-arm-pl011-axi-binding-for-RP1.patch'
         '0005-arm64-dts-rpi5-add-RP1-UART0-GPIO14-15-console.patch'
         '0101-memory-tegra210-emc-vendor-trained-tables.patch'
+        '0102-drm-tegra-accept-canonical-NVIDIA-block-linear-modifiers.patch'
         'config'
         'config.nano'
         'linux.preset')
@@ -38,8 +40,9 @@ md5sums=('381ae4b20294dcf4b8f63f1fd1bb7017'
          'a9bcf91cab44e1193240a43189a9313f'
          '24c403d3738a418a67b8c0e7659380aa'
          '7672356bfe1db24924dc1ac5734af67c'
+         'c5dd8ffe9ce2facdf1299792a29ab887'
          'cf663e64ec5f265ab09615e5f70c4e64'
-         '2e4979bf7ce4461393245960652d23d3'
+         '188b93da7225980eb2e0d81fcc420c59'
          '4a2ba66081ce525b807d7eaffbc5fa75')
 
 prepare() {
@@ -63,6 +66,7 @@ prepare() {
 
   # Jetson Nano patches
   git apply ../0101-memory-tegra210-emc-vendor-trained-tables.patch
+  git apply ../0102-drm-tegra-accept-canonical-NVIDIA-block-linear-modifiers.patch
 
   cat "${srcdir}/config" > ./.config
   scripts/kconfig/merge_config.sh -m .config "${srcdir}/config.nano"

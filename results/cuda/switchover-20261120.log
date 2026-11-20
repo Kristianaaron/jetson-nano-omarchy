@@ -1,0 +1,14 @@
+# switch-over gate 2026-11-20T22:05:49Z
+7.2.11-2-nano-ARCH
+nano.mode=cuda
+runs with wrong pixels: 0 of 5
+G1 PASS
+E5 PASS
+linux-nano 7.2.11-2
+nvgpu-nano 36.4.20261120-1
+nvidia-l4t-r36 36.4.7-1
+nvidia-l4t-gm20b-firmware 32.7.6-1
+jetson-nano-board 1-1
+hyprland 0.56.2-7.1
+aquamarine 0.15.1-1.4
+mesa 1:26.2.5-1.7

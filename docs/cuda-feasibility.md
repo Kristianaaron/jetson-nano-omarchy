@@ -799,9 +799,9 @@ pinned by SHA-256, and never stored in this repository.
 |---|---|---|
 | `nvidia-l4t-gm20b-firmware` 32.7.6 | GM20B nvgpu firmware from L4T R32.7.6 `nvidia-l4t-firmware`, symlinks resolved (the loader rejects them) | installed; byte-identical to the tested set |
 | `nvidia-l4t-r36` 36.4.7 | R36.4 core, cuda and 3d-core libraries in `/usr/lib/nvidia-l4t` (ld.so.conf.d; no name clashes with system libraries); Vulkan ICD manifest outside the loader's default directory | installed; all 62 libraries identical to the tested copy; CUDA, Vulkan compute and the Zink pixel check pass on it without `LD_LIBRARY_PATH` |
-| `nvgpu-nano` | nvgpu + nvmap built from the pinned fork commits; `softdep nvgpu pre: nvmap`; udev rules (video group 0660 + uaccess; debug, profiler and scheduler nodes group only); system and user environment generators that set Zink, `VK_DRIVER_FILES` and `LIBGL_KOPPER_DISABLE` in the CUDA boot mode only | built for 7.2.11-1, same symbols as the tested modules; not installed yet |
+| `nvgpu-nano` | nvgpu + nvmap built from the pinned fork commits; `softdep nvgpu pre: nvmap`; udev rules (video group 0660 + uaccess; debug, profiler and scheduler nodes group only); system and user environment generators that set Zink, `VK_DRIVER_FILES` and `LIBGL_KOPPER_DISABLE` in the CUDA boot mode only | built for 7.2.11-2 and installed; loads by the device-tree alias at boot |
 | `jetson-nano-board` | udev rules: GPU devfreq floor 537.6 MHz and fan start 38 C applied when the devices appear (boot services raced the drivers); guarded EMC raise that skips one boot after a hang instead of staying at 204 MHz for good | installed; rules verified with synthetic add events |
-| `linux-nano` 7.2.11-2 | 0102 tegra-drm canonical modifiers applied; `CONFIG_ARM64_PMEM` dropped (nvmap no longer needs it) | building on the Nano |
+| `linux-nano` 7.2.11-2 | 0102 tegra-drm canonical modifiers applied; `CONFIG_ARM64_PMEM` dropped (nvmap no longer needs it) | built with distcc on an x86 cross compiler (GCC 16.2 vs 16.1 native, no plugins), installed, booting |
 
 The NVIDIA EGL vendor file is no longer registered: Zink on NVIDIA's Vulkan driver works without
 it (tested), and glvnd then never routes EGL clients to NVIDIA's EGL, which has no display path on
@@ -816,3 +816,43 @@ Switch-over (needs someone at the board, a warm reboot can hang):
    and `/etc/modprobe.d/g2-tegra-drm.conf`.
 4. Reboot into the CUDA entry; check CUDA, Vulkan, the pixel check, devfreq and the desktop as a
    normal user (no `chmod`).
+
+### Switch-over result (2026-11-20, measured)
+
+Done as listed above, plus: the four local `jetson-*` units disabled (the board package replaces
+them), and the old `/opt/mesa-*` debug trees and `tegra-drm-select.sh` moved to a backup folder.
+The warm reboot hung again (log ends at `Rebooting.`, nvgpu PMU wait timeout); a power cycle
+booted the new entry. On that boot, with nothing but the packages:
+
+| Check | Result |
+|---|---|
+| kernel, mode | 7.2.11-2-nano-ARCH, `nano.mode=cuda` |
+| modules | nvmap, nvgpu, tegra_drm load on their own (softdep + alias) |
+| DVFS | `GPU speedo 1986 (ID 2), 76-921 MHz at 818-1178 mV`; `simple_ondemand`, floor 537.6 MHz |
+| EMC | 1600 MHz (`jetson-nano-emc` active) |
+| fan | active trip 38 C |
+| device nodes | `root:video 0660` plus a seat ACL for the desktop user |
+| session environment | Hyprland has `MESA_LOADER_DRIVER_OVERRIDE=zink`, `VK_DRIVER_FILES`, `LIBGL_KOPPER_DISABLE` from the generator |
+| hardware cursor | cursor plane on `crtc-0`, format RA24 |
+| failed units | none |
+| pixel check (`g2-xstress.sh 20`, environment from the generator) | 0 of 20 runs with wrong pixels |
+| Vulkan (`vk_probe`, user omarchy) | compute shader 0 wrong of 1048576, G1 PASS |
+| CUDA (`cuda_smoke`, user omarchy) | PTX JIT 0 wrong of 1048576, E5 PASS |
+| CUDA load (`gpu_load`, user omarchy) | 921.6 MHz under load, 188 GFLOP/s, 0 wrong of 1298 checked; back to 537.6 MHz idle |
+
+Found during the checks:
+- **pwm-tegra DKMS replaced linux-nano's own module.** DKMS archived the packaged
+  `kernel/drivers/pwm/pwm-tegra.ko` and installed its copy under `updates/` (`pacman -Qkk` reported
+  the file missing). The DKMS module exists only for the stock ALARM kernel, which lacks the
+  driver; its `dkms.conf` now has `BUILD_EXCLUSIVE_KERNEL="-aarch64-ARCH$"`, and removing it from
+  7.2.11-2 restored the packaged file. The in-tree module is used from the next boot.
+- **Headless CUDA needs group `video`.** The seat ACL covers only the logged-in desktop user;
+  provisioning now adds the user to `video` for CUDA over ssh or from services.
+- **The CUDA toolkit is not packaged.** `nvidia-l4t-r36` is the driver (`libcuda`, Vulkan, EGL);
+  programs that compile at run time also need NVRTC (`libnvrtc.so.12`) from the CUDA 12.6
+  toolkit, still used from the unpacked archive. A toolkit package is the next packaging step.
+- **`vulkaninfo` still aborts** (`free(): invalid pointer` in `libnvidia-eglcore` during
+  `vkEnumeratePhysicalDevices`, right after `libnvdc` fails to open the downstream
+  `/dev/tegra_dc_ctrl`), as in §15. A minimal program that enables all 21 instance extensions
+  and calls the `VK_KHR_display` queries gets `VK_ERROR_INITIALIZATION_FAILED` without a crash,
+  so the trigger is a vulkaninfo call sequence not yet isolated. Zink and the probes do not hit it.

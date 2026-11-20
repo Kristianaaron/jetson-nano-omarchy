@@ -52,6 +52,9 @@ stage_1() {
       rm -rf /home/alarm
     fi
   fi
+  # GPU nodes are group video (nvgpu-nano); the seat ACL covers only the logged-in desktop, so
+  # CUDA over ssh or from services needs the group
+  usermod -aG video "$USER_NAME"
   pacman -S --needed --noconfirm sudo
   install_file etc/sudoers.d/10-wheel 0440
   visudo -c
@@ -92,7 +95,7 @@ stage_4() {
   local kver_pkg
   local src
   local package_version
-  printf 'stage 4: pwm-tegra DKMS (the GPU voltage regulator needs it)\n'
+  printf 'stage 4: pwm-tegra DKMS for the stock kernel (the GPU voltage regulator needs it)\n'
   kver_pkg="$(pacman -Q linux-aarch64 | awk '{print $2}' | sed 's/-[^-]*$//')"
   src="/usr/src/pwm-tegra-$kver_pkg"
   mkdir -p "$src"
