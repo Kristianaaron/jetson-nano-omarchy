@@ -1,0 +1,7 @@
+#!/bin/sh
+# jetson-nano-board: set the active (fan) trip points of the thermal zone $1 to FAN_ON_MC.
+FAN_ON_MC=38000
+for t in "$1"/trip_point_*_type; do
+  [ "$(cat "$t")" = active ] && echo "$FAN_ON_MC" > "${t%_type}_temp"
+done
+exit 0

@@ -1,0 +1,7 @@
+# nvgpu-nano: access to NVIDIA's GPU driver (nvgpu) and memory manager (nvmap) on the Jetson Nano.
+# Same policy as NVIDIA's L4T rules (group video, 0660), plus uaccess so the logged-in desktop
+# user can render and run CUDA. The debug, profiler, context-switch trace and scheduler-control
+# nodes act on other processes' GPU work, so they stay group-only. Numbered below 73-seat-late.
+KERNEL=="nvmap", GROUP="video", MODE="0660", TAG+="uaccess"
+SUBSYSTEM=="nvidia-gpu|nvidia-gpu-v2|nvidia-gpu-power|nvidia-gpu-v2-power", GROUP="video", MODE="0660"
+SUBSYSTEM=="nvidia-gpu|nvidia-gpu-v2|nvidia-gpu-power|nvidia-gpu-v2-power", KERNEL!="*dbg*|*prof*|*ctxsw*|*sched*", TAG+="uaccess"

@@ -1,0 +1,12 @@
+#!/bin/sh
+# nvgpu-nano: in the CUDA boot mode (nano.mode=cuda, nouveau blacklisted, nvgpu drives the GPU)
+# OpenGL runs on Mesa's Zink over NVIDIA's Vulkan driver. Installed as a systemd system and user
+# environment generator, so the display manager and the desktop session both get it.
+#   MESA_LOADER_DRIVER_OVERRIDE  Zink: the GPU has no Mesa hardware driver under nvgpu
+#   VK_DRIVER_FILES              NVIDIA's Vulkan driver only (nvidia-l4t-r36)
+#   LIBGL_KOPPER_DISABLE         present through dma-buf; NVIDIA's Vulkan WSI under Zink's
+#                                kopper deadlocks in libnvidia-eglcore on eglMakeCurrent
+grep -qw 'nano.mode=cuda' /proc/cmdline || exit 0
+echo MESA_LOADER_DRIVER_OVERRIDE=zink
+echo VK_DRIVER_FILES=/usr/share/nvidia-l4t/nvidia_icd.json
+echo LIBGL_KOPPER_DISABLE=true

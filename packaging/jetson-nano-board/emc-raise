@@ -1,0 +1,20 @@
+#!/bin/sh
+# jetson-nano-board: raise the memory clock (EMC) from the bootloader's 204 MHz to 1600 MHz with
+# the trained tables of linux-nano's 0101 patch. Interim until the per-boot table support lands.
+#
+# Guarded: a marker is written before the switch and removed after it. If a boot hung during the
+# switch, the next boot finds the marker, stays at the bootloader rate once and clears it, so the
+# boot after that tries again (a stale marker must not pin the board at 204 MHz for good).
+M=/var/lib/jetson-nano/emc-raise-pending
+mkdir -p /var/lib/jetson-nano
+if [ -e "$M" ]; then
+  rm -f "$M"; sync
+  echo "previous EMC raise did not complete; staying at $(cat /sys/kernel/debug/clk/emc/clk_rate) Hz this boot, retrying next boot" >&2
+  exit 0
+fi
+modprobe tegra210-emc || exit 0
+touch "$M"; sync
+echo 1600000000 > /sys/kernel/debug/emc/min_rate
+sleep 5
+rm -f "$M"; sync
+echo "EMC now $(cat /sys/kernel/debug/clk/emc/clk_rate) Hz"

@@ -1,0 +1,12 @@
+[Unit]
+Description=Jetson Nano memory clock 1600 MHz (guarded)
+After=systemd-modules-load.service sys-kernel-debug.mount
+Requires=sys-kernel-debug.mount
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/jetson-nano/emc-raise
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

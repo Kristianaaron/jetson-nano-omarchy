@@ -2,6 +2,8 @@
 # Jetson Nano: mainline starts the fan at the cpu-thermal active trip (50 C).
 # Start it at FAN_ON_MC instead, so the desktop runs cooler and quieter under load.
 FAN_ON_MC=${FAN_ON_MC:-38000}
+# The thermal zones appear when the soctherm driver probes, which can be after this runs.
+for i in $(seq 1 60); do grep -qx cpu-thermal /sys/class/thermal/thermal_zone*/type 2>/dev/null && break; sleep 0.5; done
 for z in /sys/class/thermal/thermal_zone*; do
   [[ $(cat "$z/type") == cpu-thermal ]] || continue
   for t in "$z"/trip_point_*_type; do

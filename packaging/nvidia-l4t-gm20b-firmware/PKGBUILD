@@ -1,0 +1,39 @@
+# nvidia-l4t-gm20b-firmware: the GM20B (Tegra210 GPU) firmware set that NVIDIA's nvgpu driver
+# loads (ACR, PMU, FECS/GPCCS, netlist), from NVIDIA's L4T R32.7.6 nvidia-l4t-firmware package
+# for Tegra210, downloaded from NVIDIA at build time (not redistributed in this repository).
+# nouveau uses linux-firmware's nvidia/gm20b set instead; the two sets do not overlap on disk.
+#
+# The deb ships gm20b/ as symlinks into tegra21x/; the kernel firmware loader refuses symlinks
+# for this firmware, so the targets are installed as real files.
+pkgname=nvidia-l4t-gm20b-firmware
+pkgver=32.7.6
+pkgrel=1
+_debver=32.7.6-20241104234540
+pkgdesc="NVIDIA GM20B GPU firmware for the nvgpu driver (Jetson Nano, from L4T R32.7.6)"
+arch=(any)
+url="https://developer.nvidia.com/embedded/jetson-linux"
+license=(LicenseRef-NVIDIA-L4T)
+options=(!strip !debug)
+source=("https://repo.download.nvidia.com/jetson/t210/pool/main/n/nvidia-l4t-firmware/nvidia-l4t-firmware_${_debver}_arm64.deb")
+noextract=("nvidia-l4t-firmware_${_debver}_arm64.deb")
+sha256sums=('0404d7ddea8eda64c492f2c4e329c1f92a346d927eaa6926ec47233e70069eff')
+
+_files=(NETB_img.bin fecs.bin fecs_sig.bin gpccs.bin gpmu_ucode.bin gpmu_ucode_desc.bin
+        gpmu_ucode_image.bin gpu2cde.bin nv_acr_ucode_prod.bin pmu_bl.bin pmu_sig.bin)
+
+prepare() {
+  rm -rf deb && mkdir deb
+  bsdtar -xf "nvidia-l4t-firmware_${_debver}_arm64.deb" -C deb
+  bsdtar -xf deb/data.tar.* -C deb ./lib/firmware/gm20b ./lib/firmware/tegra21x \
+    ./usr/share/doc/nvidia-l4t-firmware/copyright
+}
+
+package() {
+  local f
+  for f in "${_files[@]}"; do
+    # -L: follow the deb's gm20b -> tegra21x symlink and install the file itself
+    install -Dm644 "$(readlink -f "deb/lib/firmware/gm20b/$f")" "$pkgdir/usr/lib/firmware/gm20b/$f"
+  done
+  install -Dm644 deb/usr/share/doc/nvidia-l4t-firmware/copyright \
+    "$pkgdir/usr/share/licenses/$pkgname/copyright"
+}

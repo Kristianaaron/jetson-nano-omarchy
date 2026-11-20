@@ -774,3 +774,32 @@ again.
   static backend frees its GBM buffers in __cxa_finalize; only at logout, after the session ended.
 - Hardware cursor: with cursor:use_cpu_buffer Hyprland allocates DRM dumb cursor buffers but does
   not use the cursor plane; reason not logged by this build. Software cursor in use.
+
+## 20. Packaging (2026-11-20)
+
+The test setup (`/root/e4-autorun.enabled`, the `/opt/nvidia-l4t-r36-test` copy, runtime
+environment files, world-writable device nodes, firmware from a home directory) is replaced by
+packages in `packaging/`. NVIDIA files are downloaded from repo.download.nvidia.com at build time,
+pinned by SHA-256, and never stored in this repository.
+
+| Package | Contents | State |
+|---|---|---|
+| `nvidia-l4t-gm20b-firmware` 32.7.6 | GM20B nvgpu firmware from L4T R32.7.6 `nvidia-l4t-firmware`, symlinks resolved (the loader rejects them) | installed; byte-identical to the tested set |
+| `nvidia-l4t-r36` 36.4.7 | R36.4 core, cuda and 3d-core libraries in `/usr/lib/nvidia-l4t` (ld.so.conf.d; no name clashes with system libraries); Vulkan ICD manifest outside the loader's default directory | installed; all 62 libraries identical to the tested copy; CUDA, Vulkan compute and the Zink pixel check pass on it without `LD_LIBRARY_PATH` |
+| `nvgpu-nano` | nvgpu + nvmap built from the pinned fork commits; `softdep nvgpu pre: nvmap`; udev rules (video group 0660 + uaccess; debug, profiler and scheduler nodes group only); system and user environment generators that set Zink, `VK_DRIVER_FILES` and `LIBGL_KOPPER_DISABLE` in the CUDA boot mode only | built for 7.2.11-1, same symbols as the tested modules; not installed yet |
+| `jetson-nano-board` | udev rules: GPU devfreq floor 537.6 MHz and fan start 38 C applied when the devices appear (boot services raced the drivers); guarded EMC raise that skips one boot after a hang instead of staying at 204 MHz for good | installed; rules verified with synthetic add events |
+| `linux-nano` 7.2.11-2 | 0102 tegra-drm canonical modifiers applied; `CONFIG_ARM64_PMEM` dropped (nvmap no longer needs it) | building on the Nano |
+
+The NVIDIA EGL vendor file is no longer registered: Zink on NVIDIA's Vulkan driver works without
+it (tested), and glvnd then never routes EGL clients to NVIDIA's EGL, which has no display path on
+mainline.
+
+Switch-over (needs someone at the board, a warm reboot can hang):
+1. Install `linux-nano` and `linux-nano-headers` 7.2.11-2; rebuild `nvgpu-nano` with
+   `_kernver=7.2.11-2-nano-ARCH` and install it.
+2. Boot entries: the nouveau entry gets `modprobe.blacklist=nvgpu` (both drivers match the GPU);
+   the CUDA entry keeps `modprobe.blacklist=nouveau nano.mode=cuda`.
+3. Remove the test pieces: `/root/e4-autorun.enabled`, `/opt/nvidia-l4t-r36-test`, `/opt/g2-test`
+   and `/etc/modprobe.d/g2-tegra-drm.conf`.
+4. Reboot into the CUDA entry; check CUDA, Vulkan, the pixel check, devfreq and the desktop as a
+   normal user (no `chmod`).

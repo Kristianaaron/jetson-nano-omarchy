@@ -1,0 +1,9 @@
+# jetson-nano-board: device policy for the Jetson Nano, applied when each device appears (a boot
+# service can run before the driver has created it).
+#
+# GPU: keep the GM20B clock at 537.6 MHz or above. Short desktop bursts (a menu, a window) end
+# before an idle GPU ramps up; the floor keeps them fast at 43 C idle. Same devfreq device under
+# nouveau and nvgpu.
+ACTION=="add", SUBSYSTEM=="devfreq", KERNEL=="57000000.gpu", ATTR{min_freq}="537600000"
+# Fan: start at 38 C instead of mainline's 50 C active trip on the CPU zone.
+ACTION=="add", SUBSYSTEM=="thermal", KERNEL=="thermal_zone*", ATTR{type}=="cpu-thermal", RUN+="/usr/lib/jetson-nano/fan-trip /sys%p"
