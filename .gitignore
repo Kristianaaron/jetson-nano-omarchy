@@ -4,3 +4,4 @@ docs/HANDOFF-*.md
 # live netconsole capture (raw, unsanitized); sanitized extracts are committed
 results/cuda/e4-20261118-191149-netconsole.log
 .DS_Store
+tools/cuda-e5/xproc_1280

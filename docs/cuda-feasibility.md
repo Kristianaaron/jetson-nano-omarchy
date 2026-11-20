@@ -706,3 +706,51 @@ dma-buf ops: cache_sgt_mapping removed, file refcount API). Unproven.
 The desktop test is runtime-only and off: tools/cuda-e5/g2-desktop-env.sh writes /run files only
 when DESKTOP_ENV is set for the CUDA boot mode. Next: a debug kernel (DEBUG_PAGEALLOC, KASAN,
 DMA-API debug) to find the faulting free; then nvmap's dma-buf map/unmap against 7.2 semantics.
+
+## 18. G2 desktop result (2026-11-20, measured): Hyprland on Zink/nvgpu without corruption
+
+The Omarchy desktop (Hyprland, quickshell bar and wallpaper, Xwayland) runs on Zink on NVIDIA's
+R36 Vulkan driver over nvgpu, with scanout through tegra-drm (0102 patch, out-of-tree module), in
+the CUDA boot mode. CUDA 12.6 (E5) and Vulkan compute (G1) still pass in the same boot.
+
+Fixes since section 17:
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| client windows black on the compositor | NVIDIA's driver allocates new zeroed memory when an import and VkExportMemoryAllocateInfo share one vkAllocateMemory | mesa-tegra 0005 (release 1.7): no export structure on dma-buf imports with NVIDIA |
+| Xwayland hangs, every client blocks behind it | libGLX_nvidia calls XOpenDisplay() while it loads as the Vulkan ICD, inside the X server | ICD library is libEGL_nvidia (same ICD entry points), tools/cuda-e5/g2-desktop-env.sh |
+| deadlock in eglMakeCurrent (pthread_cond_destroy in libnvidia-eglcore) | NVIDIA's Vulkan WSI under Zink's kopper | LIBGL_KOPPER_DISABLE=true: present through dma-buf |
+| truncated NVIDIA libraries after a crash | the copy was skipped when it already existed | copy into a new folder, verify each file, sync, swap |
+| GPU submit fails on a foreign sync_file | nvgpu accepted only its own fences | linux-nvgpu: CPU wait on foreign fences, then a signalled stub |
+| garbage blocks: alternating 128-pixel column bands in block-linear surfaces, worse as memory fragments | see below | linux-nvgpu small-PTE fix and linux-nv-oot nvmap cache fix |
+
+Garbage blocks, two root causes:
+1. nvmap built with NVMAP_UPSTREAM_KERNEL used arch_invalidate_pmem() for write-back-and-
+   invalidate and after zeroing carveouts. On arm64 mainline that only invalidates, so dirty CPU
+   lines were discarded. Fix: the module's own __dma_flush_area() (dc civac) in every case; the
+   CONFIG_ARCH_HAS_PMEM_API build requirement goes away with it.
+2. The main cause. Mainline tegra-smmu gives the GPU an identity domain, so GPU addresses are
+   physical. GM20B big pages are 128 KiB, nvmap allocates in 64 KiB runs. nvgpu already used
+   small pages for normal maps without an SMMU, but fixed-address maps into a vm_area (the NVIDIA
+   user-mode driver's path), split-VA, sparse and remap maps still used big PTEs. A big PTE over
+   two separate runs maps half of the big page to the wrong memory: one 128-pixel column band of a
+   1280-wide ARGB block-linear surface is 64 KiB. Fix: nvgpu_vm_pte_pgsz() gives small PTEs for
+   every map when nvgpu_iommuable() is false; VA reservations keep their page size.
+
+Cross-process check (render 1280x720 block-linear in one process, import the dma-buf in another,
+compare every pixel; tools/cuda-e5/g2-xproc.c, run N times by g2-xstress.sh):
+
+| nvgpu build | runs with wrong pixels |
+|---|---|
+| before the small-PTE fix (nvmap cache fix in) | 3 of 10 |
+| with the small-PTE fix, fresh boot | 0 of 20 |
+| with the small-PTE fix, after 3 session restarts and 5 quickshell restarts (no free 2 MiB blocks left) | 0 of 20 |
+
+Screenshots after each restart show no corrupt bands. The section 17 page-state BUG did not
+come back in this boot (20 min, many desktop restarts); its cause is not confirmed.
+
+Still open: hardware cursor (the cursor plane takes linear buffers only), GPU DVFS (the GPU runs
+at its boot clock), the GL exit crash in libnvidia-eglcore, /dev/host1x-fence, and packaging
+(R36 userspace package, udev rules, firmware, 0102 into linux-nano, removal of the test autorun).
+Later: a translating SMMU domain for the GPU (GPU_IOMMU=DMA in the autorun) would allow big pages
+again.

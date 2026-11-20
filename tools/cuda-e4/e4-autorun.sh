@@ -12,13 +12,14 @@
 #   NETCON=...                 netconsole target, see Documentation/networking/netconsole.rst
 #   SMOKE="cmd args"           optional, run after a successful power-on; output goes to
 #                              /root/e5-smoke.log and its last line to the kernel log
+#   GPU_IOMMU=DMA              optional, put the GPU behind a translating SMMU domain
 #   DESKTOP_ENV=/path/script   optional, run after power-on to set the desktop up on nvgpu
 #                              (the unit runs before display-manager.service)
 set -u
 [[ -f /root/e4-autorun.enabled ]] || exit 0
 # Only in the CUDA boot mode (boot entry nano-cuda: nouveau blacklisted, nano.mode=cuda).
 grep -qw 'nano.mode=cuda' /proc/cmdline || exit 0
-DIR=/home/omarchy/cuda/e4; NVMAP=; LOG_MASK=; SMOKE=; DESKTOP_ENV=
+DIR=/home/omarchy/cuda/e4; NVMAP=; LOG_MASK=; SMOKE=; DESKTOP_ENV=; GPU_IOMMU=
 . /root/e4-autorun.enabled
 FW=/home/omarchy/cuda/e4/fw; D=57000000.gpu
 kmsg() { echo "<$1>nvgpu-e4: $2" > /dev/kmsg; }
@@ -31,6 +32,13 @@ fi
 if [[ -n $NVMAP ]]; then
   insmod "$DIR/$NVMAP"
   kmsg 6 "autorun nvmap insmod exit=$? node=$(ls /dev/nvmap 2>&1)"
+fi
+if [[ -n $GPU_IOMMU ]]; then
+  # GPU_IOMMU=DMA: translate GPU accesses through the SMMU instead of the default identity
+  # (passthrough) domain; only possible while no driver is bound to the GPU.
+  g=/sys/bus/platform/devices/$D/iommu_group
+  echo "$GPU_IOMMU" > $g/type
+  kmsg 6 "autorun gpu iommu group $(basename "$(readlink $g)") type=$(cat $g/type)"
 fi
 echo -n "$FW" > /sys/module/firmware_class/parameters/path
 echo gk20a > /sys/bus/platform/devices/$D/driver_override

@@ -1,0 +1,38 @@
+From: Kristianaaron <25537000+Kristianaaron@users.noreply.github.com>
+Subject: [PATCH] zink: no VkExportMemoryAllocateInfo on dma-buf imports with NVIDIA
+
+NVIDIA's proprietary Vulkan driver (L4T R36, 540 branch, Tegra X1) allocates
+new, zeroed memory instead of importing when VkImportMemoryFdInfoKHR and
+VkExportMemoryAllocateInfo are chained into the same vkAllocateMemory. Every
+dma-buf Zink imports then reads back empty: a compositor running on Zink shows
+client windows as black.
+
+Measured in pure Vulkan on the device: importing a block-linear dma-buf
+preserves every byte; adding VkExportMemoryAllocateInfo to the import makes the
+image read zero. The driver reports DMA_BUF in exportFromImportedHandleTypes,
+so imported memory stays re-exportable without the export structure.
+
+Skip the export structure for imports on NVIDIA proprietary.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+--- a/src/gallium/drivers/zink/zink_resource.c
++++ b/src/gallium/drivers/zink/zink_resource.c
+@@ -1070,8 +1070,15 @@
+       emai.sType = VK_STRUCTURE_TYPE_EXPORT_MEMORY_ALLOCATE_INFO;
+       emai.handleTypes = alloc_info->export_types;
+ 
+-      emai.pNext = mai.pNext;
+-      mai.pNext = &emai;
++      /* NVIDIA's proprietary driver (seen on Tegra, 540 branch) allocates new, zeroed memory
++       * instead of importing when an import and VkExportMemoryAllocateInfo share one
++       * allocation, so every imported dma-buf reads back empty. Imported memory can still be
++       * re-exported through exportFromImportedHandleTypes without the export structure.
++       */
++      if (!(alloc_info->whandle && zink_driverid(screen) == VK_DRIVER_ID_NVIDIA_PROPRIETARY)) {
++         emai.pNext = mai.pNext;
++         mai.pNext = &emai;
++      }
+       obj->exportable = true;
+       obj->exportable_dmabuf = !!(alloc_info->export_types & VK_EXTERNAL_MEMORY_HANDLE_TYPE_DMA_BUF_BIT_EXT);
+    }
