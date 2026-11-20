@@ -754,3 +754,23 @@ at its boot clock), the GL exit crash in libnvidia-eglcore, /dev/host1x-fence, a
 (R36 userspace package, udev rules, firmware, 0102 into linux-nano, removal of the test autorun).
 Later: a translating SMMU domain for the GPU (GPU_IOMMU=DMA in the autorun) would allow big pages
 again.
+
+## 19. GPU DVFS and memory clock (2026-11-20, measured)
+
+- DVFS on mainline (linux-nvgpu `b2e0641`): GM20B frequency/voltage points from NVIDIA's Tegra210
+  CVB coefficients (PLL mode) and the GPU speedo; this board, speedo 1986 (ID 2): 76.8 to 921.6
+  MHz at 818 to 1178 mV; devfreq simple_ondemand with nouveau's thresholds (up at 45% load). Before,
+  the GPU sat at the 217.6 MHz boot clock with the rail at 710 mV.
+- tools/cuda-e5/gpu_load.c (FMA kernel, results checked against the CPU): ramps 537.6 -> 921.6 MHz
+  within a second, 188 GFLOP/s (about 44 at the old clock); 5-minute soak at 921.6 MHz, 25686
+  launches, all checked results correct, peak 50.5 C, no GPU errors.
+- Memory clock: the guarded EMC raise (local service, to be packaged) left its marker after a hung
+  boot at 01:16, so every later boot stayed at 204 MHz and the desktop felt sluggish. Marker
+  cleared; EMC at 1600 MHz again.
+- /dev/host1x-fence: not needed. NVIDIA's R36 host1x-fence driver matches Tegra186/194/234 only,
+  and nvgpu on GM20B uses semaphores, not host1x syncpoints; the R36 libraries only log that the
+  node is missing.
+- Hyprland exit crash: libEGL_nvidia's destructor unloads libnvidia-eglcore before aquamarine's
+  static backend frees its GBM buffers in __cxa_finalize; only at logout, after the session ended.
+- Hardware cursor: with cursor:use_cpu_buffer Hyprland allocates DRM dumb cursor buffers but does
+  not use the cursor plane; reason not logged by this build. Software cursor in use.
