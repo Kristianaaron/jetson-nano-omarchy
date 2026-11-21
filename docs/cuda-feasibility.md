@@ -946,3 +946,25 @@ are the plan for the math libraries.
 
 **Filesystem.** The SD image scripts mounted the root filesystem with `commit=120`; a power cut
 then left up to two minutes of metadata in the journal. Both scripts now use the ext4 default.
+
+**Applications (measured).** A 30-minute soak (YouTube 1080p in Chromium, CUDA at 92% GPU load,
+two busy CPU cores) on the 10 W profile: mean 5.9 W, peak 7.0 W, input >= 4.81 V, 47 C, >= 1.27 GB
+free, worst compositor response 389 ms, no crash, kill, kernel warning or hung task. Every desktop
+app was then launched in turn: 34 of 36 open a window (LibreOffice in about 1 s, Electron apps in
+4-12 s); omasnap waits for a selection (its non-interactive capture works) and uuctl needs a dmenu
+launcher that stock Omarchy does not ship.
+
+Two driver behaviours broke apps, both fixed in `VK_LAYER_NANO_display` (nvidia-l4t-r36 3):
+- The driver advertises `VK_KHR_wayland_surface`, `VK_KHR_xcb_surface` and `VK_KHR_xlib_surface`,
+  but presenting through them needs NVIDIA's own display driver and hangs on mainline: `vkcube`
+  and mpv's Vulkan output hung, and every GTK 4 app (Nautilus, Pinta, Gliff, disktree; GTK 4.24
+  renders with Vulkan) never mapped a window. The layer removes those extensions from the
+  instance extension list (pre-instance `vkEnumerateInstanceExtensionProperties`) and refuses them
+  at `vkCreateInstance` with `VK_ERROR_EXTENSION_NOT_PRESENT`; GTK 4 and mpv then take their
+  OpenGL path on Zink by themselves. Zink (dma-buf presentation) and CUDA are unaffected. A
+  window-system layer (ARM's MIT `vulkan-wsi-layer`, presentation over dma-buf) would bring
+  native Vulkan presentation back.
+- At teardown the driver dlcloses `libnvidia-eglcore`, `libnvdc`, `libnvimp` and
+  `libnvidia-glvkspirv` while its worker threads still wait in them; a thread that wakes before
+  the process exits jumps into unmapped code (GL apps on Zink dumped core at exit in 3 of 15
+  runs). The layer marks the loaded L4T libraries `RTLD_NODELETE`: 0 of 30 runs since.

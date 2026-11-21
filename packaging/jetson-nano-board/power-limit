@@ -19,7 +19,7 @@ if [ "$SUPPLY_W" -ge 20 ]; then
 else
   # measured 2026-11-21 on a 5 V 2 A supply: CPU 4 cores 1479 MHz = 5.2 W (fine);
   # + GPU 921.6 MHz = 9.6 W, input sagged to 4.54 V (the board cuts out a little below)
-  : "${GPU_MAX_HZ:=614400000}" "${CPU_MAX_KHZ:=1479000}" "${BUDGET_MW:=8000}" "${VMIN_MV:=4780}"
+  : "${GPU_MAX_HZ:=614400000}" "${CPU_MAX_KHZ:=1479000}" "${BUDGET_MW:=8000}" "${VMIN_MV:=4740}"
 fi
 
 R=${POWER_LIMIT_ROOT:-}   # test hook: a fake sysfs tree
@@ -60,14 +60,16 @@ fi
 for i in 1 2 3; do echo 5000 > $H/shunt${i}_resistor; done
 log "sensor $H; channel 1 = 5 V input"
 
-calm=0
+calm=0; low=0
 exec {tick}<> <(:)   # read -t on an idle pipe: a 50 ms sleep without forking
 while :; do
   read -r v < $H/in1_input; read -r c < $H/curr1_input
   p=$(( v * c / 1000 ))
   [ $gi -lt 0 ] && [ -e $DF/available_frequencies ] && load_gpu_steps
-  if [ "$p" -gt "$BUDGET_MW" ] || [ "$v" -lt "$VMIN_MV" ]; then
-    calm=0
+  # act on a sustained condition (3 readings, 150 ms), not on one noisy sample or a brief dip
+  if [ "$p" -gt "$BUDGET_MW" ] || [ "$v" -lt "$VMIN_MV" ]; then low=$((low+1)); else low=0; fi
+  if [ $low -ge 3 ]; then
+    low=0; calm=0
     if [ $gi -gt 0 ]; then gi=$((gi-1)); set_gpu; log "${p} mW ${v} mV: GPU cap ${gpu_steps[$gi]}"
     elif [ $ci -gt 0 ]; then ci=$((ci-1)); echo "${cpu_steps[$ci]}" > $CP/scaling_max_freq; log "${p} mW ${v} mV: CPU cap ${cpu_steps[$ci]}"
     fi

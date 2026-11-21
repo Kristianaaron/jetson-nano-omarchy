@@ -1,16 +1,37 @@
 // SPDX-License-Identifier: MIT
 /*
- * VK_LAYER_NANO_display: report "no displays" instead of an invalid error from NVIDIA's L4T R36
- * Vulkan driver on mainline Linux.
+ * VK_LAYER_NANO_display: make NVIDIA's L4T R36 Vulkan driver report what it can do on mainline
+ * Linux, where tegra-drm drives the display instead of NVIDIA's downstream display stack.
+ *
+ * 1. Displays.
  *
  * The R36 driver implements VK_KHR_display through libnvdc, which opens the downstream display
  * controller /dev/tegra_dc_ctrl. Mainline drives the display with tegra-drm, so the open fails
  * and the display queries return VK_ERROR_INITIALIZATION_FAILED, which the Vulkan spec does not
  * allow for them (only VK_SUCCESS, VK_INCOMPLETE and out-of-memory). vulkaninfo aborts on it.
  * A GPU with no displays reachable through Vulkan must report zero of them, so this layer turns
- * exactly that result into VK_SUCCESS with a count of 0. Every other call and result passes
- * through unchanged.
+ * exactly that result into VK_SUCCESS with a count of 0.
+ *
+ * 2. Window surfaces. The driver advertises VK_KHR_wayland_surface, VK_KHR_xcb_surface and
+ * VK_KHR_xlib_surface, but its presentation path needs NVIDIA's own display driver: on mainline,
+ * presenting to a Wayland or X window hangs (vkcube, mpv's Vulkan output, GTK 4's Vulkan
+ * renderer). This layer removes those extensions from the instance extension list and refuses
+ * them at vkCreateInstance with VK_ERROR_EXTENSION_NOT_PRESENT, as for any unsupported
+ * extension, so applications choose their OpenGL path (Mesa Zink on this same GPU). Vulkan
+ * compute, offscreen rendering and Zink, which presents through dma-buf, are unaffected.
+ *
+ * 3. Driver lifetime. When its last instance or device goes away, the driver dlcloses its core
+ * libraries (libnvidia-eglcore, libnvdc, libnvimp, ...) while worker threads it started are
+ * still waiting in them; a thread that wakes before the process exits jumps into unmapped code
+ * (SIGSEGV at exit in 2 of 5 runs of a GL app on Zink). Once the driver is loaded, this layer
+ * marks its libraries RTLD_NODELETE, so they stay mapped until the process ends.
+ *
+ * Every other call and result passes through unchanged. DISABLE_VK_LAYER_NANO_display=1 turns
+ * the layer off (for example to test a window-system layer that provides real presentation).
  */
+#define _GNU_SOURCE
+#include <dlfcn.h>
+#include <link.h>
 #include <stdlib.h>
 #include <string.h>
 #include <pthread.h>
@@ -68,6 +89,51 @@ static VkInstance instance_of(const void *handle)
 	return found;
 }
 
+static const char *const hidden_extensions[] = {
+	"VK_KHR_wayland_surface",
+	"VK_KHR_xcb_surface",
+	"VK_KHR_xlib_surface",
+};
+
+static int hidden(const char *name)
+{
+	for (size_t n = 0; n < sizeof(hidden_extensions) / sizeof(hidden_extensions[0]); n++)
+		if (!strcmp(name, hidden_extensions[n]))
+			return 1;
+	return 0;
+}
+
+/* Pin every loaded library of the L4T driver (RTLD_NODELETE): see 3. above. The names are
+ * collected first and dlopen()ed after dl_iterate_phdr() returns, outside the loader lock. */
+#define L4T_DIR "/nvidia-l4t/"
+
+struct pin_list {
+	char *name[64];
+	int n;
+};
+
+static int collect_l4t(struct dl_phdr_info *info, size_t size, void *data)
+{
+	struct pin_list *l = data;
+
+	(void)size;
+	if (info->dlpi_name && strstr(info->dlpi_name, L4T_DIR) && l->n < 64)
+		l->name[l->n++] = strdup(info->dlpi_name);
+	return 0;
+}
+
+static void pin_driver(void)
+{
+	struct pin_list l = { .n = 0 };
+
+	dl_iterate_phdr(collect_l4t, &l);
+	for (int k = 0; k < l.n; k++) {
+		if (l.name[k])
+			dlopen(l.name[k], RTLD_NOW | RTLD_NOLOAD | RTLD_NODELETE);
+		free(l.name[k]);
+	}
+}
+
 static VkResult no_display(VkResult r, uint32_t *count)
 {
 	if (r != VK_ERROR_INITIALIZATION_FAILED)
@@ -114,6 +180,10 @@ create_instance(const VkInstanceCreateInfo *info, const VkAllocationCallbacks *a
 	if (!chain)
 		return VK_ERROR_INITIALIZATION_FAILED;
 
+	for (uint32_t n = 0; n < info->enabledExtensionCount; n++)
+		if (hidden(info->ppEnabledExtensionNames[n]))
+			return VK_ERROR_EXTENSION_NOT_PRESENT;
+
 	PFN_vkGetInstanceProcAddr gipa = chain->u.pLayerInfo->pfnNextGetInstanceProcAddr;
 	PFN_vkCreateInstance next = (PFN_vkCreateInstance)gipa(VK_NULL_HANDLE, "vkCreateInstance");
 	struct instance *i = calloc(1, sizeof(*i));
@@ -129,6 +199,7 @@ create_instance(const VkInstanceCreateInfo *info, const VkAllocationCallbacks *a
 		free(i);
 		return r;
 	}
+	pin_driver();
 	i->handle = *out;
 	i->gipa = gipa;
 	pthread_mutex_lock(&lock);
@@ -196,6 +267,7 @@ create_device(VkPhysicalDevice pd, const VkDeviceCreateInfo *info,
 		free(d);
 		return r;
 	}
+	pin_driver();
 	d->handle = *out;
 	d->gdpa = gdpa;
 	pthread_mutex_lock(&lock);
@@ -257,6 +329,46 @@ nano_GetInstanceProcAddr(VkInstance instance, const char *name)
 	if (instance == VK_NULL_HANDLE)
 		return NULL;
 	return instance_gipa(instance)(instance, name);
+}
+
+/* Pre-instance hook (manifest "pre_instance_functions"): the instance extension list without the
+ * window-surface extensions the driver cannot present to. */
+EXPORT VKAPI_ATTR VkResult VKAPI_CALL
+nano_EnumerateInstanceExtensionProperties(const VkEnumerateInstanceExtensionPropertiesChain *chain,
+					  const char *layer, uint32_t *count,
+					  VkExtensionProperties *props)
+{
+	uint32_t all = 0, kept = 0;
+	VkExtensionProperties *list;
+	VkResult r;
+
+	if (layer)
+		return chain->pfnNextLayer(chain->pNextLink, layer, count, props);
+	r = chain->pfnNextLayer(chain->pNextLink, NULL, &all, NULL);
+	if (r != VK_SUCCESS)
+		return r;
+	list = calloc(all ? all : 1, sizeof(*list));
+	if (!list)
+		return VK_ERROR_OUT_OF_HOST_MEMORY;
+	r = chain->pfnNextLayer(chain->pNextLink, NULL, &all, list);
+	if (r != VK_SUCCESS && r != VK_INCOMPLETE) {
+		free(list);
+		return r;
+	}
+	for (uint32_t n = 0; n < all; n++)
+		if (!hidden(list[n].extensionName))
+			list[kept++] = list[n];
+	if (!props) {
+		*count = kept;
+		free(list);
+		return VK_SUCCESS;
+	}
+	r = *count < kept ? VK_INCOMPLETE : VK_SUCCESS;
+	if (*count > kept)
+		*count = kept;
+	memcpy(props, list, *count * sizeof(*props));
+	free(list);
+	return r;
 }
 
 EXPORT VKAPI_ATTR VkResult VKAPI_CALL
