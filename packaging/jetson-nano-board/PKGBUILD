@@ -1,21 +1,28 @@
 # jetson-nano-board: Jetson Nano (Tegra210, B01) board policy for linux-nano systems: GPU clock
 # floor and fan start point applied by udev when the devices appear, the guarded memory-clock
-# raise to 1600 MHz, and a desktop session that survives one helper being killed for memory.
+# raise to 1600 MHz, and a memory-pressure policy for 4 GB: the desktop session keeps its memory,
+# systemd-oomd acts within seconds on the app that causes pressure, and the session survives one
+# helper being killed.
 pkgname=jetson-nano-board
 pkgver=1
-pkgrel=2
-pkgdesc="Jetson Nano board policy: GPU clock floor, fan trip point, memory clock raise"
+pkgrel=4
+pkgdesc="Jetson Nano board policy: GPU clock floor, fan trip point, memory clock raise, memory pressure policy"
 arch=(any)
 url="https://github.com/Kristianaaron/jetson-nano-omarchy"
 license=(MIT)
 depends=(systemd kmod)
 install=jetson-nano-board.install
-source=(80-jetson-nano-board.rules fan-trip emc-raise jetson-nano-emc.service 10-jetson-nano-oom.conf)
+source=(80-jetson-nano-board.rules fan-trip emc-raise jetson-nano-emc.service 10-jetson-nano-oom.conf
+        10-jetson-nano-oomd.conf 10-jetson-nano-memory.slice.conf 10-jetson-nano-memory.service.conf 10-jetson-nano-session.slice.conf)
 sha256sums=('2ffafebddb9ced1212f6dae924d0b52839becf004478a34459a1200f5f64188a'
             '00068e7414f8b4d7d4d1c07264ae28ca6b32cabd8bca7fdfed7f8f870fa071d6'
             '3b69ebae7f91d753c92818d87276df70558e7ce416b1ef47a807854375c641f0'
             '42b0e04d9ac5675f5087949df1d27d3a14ad3b1f4d8e6c0acdab8fb86d97e700'
-            'ccb5f669087a9f9630be5b70c68aa68b0156e2f5948a0545c827d291f163432d')
+            'ccb5f669087a9f9630be5b70c68aa68b0156e2f5948a0545c827d291f163432d'
+            '410b3a22ab9965ffd6a8494dba881161d7c5244915b23adfa273e9339f39224e'
+            '2716a0fdbda79c47b8ac7d9ef674bea9decd1e778a0b56d457a1e3e9247ed98c'
+            'caca770fdfb1c7b40c2bf870e94a748691a541aefdf95b4e3efea67af29d628b'
+            'ae655678904e75b40ac6f9405fa94ef83333a2fc1bb6874f7fcec86ca0212cca')
 
 package() {
   install -Dm644 80-jetson-nano-board.rules "$pkgdir/usr/lib/udev/rules.d/80-jetson-nano-board.rules"
@@ -24,4 +31,13 @@ package() {
   install -Dm644 jetson-nano-emc.service "$pkgdir/usr/lib/systemd/system/jetson-nano-emc.service"
   install -Dm644 10-jetson-nano-oom.conf \
     "$pkgdir/usr/lib/systemd/user/wayland-wm@.service.d/10-jetson-nano-oom.conf"
+  install -Dm644 10-jetson-nano-oomd.conf "$pkgdir/usr/lib/systemd/oomd.conf.d/20-jetson-nano.conf"
+  install -Dm644 10-jetson-nano-memory.slice.conf \
+    "$pkgdir/usr/lib/systemd/system/user.slice.d/10-jetson-nano-memory.conf"
+  install -Dm644 10-jetson-nano-memory.slice.conf \
+    "$pkgdir/usr/lib/systemd/system/user-.slice.d/10-jetson-nano-memory.conf"
+  install -Dm644 10-jetson-nano-memory.service.conf \
+    "$pkgdir/usr/lib/systemd/system/user@.service.d/10-jetson-nano-memory.conf"
+  install -Dm644 10-jetson-nano-session.slice.conf \
+    "$pkgdir/usr/lib/systemd/user/session.slice.d/10-jetson-nano-memory.conf"
 }

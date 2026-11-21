@@ -38,12 +38,11 @@ zram-size = min(ram / 2, 3072)
 compression-algorithm = zstd
 CONF
 
-# Keep the kernel from over-eagerly swapping the model-free desktop to zram.
-cat > /etc/sysctl.d/99-omarchy-tegra210.conf <<'CONF'
-vm.swappiness = 100
-vm.watermark_boost_factor = 0
-vm.watermark_scale_factor = 125
-CONF
+# Swap tuning: Omarchy's own sysctl (omarchy-settings, 99-omarchy-sysctl.conf) already sets the
+# zram values (swappiness 150, page-cluster 0, watermarks). On an SD-card root a high swappiness is
+# right: dropped file pages are re-read from the slow card, zram pages come back from RAM. An older
+# hook overrode it with 100; remove that file. Memory-pressure policy is in jetson-nano-board.
+rm -f /etc/sysctl.d/99-omarchy-tegra210.conf
 
 # 3. Graphics honesty.
 #
