@@ -29,8 +29,9 @@ log() { echo "power-limit: $*"; }
 
 # frequency ladders, low to high, capped at the profile maximum
 gpu_steps=(); cpu_steps=()
-wait_for() { for _ in $(seq 100); do [ -e "$1" ] && return 0; sleep 0.1; done; return 1; }
-wait_for $CP/scaling_available_frequencies && for f in $(cat $CP/scaling_available_frequencies); do
+# wait_for PATH SECONDS: this runs early in boot, before the GPU and sensor drivers have probed
+wait_for() { local n=$(( ${2:-10} * 10 )); while [ $n -gt 0 ]; do [ -e "$1" ] && return 0; sleep 0.1; n=$((n-1)); done; return 1; }
+wait_for $CP/scaling_available_frequencies 30 && for f in $(cat $CP/scaling_available_frequencies); do
   [ "$f" -le "$CPU_MAX_KHZ" ] && [ "$f" -ge 918000 ] && cpu_steps+=("$f"); done
 ci=$(( ${#cpu_steps[@]} - 1 ))
 [ $ci -ge 0 ] && echo "${cpu_steps[$ci]}" > $CP/scaling_max_freq
@@ -43,20 +44,21 @@ load_gpu_steps() {
     [ "$f" -le "$GPU_MAX_HZ" ] && [ "$f" -ge 460800000 ] && gpu_steps+=("$f"); done
   gi=$(( ${#gpu_steps[@]} - 1 )); set_gpu
 }
-[ -e $DF/available_frequencies ] && load_gpu_steps
+if wait_for $DF/available_frequencies "${GPU_WAIT_S:-120}"; then load_gpu_steps; else log "no GPU devfreq device: GPU cap not applied"; fi
 log "profile ${SUPPLY_W} W: CPU <= $((CPU_MAX_KHZ/1000)) MHz, GPU <= $((GPU_MAX_HZ/1000000)) MHz, budget ${BUDGET_MW} mW, input >= ${VMIN_MV} mV"
 
 # the INA3221 (I2C bus of the camera controller, 0x40, 5 mOhm shunts; JetPack's device tree)
 find_ina() { for h in $R/sys/class/hwmon/hwmon*; do [ "$(cat $h/name)" = ina3221 ] && { echo $h; return; }; done; }
 [ -z "$R" ] && modprobe -q ina3221
 H=$(find_ina)
-if [ -z "$H" ]; then
-  for b in /sys/bus/i2c/devices/i2c-*; do
-    [ "$(cat $b/name 2>/dev/null)" = 546c0000.i2c ] && echo ina3221 0x40 > $b/new_device 2>/dev/null
+for _ in $(seq "${SENSOR_WAIT_S:-120}"); do   # the camera I2C bus probes late (deferred)
+  [ -n "$H" ] && break
+  for b in $R/sys/bus/i2c/devices/i2c-*; do
+    [ "$(cat $b/name 2>/dev/null)" = 546c0000.i2c ] && [ ! -e "$b/${b##*i2c-}-0040" ] && echo ina3221 0x40 > $b/new_device 2>/dev/null
   done
   sleep 1; H=$(find_ina)
-fi
-[ -n "$H" ] || { log "no INA3221: static caps only"; exec sleep infinity; }
+done
+[ -n "$H" ] || { log "no INA3221: static caps only (GPU $(cat $DF/max_freq 2>/dev/null), CPU $(cat $CP/scaling_max_freq))"; exec sleep infinity; }
 for i in 1 2 3; do echo 5000 > $H/shunt${i}_resistor; done
 log "sensor $H; channel 1 = 5 V input"
 

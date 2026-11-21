@@ -1,0 +1,55 @@
+# nanoblas: the cuBLAS API subset that CUDA applications use (handles, GEMM in FP32/FP16/BF16,
+# batched GEMM, batched TRSM; cuBLASLt handles with no matmul), built for the Jetson Nano's GM20B
+# GPU (sm_53). NVIDIA's cuBLAS has no sm_53 code and the Tegra driver runs only
+# exact-architecture code, so cuBLAS cannot run there; this library takes its place.
+#
+# Installed as libcublas.so.12 / libcublasLt.so.12 with cublas_api.h, cublas_v2.h and cublasLt.h
+# in cuda-nano's tree (/opt/cuda), where CMake's FindCUDAToolkit and other build systems look
+# for cuBLAS, so applications build against it unchanged. Our own code (MIT); the headers are
+# written for API and ABI compatibility with cuBLAS 12, not copied from it.
+pkgname=nanoblas
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="cuBLAS-compatible GEMM/TRSM library for the Jetson Nano GPU (sm_53)"
+arch=(aarch64)
+url="https://github.com/Kristianaaron/jetson-nano-omarchy"
+license=(MIT)
+depends=(cuda-nano)
+makedepends=(gcc13)
+provides=(cublas libcublas.so=12 libcublasLt.so=12)
+source=(include/cublas_api.h include/cublas_v2.h include/cublasLt.h
+        src/nanoblas.cu src/nanoblaslt.c tests/gemm_test.cu LICENSE)
+sha256sums=('SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP')
+
+_nvcc=(/opt/cuda/bin/nvcc -ccbin /usr/bin/g++-13 -O3 -std=c++17
+       -gencode arch=compute_53,code=sm_53 -Xcompiler -fPIC,-fvisibility=hidden -cudart shared)
+
+build() {
+  mkdir -p include
+  cp cublas_api.h cublas_v2.h cublasLt.h include/
+  "${_nvcc[@]}" -Iinclude -shared -Xlinker -soname=libcublas.so.12 \
+    -o libcublas.so.$pkgver nanoblas.cu
+  gcc ${CFLAGS} -fPIC -fvisibility=hidden -shared -Iinclude -I/opt/cuda/include \
+    -Wl,-soname,libcublasLt.so.12 ${LDFLAGS} -o libcublasLt.so.$pkgver nanoblaslt.c
+  ln -sf libcublas.so.$pkgver libcublas.so.12
+  ln -sf libcublasLt.so.$pkgver libcublasLt.so.12
+  "${_nvcc[@]}" -Iinclude -o gemm_test gemm_test.cu -L. -l:libcublas.so.12
+}
+
+check() {
+  # on the Nano itself: every type, transpose, batch and TRSM case against a CPU reference
+  LD_LIBRARY_PATH=$PWD ./gemm_test
+}
+
+package() {
+  local t="$pkgdir/opt/cuda/targets/sbsa-linux"
+  install -Dm755 libcublas.so.$pkgver "$t/lib/libcublas.so.$pkgver"
+  install -Dm755 libcublasLt.so.$pkgver "$t/lib/libcublasLt.so.$pkgver"
+  ln -s libcublas.so.$pkgver "$t/lib/libcublas.so.12"
+  ln -s libcublas.so.12 "$t/lib/libcublas.so"
+  ln -s libcublasLt.so.$pkgver "$t/lib/libcublasLt.so.12"
+  ln -s libcublasLt.so.12 "$t/lib/libcublasLt.so"
+  install -Dm644 -t "$t/include" include/cublas_api.h include/cublas_v2.h include/cublasLt.h
+  install -Dm755 gemm_test "$pkgdir/usr/lib/nanoblas/gemm_test"
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

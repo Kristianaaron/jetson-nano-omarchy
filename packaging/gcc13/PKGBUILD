@@ -1,0 +1,206 @@
+# gcc13 (Jetson Nano build): GCC 13 next to the system GCC, as the host compiler for CUDA 12's
+# nvcc. nvcc 12.x parses host headers with its own C++ front end, which supports libstdc++ up to
+# GCC 13; the system GCC 16 headers fail in it (char8_t, __is_array, bf16 literals). Arch's cuda
+# 12.6 used gcc13 the same way. Arch Linux ARM has no gcc13 package.
+#
+# Derived from Arch Linux's gcc13 package (archlinux/packaging/packages/gcc13 at 30365d6,
+# 13.3.1+r432-3), with these changes:
+#  - the GCC 13.4.0 release tarball (signed by Jakub Jelinek, an Arch validpgpkeys entry)
+#    instead of a git snapshot of the 13 branch: same branch, no multi-GB clone
+#  - aarch64: ALARM's configure options for its own gcc (--with-arch=armv8-a,
+#    --disable-fixincludes; no CET, no bootstrap-lto, no x86 lib64 fixup)
+#  - C and C++ only, no bootstrap, no libstdc++ API man pages: this is a second compiler for nvcc,
+#    built once by the system GCC (what a bootstrap's stage 1 does), so the build can use distcc
+#  - no libquadmath (not built on aarch64)
+#  - no libsanitizer: GCC 13's copy no longer builds against current glibc and Linux UAPI
+#    headers (struct termio, <linux/scc.h> are gone), and nvcc's host compiler never needs
+#    -fsanitize; so no fix-asan-allocator-aslr.patch either
+#  - CUDA 12.9 (cuda-nano) also uses this compiler
+#
+# Maintainer (Arch gcc13): Sven-Hendrik Haase <svenstaro@archlinux.org>
+# Maintainer (Arch gcc13): Torsten Keßler <tpkessler@archlinux.org>
+# Contributor: Giancarlo Razzolini <grazzolini@archlinux.org>
+# Contributor: Frederik Schwan <freswa at archlinux dot org>
+# Contributor: Bartłomiej Piotrowski <bpiotrowski@archlinux.org>
+# Contributor: Allan McRae <allan@archlinux.org>
+# Contributor: Daniel Kozak <kozzi11@gmail.com>
+
+pkgname=(gcc13 gcc13-libs)
+pkgver=13.4.0
+_majorver=${pkgver%%.*}
+pkgrel=1
+pkgdesc='The GNU Compiler Collection'
+arch=(aarch64)
+license=(GPL-3.0-with-GCC-exception GFDL-1.3-or-later)
+url='https://gcc.gnu.org'
+makedepends=(binutils libisl libmpc python zstd)
+options=(!emptydirs !lto)
+_libdir=usr/lib/gcc/$CHOST/$pkgver
+source=(https://ftp.gnu.org/gnu/gcc/gcc-$pkgver/gcc-$pkgver.tar.xz{,.sig}
+        c89 c99)
+validpgpkeys=(D3A93CAD751C2AF4F8C7AD516C35B99309B5FA62) # Jakub Jelinek <jakub@redhat.com>
+sha256sums=('9c4ce6dbb040568fdc545588ac03c5cbc95a8dbf0c7aa490170843afb59ca8f5'
+            'SKIP'
+            'de48736f6e4153f03d0a5d38ceb6c6fdb7f054e8f47ddd6af0a3dbf14f27b931'
+            '2513c6d9984dd0a2058557bf00f06d8d5181734e41dcfe07be7ed86f2959622a')
+
+prepare() {
+  ln -sfn gcc-$pkgver gcc
+  cd gcc
+
+  # The POSIX launchers call this compiler, not the system gcc
+  sed -i 's/^exec gcc /exec gcc-13 /' "$srcdir"/c89 "$srcdir"/c99
+
+  mkdir -p "$srcdir/gcc-build"
+}
+
+build() {
+  local _confflags=(
+      --prefix=/usr
+      --libdir=/usr/lib
+      --libexecdir=/usr/lib
+      --mandir=/usr/share/man
+      --infodir=/usr/share/info
+      --with-bugurl=https://github.com/Kristianaaron/jetson-nano-omarchy/issues
+      --with-linker-hash-style=gnu
+      --with-system-zlib
+      --enable-checking=release
+      --enable-clocale=gnu
+      --enable-default-pie
+      --enable-default-ssp
+      --enable-gnu-indirect-function
+      --enable-gnu-unique-object
+      --enable-libstdcxx-backtrace
+      --enable-linker-build-id
+      --enable-lto
+      --disable-multilib
+      --enable-plugin
+      --enable-shared
+      --enable-threads=posix
+      --disable-libssp
+      --disable-libsanitizer
+      --disable-libstdcxx-pch
+      --disable-werror
+      --disable-fixincludes
+      --with-arch=armv8-a
+      --program-suffix=-13
+      --enable-version-specific-runtime-libs
+  )
+
+  cd gcc-build
+
+  # As Arch: GCC's own sources trip -Werror=format-security
+  CFLAGS=${CFLAGS/-Werror=format-security/}
+  CXXFLAGS=${CXXFLAGS/-Werror=format-security/}
+
+  # The system GCC 16 defaults to C++20 and C23, which GCC 13's sources predate (char8_t in
+  # libcody); pin the language for the building compiler only. GCC 13 then builds its own
+  # runtime libraries.
+  export CC="gcc -std=gnu17" CXX="g++ -std=gnu++17"
+
+  # Configure once, so an interrupted build resumes (makepkg -e) without rebuilding everything
+  [[ -f Makefile ]] || "$srcdir/gcc/configure" \
+    --enable-languages=c,c++ \
+    --disable-bootstrap \
+    "${_confflags[@]:?_confflags unset}"
+
+  make -O LDFLAGS_FOR_TARGET="$LDFLAGS"
+}
+
+package_gcc13-libs() {
+  pkgdesc='Runtime libraries shipped by GCC (13.x.x)'
+  depends=('glibc>=2.27')
+  options=(!emptydirs !strip)
+
+  cd gcc-build
+  make -C $CHOST/libgcc DESTDIR="$pkgdir" install-shared
+  # libgcc_s lands beside the version directory: ../lib on x86_64 Arch, ../lib64 on aarch64
+  local d
+  for d in "${pkgdir}/${_libdir}"/../lib "${pkgdir}/${_libdir}"/../lib64; do
+    [[ -d $d ]] || continue
+    mv "$d"/* "${pkgdir}/${_libdir}"
+    rmdir "$d"
+  done
+  rm -f "$pkgdir/$_libdir/libgcc_eh.a"
+
+  for lib in libatomic.so \
+             libgomp.so \
+             libitm.so \
+             libstdc++.so; do
+    ln -s /usr/lib/$lib "$pkgdir/$_libdir/$lib"
+  done
+
+  make -C $CHOST/libstdc++-v3/po DESTDIR="$pkgdir" install
+
+  # Install Runtime Library Exception
+  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
+    "$pkgdir/usr/share/licenses/gcc13-libs/RUNTIME.LIBRARY.EXCEPTION"
+
+  # remove conflicting files
+  rm -rf "${pkgdir}"/usr/share/locale
+}
+
+package_gcc13() {
+  pkgdesc="The GNU Compiler Collection - C and C++ frontends (13.x.x)"
+  depends=("gcc13-libs" 'binutils>=2.28' libmpc zstd libisl.so)
+  options=(!emptydirs staticlibs)
+
+  cd gcc-build
+
+  make -C gcc DESTDIR="$pkgdir" install-driver install-cpp install-gcc-ar \
+    c++.install-common install-headers install-plugin install-lto-wrapper
+
+  install -m755 -t "$pkgdir/${_libdir}/" gcc/{cc1,cc1plus,collect2,lto1,gcov{,-tool}}
+
+  make -C $CHOST/libgcc DESTDIR="$pkgdir" install
+  local d
+  for d in "${pkgdir}/${_libdir}"/../lib "${pkgdir}/${_libdir}"/../lib64; do
+    [[ -d $d ]] || continue
+    rm -f "$d"/libgcc_s.so*
+    rmdir "$d"
+  done
+
+  make -C $CHOST/libstdc++-v3/src DESTDIR="$pkgdir" install
+  make -C $CHOST/libstdc++-v3/include DESTDIR="$pkgdir" install
+  make -C $CHOST/libstdc++-v3/libsupc++ DESTDIR="$pkgdir" install
+  make -C $CHOST/libstdc++-v3/python DESTDIR="$pkgdir" install
+  rm -f "${pkgdir}/${_libdir}"/libstdc++.so*
+
+  make -C gcc DESTDIR="$pkgdir" install-mkheaders
+
+  make -C lto-plugin DESTDIR="$pkgdir" install
+  install -dm755 "$pkgdir"/${_libdir}/bfd-plugins/
+  ln -s /${_libdir}/liblto_plugin.so \
+    "$pkgdir/${_libdir}/bfd-plugins/"
+
+  make -C $CHOST/libgomp DESTDIR="$pkgdir" install-nodist_{libsubinclude,toolexeclib}HEADERS
+  make -C $CHOST/libitm DESTDIR="$pkgdir" install-nodist_toolexeclibHEADERS
+
+  make -C libcpp DESTDIR="$pkgdir" install
+  make -C gcc DESTDIR="$pkgdir" install-po
+
+  # many packages expect this symlink
+  ln -s gcc-13 "$pkgdir"/usr/bin/cc-13
+
+  # create cc-rs compatible symlinks
+  # https://github.com/rust-lang/cc-rs/blob/1.0.73/src/lib.rs#L2578-L2581
+  for binary in {c++,g++,gcc,gcc-ar,gcc-nm,gcc-ranlib}; do
+    ln -s /usr/bin/${binary}-13 "${pkgdir}"/usr/bin/aarch64-linux-gnu-${binary}-13
+  done
+
+  # POSIX conformance launcher scripts for c89 and c99
+  install -Dm755 "$srcdir/c89" "$pkgdir/usr/bin/c89-13"
+  install -Dm755 "$srcdir/c99" "$pkgdir/usr/bin/c99-13"
+
+  # byte-compile python libraries
+  python -m compileall "$pkgdir/usr/share/gcc-$pkgver/"
+  python -O -m compileall "$pkgdir/usr/share/gcc-$pkgver/"
+
+  # Install Runtime Library Exception
+  install -d "$pkgdir/usr/share/licenses/$pkgname/"
+  ln -s /usr/share/licenses/gcc-libs/RUNTIME.LIBRARY.EXCEPTION \
+    "$pkgdir/usr/share/licenses/$pkgname/"
+
+  # remove conflicting files
+  rm -rf "${pkgdir}"/usr/share/locale
+}

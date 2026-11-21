@@ -978,3 +978,45 @@ ramoops.mem_name=oops ramoops.record_size=0x40000`, `ramoops` loads from the ini
 shows `i2c-thermtrip node not found, emergency thermal reset disabled`: JetPack's device tree
 lets the SoC reset the board through the PMIC when it overheats; that node, the INA3221 and the
 soctherm OC3 throttle are the device-tree work still to do.
+
+## 23. CUDA toolchain and nanoblas (2026-11-21, measured)
+
+**nvcc.** `gcc13` (GCC 13.4.0, C and C++, built with the system GCC 16 using distcc to the PC
+for the compiler itself) is nvcc's host compiler (`NVCC_CCBIN=/usr/bin/g++-13`). Two changes
+against Arch's gcc13: no libsanitizer (GCC 13's copy no longer builds against current glibc and
+Linux UAPI headers: `struct termio`, `<linux/scc.h>`; nvcc never needs `-fsanitize`), and
+`libgcc_s` is moved from `../lib64`, where aarch64 installs it. `tools/cuda-e5/nvcc_axpy.cu`: CUDA
+12.9 nvcc builds an sm_53 kernel and C++ host code, 1,048,576 of 1,048,576 results correct.
+
+**nanoblas** (`packaging/nanoblas`, MIT): the cuBLAS API subset applications use, built for sm_53
+and installed as `libcublas.so.12` / `libcublasLt.so.12` with `cublas_api.h`, `cublas_v2.h` and
+`cublasLt.h` in `/opt/cuda`, where build systems look for cuBLAS. Enumerator values, exported
+symbol names (the v2 `_v2` mapping) and the cuBLASLt structs match cuBLAS 12 (checked against
+NVIDIA's 12.6 headers, not copied). GEMM in FP32/FP16/BF16 (FP32 accumulation) for all transposes,
+`GemmEx`, strided and pointer-array batched, `Sgemm`/`Hgemm`, batched `Strsm`; cuBLASLt handles
+and descriptors with matmul reporting `CUBLAS_STATUS_NOT_SUPPORTED` (no FP8 on GM20B). The GEMM
+kernel tiles 128x128 (8x8 per thread) or 64x64 (4x4), reads shared memory as float4 and double
+buffers the next k step's global loads. `gemm_test`: 63 checks against a double-precision CPU
+reference (types, transposes, odd sizes, padded leading dimensions, beta, both batch forms, all 8
+TRSM variants) pass. Speed at the 10 W profile's 614 MHz GPU cap (peak 157 GFLOP/s):
+
+| shape (m x n x k) | FP32 | FP16 in, FP32 out |
+|---|---|---|
+| 1024 x 1024 x 1024 | 66.5 GFLOP/s | 48.5 GFLOP/s |
+| 896 x 512 x 896 (0.5B-class projection, 512 tokens) | 69.3 | 64.0 |
+| 4864 x 512 x 896 (0.5B-class FFN up) | 69.8 | 65.2 |
+| 2048 x 512 x 2048 | 74.3 | 69.2 |
+
+`tools/cuda-e5/cublas_check.c`, which failed with NVIDIA's cuBLAS (`cublasCreate` status 3),
+passes unchanged against nanoblas (1024^2 SGEMM, 0 wrong of 4096 sampled).
+
+**Reboots.** Some warm reboots ended in `Asynchronous SError` in the xHCI controller's mailbox
+interrupt thread (`irq/77-70090000`) after `tegra_xusb_shutdown()` had turned the XUSB clocks and
+power off with that interrupt still enabled; `panic=10` turns it into a restart, and the boot
+after it can be reset once more by the PMIC watchdog (systemd arms it for the reboot; its
+hardware limit is 128 s). linux-nano 7.2.11-3 carries 0103 (disable the mailbox and padctl
+interrupts in the shutdown callback, extending NVIDIA's 2023 "Add shutdown callback for Tegra
+XUSB"); `max77620_wdt` now loads from the initramfs so the kernel pets a watchdog still running
+from a reboot. The power limiter waited for neither the GPU devfreq device nor the late camera
+I2C bus at boot and left the GPU uncapped; it now waits for both (sandbox test with late devices;
+3 reboots: GPU 614 MHz, CPU 1479 MHz, sensor attached each time).
