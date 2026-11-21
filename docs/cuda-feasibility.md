@@ -856,3 +856,40 @@ Found during the checks:
   `/dev/tegra_dc_ctrl`), as in §15. A minimal program that enables all 21 instance extensions
   and calls the `VK_KHR_display` queries gets `VK_ERROR_INITIALIZATION_FAILED` without a crash,
   so the trigger is a vulkaninfo call sequence not yet isolated. Zink and the probes do not hit it.
+
+## 21. Driver fix-ups, boot time and the desktop at native resolution (2026-11-21, measured)
+
+**vulkaninfo.** NVIDIA's R36 driver implements VK_KHR_display through libnvdc, which opens the
+downstream `/dev/tegra_dc_ctrl`; mainline drives the display with tegra-drm, so the display queries
+return `VK_ERROR_INITIALIZATION_FAILED`, a result the spec does not allow for them, and vulkaninfo
+aborts. `VK_LAYER_NANO_display` (implicit layer in nvidia-l4t-r36 36.4.7-2, our code, MIT) turns
+exactly that result into "no displays". Arch's vulkaninfo now completes (`NVIDIA Tegra X1 (nvgpu)`,
+driver 540.4.0); vk_probe G1 PASS and the pixel check 0 of 5 wrong with the layer installed.
+
+**Board package (jetson-nano-board 1-2).** The memory-clock raise ran as a oneshot on the critical
+path and held the desktop back 11.6 s per boot (`systemd-analyze critical-chain`); it now runs as
+`Type=exec` beside the rest of boot. A kernel OOM kill of one desktop helper (quickshell) stopped
+the whole session unit (systemd's default `OOMPolicy=stop`); a user-unit drop-in sets
+`OOMPolicy=continue` for `wayland-wm@.service`.
+
+**Fan driver.** The pwm-tegra DKMS module (for the stock kernel) had replaced linux-nano's own
+module; with `BUILD_EXCLUSIVE_KERNEL` it builds for the stock kernel only, and linux-nano 7.2.11-2
+boots with its in-tree pwm-tegra (fan and GPU regulator work).
+
+**Desktop at native resolution.** HDMI-A-1 runs at the monitor's native 2560x1440@59.95 at scale
+1 (EDID from `/usr/lib/firmware/edid`; hot-plug through the device tree did not ship, see
+`docs/attempts`). Omarchy's stock look is back: the Nano overrides that turned animations, blur and
+shadows off date from software rendering at EMC 204 MHz. Omarchy 4.5's own default is animations
+on, blur and shadows off. Measured over 40 workspace switches at 2560x1440 with a build running:
+
+| Look | GPU load mean | Hyprland CPU over 8 s |
+|---|---|---|
+| animations, blur and shadows off | 8% | 1.6 s |
+| animations + shadows | 27% | 4.8 s |
+| animations + shadows + blur | 39% | 4.8 s |
+| animations + shadows + blur in xray mode | 29% | 5.5 s |
+
+Blur (for themes that enable it) uses xray mode, which blurs only the cached wallpaper.
+
+**Idle load.** Omarchy's screensaver animates a terminal at 120 fps: foot 129% CPU, Hyprland 38%
+while idle. With Omarchy's `screensaver-off` toggle, Hyprland idles at 0% CPU.

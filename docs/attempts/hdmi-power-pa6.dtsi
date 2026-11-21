@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * HDMI power on the Jetson Nano carrier (P3449): MOD_SLEEP* (GPIO PA6) enables VDD_3V3_HDMI, which
+ * switches on the HDMI connector's 5 V (APL3552 load switch) and powers the DDC level shifter.
+ * Mainline describes PA6 only as the enable of VDD_HUB_3V3, which has had no consumer since Linux
+ * 5.12, so the regulator core drives PA6 low at boot: no 5 V on HDMI pin 18, the monitor never
+ * raises hot-plug and the EDID cannot be read. NVIDIA's L4T holds PA6 high from boot.
+ *
+ * Make PA6 the enable of VDD_HDMI_5V0 as well (a shared enable line); the SOR driver enables
+ * hdmi-supply when HDMI probes. boot-on on both keeps the line high from the bootloader on.
+ * Same change as linux-nano patch 0103 for tegra210-p3450-0000.dts.
+ */
+&{/regulator-vdd-hdmi-5v0} {
+	gpio = <&{/gpio@6000d000} 6 0>;
+	enable-active-high;
+	regulator-boot-on;
+};
+
+&{/regulator-vdd-hub-3v3} {
+	regulator-boot-on;
+};

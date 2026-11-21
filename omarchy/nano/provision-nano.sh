@@ -245,30 +245,52 @@ stage_9() {
   if [[ ! -e "$monitors" ]]; then
     as_user bash -c 'cp -af /etc/skel/. ~/'
   fi
-  if [[ -f "$monitors" ]] && ! grep -q 'HDMI-A-1' "$monitors"; then
-    tmp="$(mktemp)"
-    awk '
-      !inserted && /^hl\.monitor\(\{ output = "",/ {
-        print
-        print "-- Jetson Nano: the monitor gives no EDID over this HDMI path, so set its mode."
-        print "hl.monitor({ output = \"HDMI-A-1\", mode = \"1280x720@60\", position = \"0x0\", scale = 1 })"
-        inserted=1
-        next
-      }
-      { print }
-      END { if (!inserted) exit 1 }
-    ' "$monitors" > "$tmp"
-    cat "$tmp" > "$monitors"
-    rm -f "$tmp"
+  # Monitor: the HDMI path gives no EDID on mainline (hot-plug needs the HDMI 5 V, whose enable
+  # pin breaks boot when driven from the device tree; docs/attempts), so the kernel loads the
+  # monitor's EDID from /usr/lib/firmware/edid. Use its native (preferred) mode at scale 1: sharp,
+  # and cheaper than fractional scaling. An older provision pinned 1280x720; replace that rule.
+  if [[ -f "$monitors" ]]; then
+    sed -i -e '/Jetson Nano: the monitor gives no EDID/d' \
+      -e '/^hl\.monitor({ output = "HDMI-A-1", mode = "1280x720@60"/d' \
+      -e 's/^local omarchy_gdk_scale = 2$/local omarchy_gdk_scale = 1/' "$monitors"
+    if ! grep -q 'output = "HDMI-A-1"' "$monitors"; then
+      tmp="$(mktemp)"
+      awk '
+        !inserted && /^hl\.monitor\(\{ output = "",/ {
+          print
+          print "-- Jetson Nano: native mode of the HDMI monitor (EDID from /usr/lib/firmware/edid), no fractional scaling."
+          print "hl.monitor({ output = \"HDMI-A-1\", mode = \"preferred\", position = \"0x0\", scale = 1 })"
+          inserted=1
+          next
+        }
+        { print }
+        END { if (!inserted) exit 1 }
+      ' "$monitors" > "$tmp"
+      cat "$tmp" > "$monitors"
+      rm -f "$tmp"
+    fi
   fi
-  if [[ -f "$looknfeel" ]] && ! grep -q 'Jetson Nano: software rendering' "$looknfeel"; then
-    cat >> "$looknfeel" <<'EOF'
+  # Look: Omarchy's stock look (animations on; blur and shadows as the theme sets them). An older
+  # provision switched everything off for software rendering; the desktop now renders on the GPU.
+  # Blur, when a theme turns it on, uses xray mode: blurring only the cached wallpaper keeps it at
+  # about the GPU cost of no blur at 2560x1440.
+  if [[ -f "$looknfeel" ]]; then
+    sed -i -e '/^hl\.config({ decoration = { blur = { enabled = false }, shadow = { enabled = false } }, animations = { enabled = false } })$/d' \
+      -e '/^-- Jetson Nano: software rendering until the Mesa tegra fix lands/d' \
+      -e '/^-- shadows or animations: each one multiplies the per-frame CPU cost\.$/d' \
+      -e '/^-- Jetson Nano: the desktop renders on the GPU through the patched Mesa tegra$/,/^-- CONFIG_TEGRA210_EMC\.$/d' \
+      -e '/^-- The Nano leaves black rectangles behind the pointer/,/^-- while the GPU is at its idle clock\.$/d' "$looknfeel"
+    if ! grep -q 'xray = true' "$looknfeel"; then
+      cat >> "$looknfeel" <<'EOF'
 
--- Jetson Nano: software rendering until the Mesa tegra fix lands. No blur,
--- shadows or animations: each one multiplies the per-frame CPU cost.
-hl.config({ decoration = { blur = { enabled = false }, shadow = { enabled = false } }, animations = { enabled = false } })
+-- Jetson Nano: blur (when a theme enables it) blurs only the cached wallpaper.
+hl.config({ decoration = { blur = { xray = true, new_optimizations = true } } })
 EOF
+    fi
   fi
+  # Omarchy's screensaver animates a terminal at 120 fps: more than a CPU core on the Nano while
+  # idle. Turn it off with Omarchy's own toggle (the Omarchy menu turns it back on).
+  as_user bash -c 'mkdir -p ~/.local/state/omarchy/toggles && touch ~/.local/state/omarchy/toggles/screensaver-off'
   if [[ -f "$looknfeel" ]] && ! grep -q 'use_cpu_buffer' "$looknfeel"; then
     cat >> "$looknfeel" <<'EOF'
 

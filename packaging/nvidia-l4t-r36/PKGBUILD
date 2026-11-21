@@ -9,25 +9,40 @@
 # boots never load NVIDIA's driver. The manifest names libEGL_nvidia, which exports the same ICD
 # entry points as libGLX_nvidia but does not open an X display while loading (that deadlocks
 # Xwayland when glamor runs on Zink).
+#
+# VK_LAYER_NANO_display (our code, MIT, nano_display_layer.c): the driver's VK_KHR_display path
+# opens the downstream /dev/tegra_dc_ctrl, which mainline does not have, and returns
+# VK_ERROR_INITIALIZATION_FAILED from the display queries, a result the spec does not allow there
+# (vulkaninfo aborts). The layer turns exactly that result into "no displays"; every other call
+# and result passes through.
 pkgname=nvidia-l4t-r36
 pkgver=36.4.7
-pkgrel=1
+pkgrel=2
 _debver=36.4.7-20250918154033
 pkgdesc="NVIDIA L4T R36.4 CUDA, Vulkan and EGL driver libraries for GM20B on nvgpu (Jetson Nano)"
 arch=(aarch64)
 url="https://developer.nvidia.com/embedded/jetson-linux"
-license=(LicenseRef-NVIDIA-L4T)
+license=(LicenseRef-NVIDIA-L4T MIT)
 depends=(glibc libglvnd libdrm expat)
+makedepends=(vulkan-headers)
 optdepends=('nvgpu-nano: the kernel driver these libraries need')
 options=(!strip !debug)
 _pool=https://repo.download.nvidia.com/jetson/t234/pool/main/n
 source=("$_pool/nvidia-l4t-core/nvidia-l4t-core_${_debver}_arm64.deb"
         "$_pool/nvidia-l4t-cuda/nvidia-l4t-cuda_${_debver}_arm64.deb"
-        "$_pool/nvidia-l4t-3d-core/nvidia-l4t-3d-core_${_debver}_arm64.deb")
-noextract=("${source[@]##*/}")
+        "$_pool/nvidia-l4t-3d-core/nvidia-l4t-3d-core_${_debver}_arm64.deb"
+        nano_display_layer.c
+        VkLayer_nano_display.json
+        LICENSE.VK_LAYER_NANO_display)
+noextract=("nvidia-l4t-core_${_debver}_arm64.deb"
+           "nvidia-l4t-cuda_${_debver}_arm64.deb"
+           "nvidia-l4t-3d-core_${_debver}_arm64.deb")
 sha256sums=('32d697687db9766b90c021655dc49e62558e7c843a52867c85733c346af283e1'
             '09a153c6e619fa1ad2ba2130ff81c90630d7ac79126f9b7765ca841442cfc8be'
-            'b8e79b6a653abcebb3ac21c80dd19e8d1e5c4c1210233d03dd340cd3f1a84c5b')
+            'b8e79b6a653abcebb3ac21c80dd19e8d1e5c4c1210233d03dd340cd3f1a84c5b'
+            'a30304245202fdff56af593b5f1c42a4a8ddfe0ae94c5b5296ceaac141a1e4d9'
+            '4b839530a53fb196f60e269b2f98519c93e9be99c9295fd2470351428eead8da'
+            'c7b01f924b87a68caf1a591d1f198fc8d36326efde8f98035316c8f629600ded')
 
 prepare() {
   local p
@@ -36,6 +51,11 @@ prepare() {
     bsdtar -xf "nvidia-l4t-${p}_${_debver}_arm64.deb" -C "$p/deb"
     bsdtar -xf "$p"/deb/data.tar.* -C "$p"
   done
+}
+
+build() {
+  ${CC:-gcc} $CFLAGS -Wall -Wextra -fPIC -shared -fvisibility=hidden $LDFLAGS \
+    -o libVkLayer_nano_display.so nano_display_layer.c -lpthread
 }
 
 package() {
@@ -55,4 +75,10 @@ package() {
   install -Dm644 /dev/stdin "$pkgdir/usr/share/nvidia-l4t/nvidia_icd.json" <<'EOF'
 {"file_format_version":"1.0.0","ICD":{"library_path":"/usr/lib/nvidia-l4t/libEGL_nvidia.so.0","api_version":"1.3.251"}}
 EOF
+
+  install -Dm755 libVkLayer_nano_display.so "$pkgdir/usr/lib/libVkLayer_nano_display.so"
+  install -Dm644 VkLayer_nano_display.json \
+    "$pkgdir/usr/share/vulkan/implicit_layer.d/VkLayer_nano_display.json"
+  install -Dm644 LICENSE.VK_LAYER_NANO_display \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE.VK_LAYER_NANO_display"
 }

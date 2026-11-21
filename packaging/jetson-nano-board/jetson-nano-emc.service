@@ -4,7 +4,9 @@ After=systemd-modules-load.service sys-kernel-debug.mount
 Requires=sys-kernel-debug.mount
 
 [Service]
-Type=oneshot
+# exec, not oneshot: the raise and its 5 s guard run next to the rest of boot instead of holding
+# multi-user.target (and the desktop) back by about 11 s
+Type=exec
 ExecStart=/usr/lib/jetson-nano/emc-raise
 RemainAfterExit=yes
 

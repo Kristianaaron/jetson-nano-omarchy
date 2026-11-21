@@ -14,12 +14,12 @@ the board, with the log named) or **inferred**. Nothing here is supported by NVI
 | Omarchy 4.5 desktop (Hyprland, SDDM) on mainline 7.2.11 | works on **one driver stack**: Mesa Zink on NVIDIA's R36 Vulkan driver over nvgpu, hardware cursor, clean logout ([docs/cuda-feasibility.md §18, §20](docs/cuda-feasibility.md)) |
 | NVIDIA nvgpu + nvmap (L4T R36) on mainline 7.2.11 | packaged (`nvgpu-nano`), load at boot; DVFS 76.8 to 921.6 MHz with voltage scaling ([§19](docs/cuda-feasibility.md)) |
 | CUDA 12 on GM20B | **works next to the desktop**: CUDA 12.6 driver API, sm_53 cubin and PTX JIT, 188 GFLOP/s FP32 at 921.6 MHz, all results correct |
-| Vulkan 1.3 | works (NVIDIA R36 driver); `vulkaninfo` itself aborts in NVIDIA's display path |
+| Vulkan 1.3 | works (NVIDIA R36 driver); `VK_LAYER_NANO_display` answers the display queries NVIDIA's driver fails on mainline, so vulkaninfo completes |
 | Kernel package `linux-nano` | ALARM `linux-aarch64` 7.2.11 + Tegra210 config + tegra-drm block-linear modifiers; 7.2.11-2 booting ([packaging/linux-nano](packaging/linux-nano)) |
 | EMC (memory) at 1600 MHz | works with the trained-table patch; raised at boot by `jetson-nano-board` |
 | nouveau desktop (fallback boot entry) | works through a patched Mesa `tegra` driver ([packaging/mesa-tegra](packaging/mesa-tegra)) |
 | CUDA toolkit package | open: NVRTC and the compiler still come from the unpacked CUDA 12.6 archive |
-| HDMI hot-plug / EDID | broken (mode is forced) |
+| Display | native 2560x1440 at scale 1 with the monitor's EDID from firmware; hot-plug through the device tree did not ship ([docs/attempts](docs/attempts)) |
 
 Read [docs/omarchy-on-jetson-nano.md](docs/omarchy-on-jetson-nano.md) for the desktop port and
 [docs/cuda-feasibility.md](docs/cuda-feasibility.md) for the CUDA work, in that order.

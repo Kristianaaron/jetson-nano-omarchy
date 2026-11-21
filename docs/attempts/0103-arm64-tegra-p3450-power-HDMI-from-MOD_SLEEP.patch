@@ -1,0 +1,51 @@
+From: Kristianaaron <25537000+Kristianaaron@users.noreply.github.com>
+Subject: [PATCH] arm64: tegra: p3450: Enable HDMI 5 V with MOD_SLEEP* (PA6)
+
+On the Jetson Nano developer kit carrier (P3449), MOD_SLEEP* (GPIO PA6)
+enables VDD_3V3_HDMI. That rail switches on the HDMI connector's 5 V
+(APL3552 load switch) and powers the DDC level shifter. NVIDIA's L4T
+device tree holds PA6 high from boot.
+
+Mainline describes PA6 only as the enable of VDD_HUB_3V3. Since commit
+2428787f1615 ("phy: tegra: xusb: Remove usb3 supply") nothing consumes
+that regulator, so the fixed regulator driver requests PA6 low at probe.
+Without 5 V on pin 18 the monitor never asserts hot-plug detect and the
+DDC bus times out: the connector reads "disconnected" and the EDID is
+empty, although forced video modes still show.
+
+Make PA6 the enable of VDD_HDMI_5V0 as well (fixed regulators share
+enable GPIOs), so the SOR driver turns it on through hdmi-supply, and
+mark both regulators boot-on so the line is not driven low at probe.
+
+Checked on a P3449-B01 kit by driving PA6 high: HPD then reads
+connected and the EDID reads over DDC (i2c@7000c700).
+
+Origin: jetson-nano-omarchy, carried in linux-nano.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+--- a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
++++ b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
+@@ -1824,6 +1824,14 @@
+ 		regulator-min-microvolt = <5000000>;
+ 		regulator-max-microvolt = <5000000>;
+ 
++		/*
++		 * MOD_SLEEP* (PA6) enables VDD_3V3_HDMI, which switches on the
++		 * HDMI 5 V load switch and powers the DDC level shifter.
++		 */
++		gpio = <&gpio TEGRA_GPIO(A, 6) GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++		regulator-boot-on;
++
+ 		vin-supply = <&vdd_5v0_sys>;
+ 	};
+ 
+@@ -1836,6 +1844,7 @@
+ 
+ 		gpio = <&gpio TEGRA_GPIO(A, 6) GPIO_ACTIVE_HIGH>;
+ 		enable-active-high;
++		regulator-boot-on;
+ 
+ 		vin-supply = <&vdd_5v0_sys>;
+ 	};

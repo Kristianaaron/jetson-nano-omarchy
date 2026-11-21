@@ -1,24 +1,27 @@
 # jetson-nano-board: Jetson Nano (Tegra210, B01) board policy for linux-nano systems: GPU clock
-# floor and fan start point applied by udev when the devices appear, and the guarded memory-clock
-# raise to 1600 MHz.
+# floor and fan start point applied by udev when the devices appear, the guarded memory-clock
+# raise to 1600 MHz, and a desktop session that survives one helper being killed for memory.
 pkgname=jetson-nano-board
 pkgver=1
-pkgrel=1
+pkgrel=2
 pkgdesc="Jetson Nano board policy: GPU clock floor, fan trip point, memory clock raise"
 arch=(any)
 url="https://github.com/Kristianaaron/jetson-nano-omarchy"
 license=(MIT)
 depends=(systemd kmod)
 install=jetson-nano-board.install
-source=(80-jetson-nano-board.rules fan-trip emc-raise jetson-nano-emc.service)
+source=(80-jetson-nano-board.rules fan-trip emc-raise jetson-nano-emc.service 10-jetson-nano-oom.conf)
 sha256sums=('2ffafebddb9ced1212f6dae924d0b52839becf004478a34459a1200f5f64188a'
             '00068e7414f8b4d7d4d1c07264ae28ca6b32cabd8bca7fdfed7f8f870fa071d6'
             '3b69ebae7f91d753c92818d87276df70558e7ce416b1ef47a807854375c641f0'
-            '2faea3104abec3c683380b1c0d286aef1f9b571378be3e351fd65e1dbc2801e4')
+            '42b0e04d9ac5675f5087949df1d27d3a14ad3b1f4d8e6c0acdab8fb86d97e700'
+            'ccb5f669087a9f9630be5b70c68aa68b0156e2f5948a0545c827d291f163432d')
 
 package() {
   install -Dm644 80-jetson-nano-board.rules "$pkgdir/usr/lib/udev/rules.d/80-jetson-nano-board.rules"
   install -Dm755 fan-trip "$pkgdir/usr/lib/jetson-nano/fan-trip"
   install -Dm755 emc-raise "$pkgdir/usr/lib/jetson-nano/emc-raise"
   install -Dm644 jetson-nano-emc.service "$pkgdir/usr/lib/systemd/system/jetson-nano-emc.service"
+  install -Dm644 10-jetson-nano-oom.conf \
+    "$pkgdir/usr/lib/systemd/user/wayland-wm@.service.d/10-jetson-nano-oom.conf"
 }
