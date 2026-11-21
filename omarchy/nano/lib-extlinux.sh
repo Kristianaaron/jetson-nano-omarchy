@@ -3,7 +3,12 @@
 edit_extlinux() {
   local file="$1"
   local token
-  local tokens=(loglevel=7 panic=10 clk_ignore_unused pd_ignore_unused video=HDMI-A-1:1280x720@60e)
+  # panic=10 with hung_task_panic and softlockup_panic: a driver deadlock or a stuck CPU reboots the
+  # board instead of hanging it; reserve_mem + ramoops keep the panic log across that reboot
+  # (systemd-pstore files it under /var/lib/systemd/pstore).
+  local tokens=(loglevel=7 panic=10 hung_task_panic=1 softlockup_panic=1
+    reserve_mem=1M:4096:oops ramoops.mem_name=oops ramoops.record_size=0x40000
+    clk_ignore_unused pd_ignore_unused video=HDMI-A-1:1280x720@60e)
 
   sed -E \
     -e 's/^[[:space:]]*INITRD .*/      INITRD \/boot\/initramfs-linux.img/' \

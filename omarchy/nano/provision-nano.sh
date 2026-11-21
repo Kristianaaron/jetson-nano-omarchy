@@ -81,6 +81,7 @@ stage_3() {
   install_file usr/local/bin/jetson-nano-boot-check 0755
   install_file etc/pacman.d/hooks/95-jetson-nano-boot-check.hook 0644
   mkinitcpio -P
+  systemctl enable systemd-pstore.service
   /usr/local/bin/jetson-nano-boot-check
   if [[ ! -e "$extlinux.pre-provision" ]]; then
     cp -p "$extlinux" "$extlinux.pre-provision"

@@ -968,3 +968,13 @@ Two driver behaviours broke apps, both fixed in `VK_LAYER_NANO_display` (nvidia-
   `libnvidia-glvkspirv` while its worker threads still wait in them; a thread that wakes before
   the process exits jumps into unmapped code (GL apps on Zink dumped core at exit in 3 of 15
   runs). The layer marks the loaded L4T libraries `RTLD_NODELETE`: 0 of 30 runs since.
+
+**Evidence from hangs in early boot.** Some boots stopped before the root filesystem was mounted
+and left no log. Every boot entry now also carries `reserve_mem=1M:4096:oops
+ramoops.mem_name=oops ramoops.record_size=0x40000`, `ramoops` loads from the initramfs, and
+`systemd-pstore` files the panic log after the next boot. Test: `echo c > /proc/sysrq-trigger`
+-> the board rebooted by itself (back on the network in 44 s) and
+`/var/lib/systemd/pstore/dmesg-ramoops-0` held the panic and its call trace. The boot log also
+shows `i2c-thermtrip node not found, emergency thermal reset disabled`: JetPack's device tree
+lets the SoC reset the board through the PMIC when it overheats; that node, the INA3221 and the
+soctherm OC3 throttle are the device-tree work still to do.
