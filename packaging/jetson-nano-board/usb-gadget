@@ -1,0 +1,73 @@
+#!/bin/sh
+# jetson-nano-board: the micro-USB port (J28) as a USB device for a host computer, as NVIDIA's
+# l4t-devmode does on JetPack: CDC ECM networking plus a CDC ACM serial console. macOS and Linux
+# drive both classes with built-in drivers.
+#
+# Network: the Nano is 192.168.55.1/24 (NVIDIA's devmode address), 169.254.55.1/16 (IPv4
+# link-local, which a host without DHCP gives itself) and fe80::55:1 (IPv6 link-local), set with
+# ip(8) directly, so it works without NetworkManager. Serial: /dev/ttyGS0, with a login prompt.
+#
+# Runs early in boot, before udev loads the other drivers, so the link comes up even if a later
+# driver hangs. With the J48 jumper on (barrel power), J28 carries data only.
+set -eu
+
+G=/sys/kernel/config/usb_gadget/jetson-nano
+UDC_DEV=700d0000.usb
+
+modprobe -q tegra-xudc
+modprobe -q libcomposite
+[ -d /sys/kernel/config/usb_gadget ] || mount -t configfs none /sys/kernel/config
+
+# The device controller registers once its PHY and clocks are ready
+for _ in $(seq 50); do
+  [ -e /sys/class/udc/$UDC_DEV ] && break
+  sleep 0.1
+done
+[ -e /sys/class/udc/$UDC_DEV ] || { echo "usb-gadget: no device controller $UDC_DEV" >&2; exit 1; }
+
+if [ ! -d $G ]; then
+  # Stable addresses from the board serial number, so the host sees the same interface each time
+  serial=$(tr -d '\0' < /proc/device-tree/serial-number 2>/dev/null || cat /etc/machine-id)
+  h=$(printf %s "$serial" | sha256sum | cut -c1-10)
+  mac() { printf '%s:%s:%s:%s:%s:%s' "$1" "$(echo $h | cut -c1-2)" "$(echo $h | cut -c3-4)" \
+          "$(echo $h | cut -c5-6)" "$(echo $h | cut -c7-8)" "$(echo $h | cut -c9-10)"; }
+
+  mkdir -p $G
+  cd $G
+  echo 0x1d6b > idVendor          # Linux Foundation
+  echo 0x0104 > idProduct         # Multifunction Composite Gadget
+  echo 0x0200 > bcdUSB
+  echo 0xEF > bDeviceClass        # Miscellaneous: interface association (CDC functions)
+  echo 0x02 > bDeviceSubClass
+  echo 0x01 > bDeviceProtocol
+  mkdir -p strings/0x409
+  echo "$serial" > strings/0x409/serialnumber
+  echo "NVIDIA" > strings/0x409/manufacturer
+  echo "Jetson Nano" > strings/0x409/product
+
+  mkdir -p functions/ecm.usb0 functions/acm.GS0
+  mac 02 > functions/ecm.usb0/host_addr
+  mac 06 > functions/ecm.usb0/dev_addr
+
+  mkdir -p configs/c.1/strings/0x409
+  echo "ECM network + ACM serial" > configs/c.1/strings/0x409/configuration
+  echo 250 > configs/c.1/MaxPower
+  ln -s functions/ecm.usb0 configs/c.1/
+  ln -s functions/acm.GS0 configs/c.1/
+fi
+
+[ -n "$(cat $G/UDC)" ] || echo $UDC_DEV > $G/UDC
+
+# The port is OTG; its role follows the micro-USB VBUS detect, which does not report a host
+# reliably (and not at all with barrel power on J48). The port has no host use on this board's
+# micro-USB connector here, so set the device role directly.
+for r in /sys/class/usb_role/usb2-0-role-switch/role; do
+  [ -w "$r" ] && [ "$(cat "$r")" != device ] && echo device > "$r"
+done
+
+ifname=$(cat $G/functions/ecm.usb0/ifname)
+ip link set "$ifname" up
+ip addr replace 192.168.55.1/24 dev "$ifname"
+ip addr replace 169.254.55.1/16 dev "$ifname"
+ip -6 addr replace fe80::55:1/64 dev "$ifname"
+echo "usb-gadget: $ifname 192.168.55.1 169.254.55.1 fe80::55:1, serial /dev/ttyGS0"

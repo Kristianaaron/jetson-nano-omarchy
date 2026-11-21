@@ -1,0 +1,17 @@
+[Unit]
+Description=Jetson Nano micro-USB device port (network + serial console for a host computer)
+Documentation=https://github.com/Kristianaaron/jetson-nano-omarchy
+# Early, before udev coldplug loads the other drivers: the link comes up even if one of them hangs
+DefaultDependencies=no
+After=systemd-modules-load.service sys-kernel-config.mount
+Before=systemd-udev-trigger.service sysinit.target shutdown.target
+Conflicts=shutdown.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/lib/jetson-nano/usb-gadget
+TimeoutStartSec=20
+
+[Install]
+WantedBy=sysinit.target

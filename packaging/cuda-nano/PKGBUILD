@@ -1,0 +1,106 @@
+# cuda-nano: the CUDA 12.9 compiler and runtime for the Jetson Nano's GM20B GPU (compute capability
+# 5.3), in Arch's cuda layout (/opt/cuda, profile.d, ld.so.conf.d). The driver side (libcuda from
+# R36.4, CUDA 12.6) is nvidia-l4t-r36; the 12.9 runtime runs on it through CUDA minor version
+# compatibility.
+#
+# Why 12.9: it is the last CUDA that compiles for sm_53. CUDA 13.0 removed offline compilation and
+# library support for Maxwell, Pascal and Volta.
+#
+# Why no math libraries: on Tegra the driver loads only GPU code built for the exact architecture
+# (no sm_50 -> sm_53 binary compatibility, unlike desktop GPUs; measured: an nvrtc sm_50 cubin fails
+# with CUDA_ERROR_INVALID_SOURCE, sm_53 loads). NVIDIA builds cuBLAS, cuFFT, cuSPARSE, cuSOLVER,
+# cuRAND (host), NPP and nvJPEG for sm_50/sm_52 and newer, never sm_53, so none of them can run on
+# GM20B (cublasLtCreate: "Failed to initialize internal constants"). They are left out; open
+# libraries built for sm_53 replace them. cuRAND's device API is header-only and is kept.
+#
+# The 12.6 driver cannot JIT PTX from this newer toolkit: build GPU code as sm_53 SASS
+# (-arch=sm_53 or -gencode arch=compute_53,code=sm_53), not PTX only.
+#
+# Archives are downloaded from NVIDIA's SBSA (generic ARMv8) redist at build time, pinned by the
+# SHA-256 in redistrib_12.9.2.json, and never stored in this repository.
+#
+# Host compiler: nvcc uses g++-13 (package gcc13) through NVCC_CCBIN.
+pkgname=cuda-nano
+pkgver=12.9.2
+pkgrel=1
+pkgdesc="NVIDIA CUDA 12.9 compiler and runtime for the Jetson Nano (sm_53)"
+arch=(aarch64)
+url="https://developer.nvidia.com/cuda-toolkit"
+license=(LicenseRef-NVIDIA-CUDA)
+depends=(nvidia-l4t-r36 gcc13)
+provides=("cuda=$pkgver" cuda-toolkit cuda-sdk)
+conflicts=(cuda)
+options=(!strip staticlibs !debug)
+_r=https://developer.download.nvidia.com/compute/cuda/redist
+_parts=(
+  cuda_cccl/12.9.27
+  cuda_cudart/12.9.79
+  cuda_cuobjdump/12.9.82
+  cuda_cuxxfilt/12.9.82
+  cuda_nvcc/12.9.86
+  cuda_nvdisasm/12.9.88
+  cuda_nvprune/12.9.82
+  cuda_nvrtc/12.9.86
+  cuda_nvtx/12.9.79
+  cuda_profiler_api/12.9.79
+  libcurand/10.3.10.19
+  libnvfatbin/12.9.82
+  libnvjitlink/12.9.86
+)
+source=(glibc-2.41-math-noexcept.patch cuda.sh cuda.conf)
+for _p in "${_parts[@]}"; do
+  source+=("$_r/${_p%/*}/linux-sbsa/${_p%/*}-linux-sbsa-${_p#*/}-archive.tar.xz")
+done
+sha256sums=('3799951de58a7def91b9eed5e164eb01955df7b86fb2d114e5e1f6c606d4d296'
+            '0abf0e08f44a89803e518bcced20749298b1bcc24e211b2e1f0e49cdb7872843'
+            'eb8b46ae67506c130ed123c6c3ffdb4a5bf911af95e7732f15ac09212ba2cc7b'
+            '8c3da24801b500f1d9217d191bb4b63e5d2096c8e7d0b7695e876853180ba82f'
+            '8b422a3b2cb8452cb678181b0bf9d7aa7342df168b5319c5488ae3b8514101fc'
+            '2d39ae9309f81a7980df296a93c0e49215c6fb22d316fd9daae211d29a731d27'
+            '2175ef96b523eb8fea5d6ccfd21b70d6afaee623d00dbab70f11e8aa892c2828'
+            '0aa1fce92dbae76c059c27eefb9d0ffb58e1291151e44ff7c7f1fc2dd9376c0d'
+            '28b2597f0901cfafcd050cba0877c1eb5edcd7ebd8164aea356cec832e636ee3'
+            '15e1d6527bf04c162950251940b10b8b8254f68028e2ffc0bfb7ed84bb2e1382'
+            'fb2d50c791465f333fc2236d2419170cf7a7886f48dd9b967a10f8233c686029'
+            'dae359c2c51f83a5cd402468f481a82aeb6d32d79dc707d3625607e83cf97ceb'
+            'e07f47ef3aeb3a3ca995e9070d77d98ad79460216bf2075c9f9018962ae1d03b'
+            '078afec842c99b3a953d62cc76bd74afa2d883dc436e6d642e6440bb1e85eb8e'
+            '87bf71288ea7390d039b246fa794cad2ddd3b164ce9566f8542bb15039432cdb'
+            '9c9227c1e9122fd8448cafced3b32bc69f40d3c041d25034ea23611a1262852f')
+
+_dir() { echo "${1%/*}-linux-sbsa-${1#*/}-archive"; }
+
+prepare() {
+  # glibc 2.41+ declares sinpi/cospi/rsqrt noexcept; CUDA 12.9's device declarations must match
+  patch -d "$(_dir cuda_nvcc/12.9.86)" -Np1 -i "$srcdir/glibc-2.41-math-noexcept.patch"
+}
+
+package() {
+  local c="$pkgdir/opt/cuda" t="$pkgdir/opt/cuda/targets/sbsa-linux" p d
+  install -d "$c/bin" "$t/include" "$t/lib" "$pkgdir/usr/lib/pkgconfig"
+
+  # NVIDIA's layout: tools in bin/ and nvvm/, headers and libraries under targets/sbsa-linux
+  for p in "${_parts[@]}"; do
+    d="$srcdir/$(_dir "$p")"
+    [[ -d $d/bin ]] && cp -a "$d/bin/." "$c/bin/"
+    [[ -d $d/nvvm ]] && cp -a "$d/nvvm" "$c/"
+    [[ -d $d/include ]] && cp -a "$d/include/." "$t/include/"
+    # cuRAND: device API headers only (the host library has no sm_53 code)
+    [[ $p == libcurand/* ]] && continue
+    [[ -d $d/lib ]] && cp -a "$d/lib/." "$t/lib/"
+    if [[ -d $d/pkg-config ]]; then
+      for pc in "$d"/pkg-config/*.pc; do
+        sed 's|^cudaroot=.*|cudaroot=/opt/cuda|' "$pc" > "$pkgdir/usr/lib/pkgconfig/${pc##*/}"
+      done
+    fi
+  done
+  ln -s targets/sbsa-linux/include "$c/include"
+  ln -s targets/sbsa-linux/lib "$c/lib64"
+  # nvvm/lib64 is the libnvvm the ld.so.conf entry points at
+  [[ -d $c/nvvm/lib64 ]]
+
+  install -Dm644 "$srcdir/$(_dir cuda_cudart/12.9.79)/LICENSE" \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 "$srcdir/cuda.sh" "$pkgdir/etc/profile.d/cuda.sh"
+  install -Dm644 "$srcdir/cuda.conf" "$pkgdir/etc/ld.so.conf.d/cuda.conf"
+}

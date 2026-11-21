@@ -1,0 +1,9 @@
+# /etc/jetson-nano/power.conf: the power supply this Jetson Nano runs on.
+# 10 = 5 V 2 A (micro-USB, or a 2 A barrel supply with the J48 jumper)
+# 20 = 5 V 4 A barrel supply with the J48 jumper (full speed)
+SUPPLY_W=10
+# Optional overrides of the profile:
+#GPU_MAX_HZ=614400000
+#CPU_MAX_KHZ=1479000
+#BUDGET_MW=8000
+#VMIN_MV=4780

@@ -1,0 +1,18 @@
+[Unit]
+Description=Jetson Nano power limit: keep the board within its power supply
+Documentation=https://github.com/Kristianaaron/jetson-nano-omarchy
+DefaultDependencies=no
+After=systemd-modules-load.service
+Before=sysinit.target display-manager.service shutdown.target
+Conflicts=shutdown.target
+
+[Service]
+ExecStart=/usr/lib/jetson-nano/power-limit
+Restart=always
+RestartSec=1
+Nice=-5
+CPUSchedulingPolicy=fifo
+CPUSchedulingPriority=10
+
+[Install]
+WantedBy=sysinit.target

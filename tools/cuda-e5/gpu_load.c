@@ -54,7 +54,8 @@ int main(void)
   CUfunction fn;
   CUdeviceptr dx;
   nvrtcProgram prog;
-  const char *opts[] = {"--gpu-architecture=compute_53", "--fmad=true"};
+  /* sm_53 machine code, not PTX: the R36 driver (CUDA 12.6) cannot JIT PTX from a newer nvrtc */
+  const char *opts[] = {"--gpu-architecture=sm_53", "--fmad=true"};
   size_t size;
   static float x[N], y[N];
   int iters = ITERS, launches = 0;
@@ -64,15 +65,15 @@ int main(void)
     printf("FAIL nvrtc\n");
     return 1;
   }
-  nvrtcGetPTXSize(prog, &size);
-  char *ptx = malloc(size);
-  nvrtcGetPTX(prog, ptx);
+  nvrtcGetCUBINSize(prog, &size);
+  char *cubin = malloc(size);
+  nvrtcGetCUBIN(prog, cubin);
   nvrtcDestroyProgram(&prog);
 
   CU(cuInit(0));
   CU(cuDeviceGet(&dev, 0));
   CU(cuCtxCreate(&ctx, 0, dev));
-  CU(cuModuleLoadData(&mod, ptx));
+  CU(cuModuleLoadData(&mod, cubin));
   CU(cuModuleGetFunction(&fn, mod, "fma_loop"));
   for (int i = 0; i < N; i++) x[i] = (float)(i % 97) * 0.01f;
   CU(cuMemAlloc(&dx, sizeof(x)));

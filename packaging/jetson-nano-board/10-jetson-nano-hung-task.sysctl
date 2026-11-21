@@ -1,0 +1,4 @@
+# jetson-nano-board: a task blocked for 120 s (a driver deadlock) panics the kernel, and the
+# kernel's panic=10 reboots the board, instead of leaving it hung until someone pulls the power.
+kernel.hung_task_panic = 1
+kernel.panic = 10

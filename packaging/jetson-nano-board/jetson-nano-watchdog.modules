@@ -1,0 +1,2 @@
+# jetson-nano-board: the PMIC watchdog that systemd arms (system.conf.d/10-jetson-nano-watchdog.conf)
+max77620_wdt

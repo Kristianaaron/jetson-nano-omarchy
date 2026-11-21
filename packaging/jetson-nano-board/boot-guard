@@ -1,0 +1,63 @@
+#!/bin/sh
+# jetson-nano-board: fall back to a safe boot entry by itself when a boot does not come up.
+#
+#   boot-guard start   early in every boot: if this is the normal (CUDA) entry, make the safe
+#                      entry the default until this boot proves healthy
+#   boot-guard ok      once the system is up (multi-user, GPU driver bound): restore the normal
+#                      entry as the default
+#
+# A boot that hangs is restarted by the kernel (hung_task_panic, panic=10) or the PMIC watchdog;
+# the restart then lands on the safe entry, which brings the network up so the system can be
+# repaired remotely. After a safe boot the default stays safe (no retry loop) until
+# `boot-guard restore` is run.
+#
+# Normal entry: the extlinux label whose APPEND has nano.mode=cuda. Safe entry: SAFE_LABEL
+# (the nouveau desktop without nvgpu). Only the DEFAULT line changes, written atomically.
+set -eu
+CONF=${BOOT_GUARD_CONF:-/boot/extlinux/extlinux.conf}       # test hooks: a fake config,
+STATE=${BOOT_GUARD_STATE:-/var/lib/jetson-nano}             # state folder
+CMDLINE=${BOOT_GUARD_CMDLINE:-/proc/cmdline}                # and kernel command line
+SAFE_LABEL=nano
+
+default_label() { sed -n 's/^DEFAULT[[:space:]]\+//p' "$CONF" | head -n1; }
+has_label() { grep -q "^LABEL[[:space:]]\+$1\$" "$CONF"; }
+
+set_default() {
+  [ "$(default_label)" = "$1" ] && return 0
+  has_label "$1" || { echo "boot-guard: no extlinux label $1" >&2; return 1; }
+  tmp="$CONF.boot-guard.$$"
+  sed "s/^DEFAULT[[:space:]].*/DEFAULT $1/" "$CONF" > "$tmp"
+  sync "$tmp"
+  mv "$tmp" "$CONF"
+  sync "$(dirname "$CONF")"
+  echo "boot-guard: default boot entry is now $1"
+}
+
+mkdir -p "$STATE"
+case "${1:-}" in
+  start)
+    if grep -qw 'nano.mode=cuda' "$CMDLINE"; then
+      cur=$(default_label)
+      [ "$cur" = "$SAFE_LABEL" ] || echo "$cur" > "$STATE/boot-default"
+      set_default "$SAFE_LABEL"
+    else
+      echo "boot-guard: running the safe entry; default stays $(default_label)"
+      : > "$STATE/fallback-active"
+    fi
+    ;;
+  ok)
+    if grep -qw 'nano.mode=cuda' "$CMDLINE" && [ -s "$STATE/boot-default" ]; then
+      set_default "$(cat "$STATE/boot-default")"
+      rm -f "$STATE/fallback-active"
+    fi
+    ;;
+  restore)
+    want=$(cat "$STATE/boot-default" 2>/dev/null || true)
+    [ -n "$want" ] || want=$(sed -n 's/^LABEL[[:space:]]\+//p' "$CONF" | while read -r l; do
+      awk -v l="$l" '$1=="LABEL"{p=($2==l)} p&&/APPEND/&&/nano.mode=cuda/{print l; exit}' "$CONF"; done | head -n1)
+    set_default "$want"
+    rm -f "$STATE/fallback-active"
+    ;;
+  *)
+    echo "usage: boot-guard start|ok|restore" >&2; exit 2 ;;
+esac

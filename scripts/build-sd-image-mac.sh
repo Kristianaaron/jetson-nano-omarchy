@@ -263,7 +263,7 @@ EOF
 fi
 
 cat > "$STAGING/etc/fstab" <<EOF
-LABEL=ALARM  /  ext4  rw,relatime,commit=120  0 1
+LABEL=ALARM  /  ext4  rw,relatime  0 1
 EOF
 printf '%s\n' "$HOSTNAME_NEW" > "$STAGING/etc/hostname"
 ln -sf "/usr/share/zoneinfo/${TIMEZONE:-UTC}" "$STAGING/etc/localtime"

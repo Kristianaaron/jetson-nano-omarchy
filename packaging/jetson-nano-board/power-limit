@@ -1,0 +1,86 @@
+#!/bin/bash
+# jetson-nano-board: keep the board inside what its power supply can deliver.
+#
+# Reads the board's INA3221 (5 V input rail) 20 times a second. When the input power goes over the
+# budget or the input voltage sags (a supply at its limit), it lowers the GPU clock cap one step
+# (then the CPU cap); when there is headroom again for a second, it raises the caps back towards
+# the profile maximum. The caps are applied first thing, before any load can start.
+#
+# Settings: /etc/jetson-nano/power.conf (see /usr/share/jetson-nano/power.conf.example)
+#   SUPPLY_W   rated supply power: 10 (5 V 2 A, micro-USB or barrel) or 20 (5 V 4 A barrel)
+#   GPU_MAX_HZ / CPU_MAX_KHZ / BUDGET_MW / VMIN_MV   override the profile
+set -u
+shopt -s nullglob
+
+SUPPLY_W=10
+[ -r "${POWER_LIMIT_CONF:-/etc/jetson-nano/power.conf}" ] && . "${POWER_LIMIT_CONF:-/etc/jetson-nano/power.conf}"
+if [ "$SUPPLY_W" -ge 20 ]; then
+  : "${GPU_MAX_HZ:=921600000}" "${CPU_MAX_KHZ:=1479000}" "${BUDGET_MW:=17000}" "${VMIN_MV:=4750}"
+else
+  # measured 2026-11-21 on a 5 V 2 A supply: CPU 4 cores 1479 MHz = 5.2 W (fine);
+  # + GPU 921.6 MHz = 9.6 W, input sagged to 4.54 V (the board cuts out a little below)
+  : "${GPU_MAX_HZ:=614400000}" "${CPU_MAX_KHZ:=1479000}" "${BUDGET_MW:=8000}" "${VMIN_MV:=4780}"
+fi
+
+R=${POWER_LIMIT_ROOT:-}   # test hook: a fake sysfs tree
+DF=$R/sys/class/devfreq/57000000.gpu
+CP=$R/sys/devices/system/cpu/cpufreq/policy0
+log() { echo "power-limit: $*"; }
+
+# frequency ladders, low to high, capped at the profile maximum
+gpu_steps=(); cpu_steps=()
+wait_for() { for _ in $(seq 100); do [ -e "$1" ] && return 0; sleep 0.1; done; return 1; }
+wait_for $CP/scaling_available_frequencies && for f in $(cat $CP/scaling_available_frequencies); do
+  [ "$f" -le "$CPU_MAX_KHZ" ] && [ "$f" -ge 918000 ] && cpu_steps+=("$f"); done
+ci=$(( ${#cpu_steps[@]} - 1 ))
+[ $ci -ge 0 ] && echo "${cpu_steps[$ci]}" > $CP/scaling_max_freq
+
+set_gpu() { [ -n "${gpu_steps[*]:-}" ] && echo "${gpu_steps[$gi]}" > $DF/max_freq 2>/dev/null; }
+gi=-1
+load_gpu_steps() {
+  gpu_steps=()
+  for f in $(cat $DF/available_frequencies); do
+    [ "$f" -le "$GPU_MAX_HZ" ] && [ "$f" -ge 460800000 ] && gpu_steps+=("$f"); done
+  gi=$(( ${#gpu_steps[@]} - 1 )); set_gpu
+}
+[ -e $DF/available_frequencies ] && load_gpu_steps
+log "profile ${SUPPLY_W} W: CPU <= $((CPU_MAX_KHZ/1000)) MHz, GPU <= $((GPU_MAX_HZ/1000000)) MHz, budget ${BUDGET_MW} mW, input >= ${VMIN_MV} mV"
+
+# the INA3221 (I2C bus of the camera controller, 0x40, 5 mOhm shunts; JetPack's device tree)
+find_ina() { for h in $R/sys/class/hwmon/hwmon*; do [ "$(cat $h/name)" = ina3221 ] && { echo $h; return; }; done; }
+[ -z "$R" ] && modprobe -q ina3221
+H=$(find_ina)
+if [ -z "$H" ]; then
+  for b in /sys/bus/i2c/devices/i2c-*; do
+    [ "$(cat $b/name 2>/dev/null)" = 546c0000.i2c ] && echo ina3221 0x40 > $b/new_device 2>/dev/null
+  done
+  sleep 1; H=$(find_ina)
+fi
+[ -n "$H" ] || { log "no INA3221: static caps only"; exec sleep infinity; }
+for i in 1 2 3; do echo 5000 > $H/shunt${i}_resistor; done
+log "sensor $H; channel 1 = 5 V input"
+
+calm=0
+exec {tick}<> <(:)   # read -t on an idle pipe: a 50 ms sleep without forking
+while :; do
+  read -r v < $H/in1_input; read -r c < $H/curr1_input
+  p=$(( v * c / 1000 ))
+  [ $gi -lt 0 ] && [ -e $DF/available_frequencies ] && load_gpu_steps
+  if [ "$p" -gt "$BUDGET_MW" ] || [ "$v" -lt "$VMIN_MV" ]; then
+    calm=0
+    if [ $gi -gt 0 ]; then gi=$((gi-1)); set_gpu; log "${p} mW ${v} mV: GPU cap ${gpu_steps[$gi]}"
+    elif [ $ci -gt 0 ]; then ci=$((ci-1)); echo "${cpu_steps[$ci]}" > $CP/scaling_max_freq; log "${p} mW ${v} mV: CPU cap ${cpu_steps[$ci]}"
+    fi
+  elif [ "$p" -lt $(( BUDGET_MW - 1500 )) ] && [ "$v" -gt $(( VMIN_MV + 80 )) ]; then
+    calm=$((calm+1))
+    if [ $calm -ge 20 ]; then
+      calm=0
+      if [ $ci -lt $(( ${#cpu_steps[@]} - 1 )) ]; then ci=$((ci+1)); echo "${cpu_steps[$ci]}" > $CP/scaling_max_freq
+      elif [ $gi -ge 0 ] && [ $gi -lt $(( ${#gpu_steps[@]} - 1 )) ]; then gi=$((gi+1)); set_gpu
+      fi
+    fi
+  else
+    calm=0
+  fi
+  read -r -t 0.05 -u $tick _
+done

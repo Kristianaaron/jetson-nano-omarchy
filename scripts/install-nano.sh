@@ -116,7 +116,7 @@ tar -xpf "$ALARM_TARBALL" -C "$NEWMNT" --numeric-owner
 
 say "configuring the base system"
 cat > "$NEWMNT/etc/fstab" <<EOF
-PARTUUID=$root_uuid / ext4 rw,relatime,commit=120 0 1
+PARTUUID=$root_uuid / ext4 rw,relatime 0 1
 EOF
 printf 'nano\n' > "$NEWMNT/etc/hostname"
 ln -sf "/usr/share/zoneinfo/${TIMEZONE:-UTC}" "$NEWMNT/etc/localtime"

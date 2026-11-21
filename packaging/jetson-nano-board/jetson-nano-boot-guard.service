@@ -1,0 +1,14 @@
+[Unit]
+Description=Jetson Nano boot guard: safe boot entry until this boot proves healthy
+DefaultDependencies=no
+After=local-fs.target
+Before=sysinit.target systemd-udev-trigger.service
+ConditionPathExists=/boot/extlinux/extlinux.conf
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/lib/jetson-nano/boot-guard start
+
+[Install]
+WantedBy=sysinit.target

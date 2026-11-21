@@ -2,18 +2,24 @@
 # floor and fan start point applied by udev when the devices appear, the guarded memory-clock
 # raise to 1600 MHz, and a memory-pressure policy for 4 GB: the desktop session keeps its memory,
 # systemd-oomd acts within seconds on the app that causes pressure, and the session survives one
-# helper being killed.
+# helper being killed. The micro-USB port is a USB device for a host computer (network and serial
+# console, as NVIDIA's l4t-devmode), up early in boot. Self-recovery: a driver deadlock panics and
+# reboots (hung_task_panic), the PMIC watchdog resets a frozen system or a hung reboot, and a boot
+# guard (enabled separately) falls back to a safe boot entry after a boot that does not come up.
 pkgname=jetson-nano-board
 pkgver=1
-pkgrel=4
-pkgdesc="Jetson Nano board policy: GPU clock floor, fan trip point, memory clock raise, memory pressure policy"
+pkgrel=5
+pkgdesc="Jetson Nano board policy: GPU clock floor, fan trip point, memory clock raise, memory pressure policy, micro-USB host link"
 arch=(any)
 url="https://github.com/Kristianaaron/jetson-nano-omarchy"
 license=(MIT)
-depends=(systemd kmod)
+depends=(systemd kmod iproute2)
 install=jetson-nano-board.install
 source=(80-jetson-nano-board.rules fan-trip emc-raise jetson-nano-emc.service 10-jetson-nano-oom.conf
-        10-jetson-nano-oomd.conf 10-jetson-nano-memory.slice.conf 10-jetson-nano-memory.service.conf 10-jetson-nano-session.slice.conf)
+        10-jetson-nano-oomd.conf 10-jetson-nano-memory.slice.conf 10-jetson-nano-memory.service.conf 10-jetson-nano-session.slice.conf
+        usb-gadget jetson-nano-usb-gadget.service 10-jetson-nano-usb-gadget.nm.conf
+        10-jetson-nano-watchdog.conf jetson-nano-watchdog.modules 10-jetson-nano-hung-task.sysctl boot-guard jetson-nano-boot-guard.service jetson-nano-boot-ok.service
+        power-limit jetson-nano-power.service power.conf.example)
 sha256sums=('2ffafebddb9ced1212f6dae924d0b52839becf004478a34459a1200f5f64188a'
             '00068e7414f8b4d7d4d1c07264ae28ca6b32cabd8bca7fdfed7f8f870fa071d6'
             '3b69ebae7f91d753c92818d87276df70558e7ce416b1ef47a807854375c641f0'
@@ -22,7 +28,19 @@ sha256sums=('2ffafebddb9ced1212f6dae924d0b52839becf004478a34459a1200f5f64188a'
             '410b3a22ab9965ffd6a8494dba881161d7c5244915b23adfa273e9339f39224e'
             '2716a0fdbda79c47b8ac7d9ef674bea9decd1e778a0b56d457a1e3e9247ed98c'
             'caca770fdfb1c7b40c2bf870e94a748691a541aefdf95b4e3efea67af29d628b'
-            'ae655678904e75b40ac6f9405fa94ef83333a2fc1bb6874f7fcec86ca0212cca')
+            'ae655678904e75b40ac6f9405fa94ef83333a2fc1bb6874f7fcec86ca0212cca'
+            '94f6a7f103751411235ef3758a102d862546efd02b51eb8921ad6c0252b26521'
+            '89f6efee0dc18d6cc1f11fb78a54a3fe883361b6c9749a5394bf0a2959028f4a'
+            'b6cfd45001d2ba03533f19c5ad4039d7a07a924790896ccf91661bc25c551eb8'
+            'e6c83bcdcb2d8cc179d65c42c1bc2a362962a86c85fd2a3b17caa7721e01b75c'
+            '7590b2853563348ed00b115aec551d2619a3bae34fb72faa80db84825dca85d8'
+            'da7734eb15eb954406656a0931d55756c66d515e266dc466e8b2820b308e4de8'
+            'd884e3e5452b9f708479439a69690e0f4062eabcd59cc72014dd08646bb4a8ab'
+            '7cb2c7f1c56ee25679cc70cf96b8b8046077a723846b66f82ad316f5e0105b5a'
+            'edd1f3360337a77dcc674e72c5c5ba7f0c6237748438317aa1aa6316f0db67be'
+            'a6208041a99a07a7e822bb4a24cb9366ac632cefda9a16bf2f9c5beca380c1a4'
+            '6116e18eeaeeb5097f1408397f4b6afdb09448f86964c1095b2f1ed8ada60c36'
+            '66105abfcbe2cf37738b8e6fd64011de4570926715a8e104a320ef55a9ec7ffa')
 
 package() {
   install -Dm644 80-jetson-nano-board.rules "$pkgdir/usr/lib/udev/rules.d/80-jetson-nano-board.rules"
@@ -40,4 +58,18 @@ package() {
     "$pkgdir/usr/lib/systemd/system/user@.service.d/10-jetson-nano-memory.conf"
   install -Dm644 10-jetson-nano-session.slice.conf \
     "$pkgdir/usr/lib/systemd/user/session.slice.d/10-jetson-nano-memory.conf"
+  install -Dm755 usb-gadget "$pkgdir/usr/lib/jetson-nano/usb-gadget"
+  install -Dm644 jetson-nano-usb-gadget.service \
+    "$pkgdir/usr/lib/systemd/system/jetson-nano-usb-gadget.service"
+  install -Dm644 10-jetson-nano-usb-gadget.nm.conf \
+    "$pkgdir/usr/lib/NetworkManager/conf.d/10-jetson-nano-usb-gadget.conf"
+  install -Dm644 10-jetson-nano-watchdog.conf "$pkgdir/usr/lib/systemd/system.conf.d/10-jetson-nano-watchdog.conf"
+  install -Dm644 jetson-nano-watchdog.modules "$pkgdir/usr/lib/modules-load.d/jetson-nano-watchdog.conf"
+  install -Dm644 10-jetson-nano-hung-task.sysctl "$pkgdir/usr/lib/sysctl.d/10-jetson-nano-hung-task.conf"
+  install -Dm755 boot-guard "$pkgdir/usr/lib/jetson-nano/boot-guard"
+  install -Dm644 jetson-nano-boot-guard.service "$pkgdir/usr/lib/systemd/system/jetson-nano-boot-guard.service"
+  install -Dm644 jetson-nano-boot-ok.service "$pkgdir/usr/lib/systemd/system/jetson-nano-boot-ok.service"
+  install -Dm755 power-limit "$pkgdir/usr/lib/jetson-nano/power-limit"
+  install -Dm644 jetson-nano-power.service "$pkgdir/usr/lib/systemd/system/jetson-nano-power.service"
+  install -Dm644 power.conf.example "$pkgdir/usr/share/jetson-nano/power.conf.example"
 }

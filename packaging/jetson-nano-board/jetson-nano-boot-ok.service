@@ -1,0 +1,13 @@
+[Unit]
+Description=Jetson Nano boot guard: this boot is healthy, restore the normal boot entry
+After=multi-user.target jetson-nano-boot-guard.service
+Requires=jetson-nano-boot-guard.service
+
+[Service]
+Type=oneshot
+# healthy = reached multi-user and, in the CUDA entry, the GPU driver is bound
+ExecStartPre=/bin/sh -c 'grep -qw nano.mode=cuda /proc/cmdline || exit 0; for i in $(seq 60); do [ -e /sys/bus/platform/drivers/gk20a/57000000.gpu ] && exit 0; sleep 1; done; exit 1'
+ExecStart=/usr/lib/jetson-nano/boot-guard ok
+
+[Install]
+WantedBy=multi-user.target

@@ -893,3 +893,56 @@ Blur (for themes that enable it) uses xray mode, which blurs only the cached wal
 
 **Idle load.** Omarchy's screensaver animates a terminal at 120 fps: foot 129% CPU, Hyprland 38%
 while idle. With Omarchy's `screensaver-off` toggle, Hyprland idles at 0% CPU.
+
+## 22. Stability on the real hardware: boot deadlock, power budget, self-recovery, CUDA 12.9 (2026-11-21, measured)
+
+**Boot deadlock (root cause, fixed in nvgpu).** Some boots hung with udev, NetworkManager and the
+display stuck. The hung-task traces show an ABBA deadlock between the clock framework and runtime
+PM: nvgpu registered its GPC clock with the GPU device, so `__clk_core_init` runtime-resumed the GPU
+while holding the global clock prepare lock; the resume enabled the PWM regulator, and a PWM
+controller (`pwm-tegra`, runtime PM on mainline) that was suspending at that moment waited for the
+same lock in `clk_unprepare()`. The race appeared once linux-nano's in-tree `pwm-tegra` replaced
+the DKMS copy. Fix: register the clock without a device (`linux-nvgpu` cd6890c); every GPC clock op
+already checks `clk_hw_on` before touching the PLL. Until that commit is in the package, a local
+modprobe `install` rule forces the PWM controller runtime-active before nvgpu loads.
+
+**Power budget (measured with the board's INA3221, 5 V input rail).**
+
+| Load | 5 V 2 A micro-USB | 5 V 2 A barrel, no limits | 5 V 2 A barrel, 10 W profile |
+|---|---|---|---|
+| idle | 2.6 W, 4.96 V | 3.0 W, 4.94 V | 2.1 W, 4.97 V |
+| 4 CPU cores, 1479 MHz | 5.5 W, 4.80 V | 5.2 W, 4.89 V | 5.0 W, 4.88 V |
+| 4 CPU cores + GPU | (board cut out under YouTube) | 9.6 W, 4.54 V: guard trip | 7.0 W, 4.79 V: stable |
+
+A 10 W supply cannot run the CPU and the GPU flat out together; below about 4.5 V the PMIC powers
+the board off (LED off, no software can restart it). Mainline also lets the CPU run at 1555.5 MHz,
+above NVIDIA's 1479 MHz for the Nano. `jetson-nano-board` now applies NVIDIA's CPU limit and a
+supply profile at boot (`/etc/jetson-nano/power.conf`, `SUPPLY_W=10`: GPU <= 614.4 MHz; `20` for a
+5 V 4 A supply: full clocks), and `power-limit` reads the INA3221 20 times a second and lowers
+the GPU cap, then the CPU cap, when input power passes the budget or the voltage sags (sandbox test:
+a 9.2 W overload is down to the floor caps within 0.4 s; caps return with headroom). JetPack does
+the same in hardware (soctherm OC3 throttle, CPU/GPU EDP limits); wiring the INA3221 and OC3 into
+the device tree is the next step.
+
+**Self-recovery.** Every boot entry has `hung_task_panic=1 softlockup_panic=1` (with `panic=10`),
+also set by sysctl; systemd arms the MAX77620 PMIC watchdog (`RuntimeWatchdogSec=60s`,
+`RebootWatchdogSec=2min`), so a frozen system or a hung reboot resets the board. The micro-USB
+port is a USB device for a host computer (CDC ECM 192.168.55.1 / 169.254.55.1 / fe80::55:1 plus a
+CDC ACM console), brought up before udev coldplug so it survives a later driver hang; the port's
+OTG role does not follow VBUS here, so the gadget sets the device role. `boot-guard` (shipped,
+disabled) falls back to the safe boot entry after a boot that does not come up; it stays disabled
+until the safe (nouveau) entry is fixed, whose GR engine times out under Hyprland on 7.2.11.
+
+**CUDA 12.9 and the math libraries.** On Tegra the driver loads only GPU code built for the exact
+architecture: an nvrtc `sm_50` cubin fails with `CUDA_ERROR_INVALID_SOURCE` on GM20B, `sm_53`
+loads. NVIDIA's CUDA 12 math libraries (cuBLAS/cuBLASLt, cuFFT, cuSPARSE, cuSOLVER, cuRAND host,
+NPP, nvJPEG) carry `sm_50`/`sm_52` and newer, never `sm_53` (`cublasLtCreate`: "Failed to
+initialize internal constants"), so they cannot run here. CUDA 13 dropped Maxwell; 12.9.2 is the
+last toolkit for sm_53. `cuda-nano` 12.9.2 ships the compiler and runtime only (768 MB instead of
+4.4 GB); its runtime (12090) runs on the R36.4 driver (12060) by minor-version compatibility, but
+that driver cannot JIT 12.9 PTX, so GPU code must ship as sm_53 SASS (`gpu_load`: 187-188 GFLOP/s at
+921.6 MHz). Open replacements built for sm_53 (a cuBLAS-API GEMM library on CUTLASS, VkFFT)
+are the plan for the math libraries.
+
+**Filesystem.** The SD image scripts mounted the root filesystem with `commit=120`; a power cut
+then left up to two minutes of metadata in the journal. Both scripts now use the ext4 default.
