@@ -11,7 +11,7 @@ edit_extlinux() {
     clk_ignore_unused pd_ignore_unused video=HDMI-A-1:1280x720@60e)
 
   sed -E \
-    -e 's/^[[:space:]]*INITRD .*/      INITRD \/boot\/initramfs-linux.img/' \
+    -e '/INITRD \/boot\/initramfs-linux(-nano)?\.img$/! s/^[[:space:]]*INITRD .*/      INITRD \/boot\/initramfs-linux.img/' \
     -e '/^[[:space:]]*APPEND[[:space:]]/ s/(^|[[:space:]])root=\/dev\/mmcblk0p1([[:space:]]|$)/\1root=LABEL=ALARM\2/' \
     -e '/^[[:space:]]*APPEND[[:space:]]/ s/([[:space:]])quiet([[:space:]])/\1/g' \
     -e '/^[[:space:]]*APPEND[[:space:]]/ s/[[:space:]]quiet$//' \
@@ -27,4 +27,37 @@ edit_extlinux() {
       rm -f "$file.bak"
     fi
   done
+}
+
+# Add the linux-nano boot entries and make nano-cuda the default. Their kernel arguments are the
+# primary entry's (after edit_extlinux) plus the driver choice: nano-cuda runs the desktop and
+# CUDA on NVIDIA's nvgpu; nano runs the desktop on nouveau, without CUDA, as the fallback. The
+# primary entry (the distribution kernel) stays as it is. A file that has nano-cuda is unchanged.
+add_nano_entries() {
+  local file="$1" dtb="$2" append
+  grep -q '^LABEL nano-cuda$' "$file" && return 0
+  append=$(awk '/^LABEL primary$/ { p = 1 }
+    p && /^[[:space:]]*APPEND[[:space:]]/ { sub(/^[[:space:]]*APPEND[[:space:]]+/, ""); print; exit }' "$file")
+  [[ -n $append ]] || { echo "add_nano_entries: no APPEND in LABEL primary of $file" >&2; return 1; }
+  {
+    printf '\nLABEL nano-cuda\n'
+    printf '      MENU LABEL linux-nano: desktop and CUDA on nvgpu\n'
+    printf '      LINUX /boot/Image-nano\n'
+    printf '      INITRD /boot/initramfs-linux-nano.img\n'
+    printf '      FDT /boot/%s\n' "$dtb"
+    printf '      APPEND %s modprobe.blacklist=nouveau nano.mode=cuda\n' "$append"
+    printf '\nLABEL nano\n'
+    printf '      MENU LABEL linux-nano: desktop on nouveau, no CUDA (fallback)\n'
+    printf '      LINUX /boot/Image-nano\n'
+    printf '      INITRD /boot/initramfs-linux-nano.img\n'
+    printf '      FDT /boot/%s\n' "$dtb"
+    printf '      APPEND %s nouveau.config=NvClkMode=0x07 modprobe.blacklist=nvgpu\n' "$append"
+  } >>"$file"
+  if grep -q '^DEFAULT ' "$file"; then
+    sed -i.bak -e 's/^DEFAULT .*/DEFAULT nano-cuda/' "$file"
+  else
+    sed -i.bak -e '1i\
+DEFAULT nano-cuda' "$file"
+  fi
+  rm -f "$file.bak"
 }

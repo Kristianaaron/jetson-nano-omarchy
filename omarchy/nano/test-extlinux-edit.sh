@@ -70,3 +70,59 @@ else
   printf 'FAIL fixture C\n' >&2
   exit 1
 fi
+
+# D: add_nano_entries on a provisioned stock file adds both entries and the default, once
+cat > "$TMP_DIR/d.conf" <<'EOF'
+TIMEOUT 30
+DEFAULT primary
+
+LABEL primary
+      LINUX /boot/Image
+      INITRD /boot/initramfs-linux.img
+      FDT /boot/tegra210-p3448-0002-p3449-0000-b00.dtb
+      APPEND ${cbootargs} root=LABEL=ALARM rw rootwait video=HDMI-A-1:1280x720@60e loglevel=7
+EOF
+cat > "$TMP_DIR/expected-d.conf" <<'EOF'
+TIMEOUT 30
+DEFAULT nano-cuda
+
+LABEL primary
+      LINUX /boot/Image
+      INITRD /boot/initramfs-linux.img
+      FDT /boot/tegra210-p3448-0002-p3449-0000-b00.dtb
+      APPEND ${cbootargs} root=LABEL=ALARM rw rootwait video=HDMI-A-1:1280x720@60e loglevel=7
+
+LABEL nano-cuda
+      MENU LABEL linux-nano: desktop and CUDA on nvgpu
+      LINUX /boot/Image-nano
+      INITRD /boot/initramfs-linux-nano.img
+      FDT /boot/nano.dtb
+      APPEND ${cbootargs} root=LABEL=ALARM rw rootwait video=HDMI-A-1:1280x720@60e loglevel=7 modprobe.blacklist=nouveau nano.mode=cuda
+
+LABEL nano
+      MENU LABEL linux-nano: desktop on nouveau, no CUDA (fallback)
+      LINUX /boot/Image-nano
+      INITRD /boot/initramfs-linux-nano.img
+      FDT /boot/nano.dtb
+      APPEND ${cbootargs} root=LABEL=ALARM rw rootwait video=HDMI-A-1:1280x720@60e loglevel=7 nouveau.config=NvClkMode=0x07 modprobe.blacklist=nvgpu
+EOF
+add_nano_entries "$TMP_DIR/d.conf" nano.dtb
+add_nano_entries "$TMP_DIR/d.conf" nano.dtb
+if diff -u "$TMP_DIR/expected-d.conf" "$TMP_DIR/d.conf"; then
+  printf 'PASS fixture D (entries added once)\n'
+else
+  printf 'FAIL fixture D\n' >&2
+  exit 1
+fi
+
+# E: edit_extlinux on a file with the linux-nano entries keeps their initramfs
+cp "$TMP_DIR/expected-d.conf" "$TMP_DIR/e.conf"
+edit_extlinux "$TMP_DIR/e.conf"
+if [[ $(grep -c 'INITRD /boot/initramfs-linux-nano.img' "$TMP_DIR/e.conf") == 2 ]] \
+  && [[ $(grep -c 'INITRD /boot/initramfs-linux.img' "$TMP_DIR/e.conf") == 1 ]]; then
+  printf 'PASS fixture E (nano initramfs kept)\n'
+else
+  printf 'FAIL fixture E\n' >&2
+  grep INITRD "$TMP_DIR/e.conf" >&2
+  exit 1
+fi
