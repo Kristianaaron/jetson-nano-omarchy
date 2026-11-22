@@ -1,0 +1,59 @@
+From cd6890c4f5259f9e0c17ff07acb84a08185b9561 Mon Sep 17 00:00:00 2001
+From: Kristian Abenojar <25537000+Kristianaaron@users.noreply.github.com>
+Date: Sat, 21 Nov 2026 15:23:13 +0000
+Subject: [PATCH] nvgpu: gm20b: register the GPC clock without a device
+
+On mainline, a clock registered with a device that has runtime PM is
+runtime-resumed by the clock framework while it holds the global prepare
+lock (__clk_core_init at registration, and every later prepare or rate
+change). Resuming the GPU enables its PWM regulator; when the PWM
+controller is runtime-suspending at that moment, its suspend waits for
+the same prepare lock in clk_unprepare(), and the GPU resume waits for
+the suspend: boot hangs with udev, NetworkManager and the display stuck.
+
+Seen on the Jetson Nano (pwm-tegra with runtime PM):
+  kworker: gm20b_register_gpcclk -> clk_register -> __clk_core_init
+    -> clk_pm_runtime_get -> gk20a_pm_runtime_resume -> regulator_enable
+    -> tegra_pwm_apply -> rpm_resume (waits for the PWM suspend)
+  kworker: tegra_pwm_runtime_suspend -> clk_unprepare -> clk_prepare_lock
+
+The GPC clock ops only touch the PLL while the GPU is powered
+(clk_hw_on), so the clock framework does not need to power the GPU.
+Register the clock without a device.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_018sL3QMUPGLPrQaT1qEGWwE
+---
+ drivers/gpu/nvgpu/os/linux/platform_gk20a_tegra.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/nvgpu/os/linux/platform_gk20a_tegra.c b/drivers/gpu/nvgpu/os/linux/platform_gk20a_tegra.c
+index ee9aa94..fca3f9d 100644
+--- a/drivers/gpu/nvgpu/os/linux/platform_gk20a_tegra.c
++++ b/drivers/gpu/nvgpu/os/linux/platform_gk20a_tegra.c
+@@ -1261,9 +1261,20 @@ static int gm20b_register_gpcclk(struct gk20a *g)
+ 	init.num_parents = 1;
+ 	init.flags = 0;
+ 
+-	/* Data in .init is copied by clk_register(), so stack variable OK */
++	/*
++	 * Register without a device. With a device that has runtime PM, the
++	 * clock framework runtime-resumes the GPU while it holds its global
++	 * prepare lock (here in __clk_core_init, and in every later prepare or
++	 * rate change). Resuming the GPU enables its PWM regulator, and a PWM
++	 * controller that is runtime-suspending at that moment waits for the
++	 * same lock in clk_unprepare(): a deadlock that hangs boot. The GPC
++	 * clock ops only touch the PLL while the GPU is powered (clk_hw_on),
++	 * so the clock framework does not need to power the GPU.
++	 *
++	 * Data in .init is copied by clk_register(), so stack variable OK.
++	 */
+ 	clk->hw.init = &init;
+-	c = clk_register(dev_from_gk20a(g), &clk->hw);
++	c = clk_register(NULL, &clk->hw);
+ 	if (IS_ERR(c)) {
+ 		nvgpu_err(g, "Failed to register GPCPLL clock");
+ 		return -EINVAL;
+-- 
+2.50.1 (Apple Git-155)
+

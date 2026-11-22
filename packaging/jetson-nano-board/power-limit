@@ -22,6 +22,17 @@ else
   : "${GPU_MAX_HZ:=614400000}" "${CPU_MAX_KHZ:=1479000}" "${BUDGET_MW:=8000}" "${VMIN_MV:=4740}"
 fi
 
+# --gpu-cap DEVFREQ_DIR: called by udev the moment the GPU's devfreq device appears, so no frame
+# renders above the supply's cap. Without it the desktop can start drawing at 921.6 MHz before this
+# service has found the GPU, and on a 2 A supply that browns the board out (measured 2026-11-22:
+# 4 of 10 reboots reset 1 s after the session started).
+if [ "${1:-}" = --gpu-cap ]; then
+  best=0
+  for f in $(cat "$2/available_frequencies"); do [ "$f" -le "$GPU_MAX_HZ" ] && [ "$f" -gt "$best" ] && best=$f; done
+  [ "$best" -gt 0 ] && echo "$best" > "$2/max_freq"
+  exit 0
+fi
+
 R=${POWER_LIMIT_ROOT:-}   # test hook: a fake sysfs tree
 DF=$R/sys/class/devfreq/57000000.gpu
 CP=$R/sys/devices/system/cpu/cpufreq/policy0

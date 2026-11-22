@@ -4,3 +4,13 @@ CONFIG_TEGRA_MC=y
 CONFIG_TEGRA210_EMC=m
 # Fan PWM in tree (was a DKMS module).
 CONFIG_PWM_TEGRA=m
+# Memory on a 4 GB board with an SD-card root:
+# Multi-gen LRU reclaims by page age and, with min_ttl_ms (set by jetson-nano-board), keeps the
+# working set instead of thrashing (as ChromeOS does on small devices).
+CONFIG_LRU_GEN=y
+CONFIG_LRU_GEN_ENABLED=y
+# zram compressors: Omarchy's zram setup asks for zstd; lz4 is the fast alternative. ALARM's
+# config builds lzo only, so zram silently fell back to lzo-rle.
+CONFIG_ZRAM_BACKEND_LZ4=y
+CONFIG_ZRAM_BACKEND_ZSTD=y
+CONFIG_ZRAM_DEF_COMP_ZSTD=y

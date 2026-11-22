@@ -1,0 +1,42 @@
+From: Kristianaaron <25537000+Kristianaaron@users.noreply.github.com>
+Subject: [PATCH] usb: xhci: tegra: stop the mailbox and padctl IRQs before shutdown powers off
+
+tegra_xusb_shutdown() runtime-resumes the controller (which reloads its
+firmware), disables only the xHCI interrupt, calls xhci_shutdown() and then
+tegra_xusb_disable(), which turns the XUSB clocks and power off. The
+firmware mailbox interrupt and the padctl wake interrupt stay enabled. Their
+threaded handlers access XUSB registers, so a mailbox message handled after
+tegra_xusb_disable() faults:
+
+  tegra-xusb 70090000.usb: Firmware timestamp: 2023-04-25 07:35:59 UTC
+  SError Interrupt on CPU0, code 0x00000000bf000002 -- SError
+  CPU: 0 UID: 0 PID: 144 Comm: irq/77-70090000 ...
+  Kernel panic - not syncing: Asynchronous SError Interrupt
+
+(IRQ 77 is the controller's mailbox interrupt.) On a Jetson Nano this hit
+warm reboots intermittently, which then hung or ended in a panic.
+
+Disable the mailbox interrupt, and the padctl interrupt when the device tree
+provides one, together with the xHCI interrupt. disable_irq() also waits for
+a handler that is already running. This extends the shutdown callback added
+by "usb: xhci: tegra: Add shutdown callback for Tegra XUSB" (2023).
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+--- a/drivers/usb/host/xhci-tegra.c
++++ b/drivers/usb/host/xhci-tegra.c
+@@ -2020,6 +2020,14 @@
+ 
+ 	pm_runtime_get_sync(&pdev->dev);
+ 	disable_irq(tegra->xhci_irq);
++	/*
++	 * Also stop the firmware mailbox and padctl wake interrupts: their threads access
++	 * XUSB registers, and tegra_xusb_disable() below turns the controller's clocks and
++	 * power off. A mailbox message handled after that faults (asynchronous SError).
++	 */
++	disable_irq(tegra->mbox_irq);
++	if (tegra->padctl_irq > 0)
++		disable_irq(tegra->padctl_irq);
+ 	xhci_shutdown(tegra->hcd);
+ 	tegra_xusb_disable(tegra);
+ }

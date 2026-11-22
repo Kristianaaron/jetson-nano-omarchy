@@ -153,8 +153,18 @@ int main(void)
     goto out;
   if (run_image("sm_53 cubin", cubin, da, db, dc, a, b, c) != 0)
     goto out;
-  if (run_image("compute_53 PTX (driver JIT)", ptx, da, db, dc, a, b, c) != 0)
-    goto out;
+  /* The driver can JIT PTX only from a compiler no newer than itself (R36.4: CUDA 12.6);
+   * a newer nvrtc (cuda-nano: 12.9) emits a PTX ISA it rejects, so that case is skipped. */
+  {
+    int rtc_major = 0, rtc_minor = 0;
+    nvrtcVersion(&rtc_major, &rtc_minor);
+    if (rtc_major * 1000 + rtc_minor * 10 > drv) {
+      printf("compute_53 PTX (driver JIT): skipped, nvrtc %d.%d is newer than the driver (%d)\n",
+             rtc_major, rtc_minor, drv);
+    } else if (run_image("compute_53 PTX (driver JIT)", ptx, da, db, dc, a, b, c) != 0) {
+      goto out;
+    }
+  }
   rc = 0;
   printf("E5 PASS\n");
 out:

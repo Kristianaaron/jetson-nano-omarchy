@@ -1,0 +1,5 @@
+# jetson-nano-board: multi-gen LRU thrashing protection (linux-nano 7.2.11-3 and later). Pages
+# used within the last second are not reclaimed; under real memory pressure the kernel's OOM
+# handling (systemd-oomd first) acts instead of the board thrashing on the SD card. 1000 ms is
+# what ChromeOS uses on small devices. "w" skips kernels without MGLRU.
+w /sys/kernel/mm/lru_gen/min_ttl_ms - - - - 1000
