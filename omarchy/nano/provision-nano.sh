@@ -31,7 +31,7 @@ as_user() {
 as_user_with_path() {
   local omarchy_path="$1"
   shift
-  runuser -u "$USER_NAME" -- env -u XDG_RUNTIME_DIR OMARCHY_PATH="$omarchy_path" PATH="/usr/share/omarchy/bin:$PATH" "$@" </dev/null
+  runuser -u "$USER_NAME" -- env -u XDG_RUNTIME_DIR OMARCHY_PATH="$omarchy_path" PATH="$omarchy_path/bin:$PATH" "$@" </dev/null
 }
 
 stage_1() {
@@ -131,8 +131,10 @@ stage_6() {
   printf 'stage 6: Omarchy repositories and packages\n'
   pacman -S --needed --noconfirm git
   if [[ ! -d /usr/share/omarchy ]]; then
-    git clone --depth 1 --branch v4.5.0 https://github.com/basecamp/omarchy /root/omarchy-git-v4.5.0
-    omarchy_path=/root/omarchy-git-v4.5.0
+    # outside /root: the scripts run as the desktop user
+    rm -rf /var/lib/jetson-nano/omarchy-git-v4.5.0
+    git clone --depth 1 --branch v4.5.0 https://github.com/basecamp/omarchy /var/lib/jetson-nano/omarchy-git-v4.5.0
+    omarchy_path=/var/lib/jetson-nano/omarchy-git-v4.5.0
   fi
   install -o root -g root -m 0440 /dev/null /etc/sudoers.d/90-provision-temp
   printf '%s ALL=(ALL) NOPASSWD: ALL\n' "$USER_NAME" > /etc/sudoers.d/90-provision-temp
@@ -163,6 +165,10 @@ stage_7() {
   if command -v ufw >/dev/null 2>&1; then
     ufw allow 22/tcp
   fi
+  # Omarchy's hardware stage runs install/hardware/tegra210.sh, guarded by the platform detection;
+  # both live in this repository (install-omarchy-nano.sh installs them the same way)
+  install -Dm755 "$SCRIPT_DIR/../platform-detection/omarchy-hw-aarch64-tegra210" /usr/local/bin/omarchy-hw-aarch64-tegra210
+  install -Dm755 "$SCRIPT_DIR/../installer-hooks/tegra210.sh" /usr/share/omarchy/install/hardware/tegra210.sh
   install_file root/omarchy-apply-system-nano.sh 0755
   if bash /root/omarchy-apply-system-nano.sh 2>&1 | tee "$output"; then
     command_rc=0

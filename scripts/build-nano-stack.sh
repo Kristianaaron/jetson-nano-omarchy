@@ -80,9 +80,10 @@ build_one() {
   if ((have && !REBUILD)); then
     say "$dir $ver: in the repository"
   else
-    # dependencies that are not installed yet; the build order provides our own packages
+    # dependencies that are not installed yet, minus those this PKGBUILD makes itself (gcc13-libs);
+    # the build order provides our other packages
     mapfile -t missing < <(pacman -T $(field depends <<<"$info") $(field makedepends <<<"$info") \
-      $(field checkdepends <<<"$info") || true)
+      $(field checkdepends <<<"$info") | grep -vxFf <(echo "$names") || true)
     if ((DRY)); then
       say "$dir $ver: would build ($(echo $names)); missing dependencies: ${missing[*]:-none}"
       return
@@ -91,6 +92,22 @@ build_one() {
       say "$dir: installing dependencies ${missing[*]}"
       pacman -S --needed --asdeps --noconfirm "${missing[@]}"
     fi
+    # a source that is itself a pacman package (omarchy-nano): use the copy in pacman's cache when it
+    # has that exact file; otherwise makepkg downloads the pinned URL. Not `pacman -Sw`: it would take
+    # the newest version, or our own build from [nano]. makepkg checks the sha256 either way.
+    for f in $(field source <<<"$info"); do
+      [[ $f == *.pkg.tar.* ]] || continue
+      f=${f##*/}
+      if [[ ! -e $w/$f && -f /var/cache/pacman/pkg/$f ]]; then
+        install -o "$BUILD_USER" -m 644 "/var/cache/pacman/pkg/$f" "$w/$f"
+      fi
+    done
+    # makepkg looks for local sources by base name, next to the PKGBUILD (nanoblas has them in
+    # include/, src/ and tests/)
+    for f in $(field source <<<"$info"); do
+      [[ $f == */* && $f != *:* && -f $w/$f ]] || continue
+      install -o "$BUILD_USER" -m 644 "$w/$f" "$w/${f##*/}"
+    done
     # nanoblas and nvgpu checks need the GPU; skip check() when nvgpu is not running yet
     local nocheck=()
     [[ -e /dev/nvhost-ctrl-gpu ]] || nocheck=(--nocheck)
