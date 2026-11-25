@@ -17,6 +17,9 @@ Measured on a reComputer J1020 v2 with power cycles through /dev/nvgpu/igpu0/pow
 busy: before, the board hung within a few hundred cycles; with all of it, 3000 cycles with the rail
 off for 5 ms, no failure (five "pmu exterr" messages, GPU fine).
 
+A flush that does not end keeps the GPU powered (runtime PM then tries again later) or fails the
+power-up with the GPU clamped and in reset.
+
 Also release the static powergate lock when an early power-on step fails: railgating the GPU then
 waited for it for ever.
 
@@ -26,7 +29,7 @@ linux-nano's 0106.
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
 ---
 diff --git a/drivers/gpu/nvgpu/common/init/nvgpu_init.c b/drivers/gpu/nvgpu/common/init/nvgpu_init.c
-index 5f2435c..b99827d 100644
+index 5f2435c7c..b99827deb 100644
 --- a/drivers/gpu/nvgpu/common/init/nvgpu_init.c
 +++ b/drivers/gpu/nvgpu/common/init/nvgpu_init.c
 @@ -864,6 +864,12 @@ static int nvgpu_early_init(struct gk20a *g)
@@ -43,7 +46,7 @@ index 5f2435c..b99827d 100644
  }
  
 diff --git a/drivers/gpu/nvgpu/os/linux/platform_gk20a_tegra.c b/drivers/gpu/nvgpu/os/linux/platform_gk20a_tegra.c
-index fca3f9d..4de6b68 100644
+index fca3f9d52..db838ce16 100644
 --- a/drivers/gpu/nvgpu/os/linux/platform_gk20a_tegra.c
 +++ b/drivers/gpu/nvgpu/os/linux/platform_gk20a_tegra.c
 @@ -87,7 +87,11 @@ struct gm20b_mainline_power {
@@ -58,7 +61,7 @@ index fca3f9d..4de6b68 100644
  	struct tegra_pmc *pmc;
  	bool on;
  
-@@ -777,6 +781,26 @@ static int gm20b_tegra_railgate(struct device *dev)
+@@ -777,6 +781,30 @@ static int gm20b_tegra_railgate(struct device *dev)
  	if (!power->on)
  		return 0;
  
@@ -70,8 +73,12 @@ index fca3f9d..4de6b68 100644
 +	 * power-up, a GPU that does not start, or a hung memory system.
 +	 */
 +	ret = reset_control_assert(power->mc_rst);
-+	if (ret)
-+		nvgpu_warn(g, "failed to flush gpu memory accesses: %d", ret);
++	if (ret) {
++		/* accesses still in flight: keep the GPU powered */
++		nvgpu_err(g, "failed to flush gpu memory accesses: %d", ret);
++		(void) reset_control_deassert(power->mc_rst);
++		return ret;
++	}
 +	udelay(10);
 +	ret = tegra_pmc_powergate_gpu_clamp(power->pmc);
 +	if (ret)
@@ -85,7 +92,7 @@ index fca3f9d..4de6b68 100644
  	clk_disable_unprepare(power->pwr);
  	clk_disable_unprepare(power->ref);
  	clk_disable_unprepare(power->gpu);
-@@ -819,6 +843,11 @@ static int gm20b_tegra_unrailgate(struct device *dev)
+@@ -819,6 +847,11 @@ static int gm20b_tegra_unrailgate(struct device *dev)
  		nvgpu_err(g, "failed to enable pwr clock: %d", ret);
  		goto err_clk_pwr;
  	}
@@ -97,7 +104,7 @@ index fca3f9d..4de6b68 100644
  	ret = clk_set_rate(power->pwr, 204000000);
  	if (ret)
  		nvgpu_warn(g, "pwr clock not set to 204 MHz: %d", ret);
-@@ -841,6 +870,20 @@ static int gm20b_tegra_unrailgate(struct device *dev)
+@@ -841,13 +874,38 @@ static int gm20b_tegra_unrailgate(struct device *dev)
  		nvgpu_err(g, "failed to deassert gpu reset: %d", ret);
  		goto err_reset_deassert;
  	}
@@ -107,19 +114,28 @@ index fca3f9d..4de6b68 100644
 +	 */
 +	udelay(10);
 +	ret = reset_control_assert(power->mc_rst);
-+	if (ret)
-+		nvgpu_warn(g, "failed to flush gpu memory accesses: %d", ret);
++	if (ret) {
++		nvgpu_err(g, "failed to flush gpu memory accesses: %d", ret);
++		goto err_mc;
++	}
 +	udelay(10);
 +	ret = reset_control_deassert(power->mc_rst);
 +	if (ret) {
 +		nvgpu_err(g, "failed to unblock gpu memory accesses: %d", ret);
-+		goto err_reset_deassert;
++		goto err_mc;
 +	}
  	udelay(10);
  	power->on = true;
  	return 0;
-@@ -848,6 +891,8 @@ static int gm20b_tegra_unrailgate(struct device *dev)
+ 
++err_mc:
  err_reset_deassert:
++	/* back to clamped and in reset, with the memory path unblocked */
++	(void) tegra_pmc_powergate_gpu_clamp(power->pmc);
++	udelay(10);
++	(void) reset_control_assert(power->rst);
++	(void) reset_control_deassert(power->mc_rst);
++	udelay(10);
  err_clamp:
  err_reset_assert:
 +	clk_disable_unprepare(power->fuse);
@@ -127,7 +143,7 @@ index fca3f9d..4de6b68 100644
  	clk_disable_unprepare(power->pwr);
  err_clk_pwr:
  	clk_disable_unprepare(power->ref);
-@@ -1334,6 +1379,12 @@ static int gk20a_tegra_probe(struct device *dev)
+@@ -1334,6 +1392,12 @@ static int gk20a_tegra_probe(struct device *dev)
  		nvgpu_err(g, "failed to get pwr clock: %d", ret);
  		return ret;
  	}
@@ -140,7 +156,7 @@ index fca3f9d..4de6b68 100644
  	power->rst = devm_reset_control_get(dev, "gpu");
  	if (IS_ERR(power->rst)) {
  		ret = PTR_ERR(power->rst);
-@@ -1341,6 +1392,14 @@ static int gk20a_tegra_probe(struct device *dev)
+@@ -1341,6 +1405,14 @@ static int gk20a_tegra_probe(struct device *dev)
  		return ret;
  	}
  #ifdef CONFIG_RESET_CONTROLLER
