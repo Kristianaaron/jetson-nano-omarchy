@@ -44,7 +44,7 @@ sha256sums=('SKIP'
             '9c35bbb1eabadd878378ed143cf236f3d95884b4bf532dc5c76e2d17da2448c2'
             '888d0756d8a5cd8cb02e0e2d2a90c2f64871200460603298222d6b82cff6ba3a'
             'fd8f289a22e5a70514674683eb9de8ee350f14c2abb552827edf52aff40525af'
-            '8bddd0709a6ddd31d6975ca5f9b609c460bfa0c8d38b0626c61bf4cfcf22dbee'
+            '62da2efa0090d20cd3244a33e50f1dd3b7c97b6fd2ab38e9c5f3bd5debd8db24'
             '434f380d1bcf61adadf64f4ecca82fbfd4ff0292d9f8ca1181d4ea9145f8ff9b')
 
 _kdir=/usr/lib/modules/$_kernver/build
