@@ -208,6 +208,8 @@ stage_7() {
   if ! grep -q '^LIBGL_ALWAYS_SOFTWARE=' /etc/environment; then
     printf '%s\n' 'LIBGL_ALWAYS_SOFTWARE=1' >> /etc/environment
   fi
+  # run again on a board whose GPU stack is built: back to the GPU
+  bash "$SCRIPT_DIR/nvgpu-desktop.sh" --if-ready
   install -d -o sddm -g sddm /var/lib/sddm
   if [[ ! -e /var/lib/sddm/state.conf ]]; then
     cat > /var/lib/sddm/state.conf <<EOF
@@ -243,6 +245,7 @@ stage_9() {
   local looknfeel="/home/$USER_NAME/.config/hypr/looknfeel.lua"
   local tmp
   printf 'stage 9: user desktop config\n'
+  install_file etc/systemd/user/bt-agent.service.d/10-kill-signal.conf 0644
   if [[ ! -e "$monitors" ]]; then
     as_user bash -c 'cp -af /etc/skel/. ~/'
   fi

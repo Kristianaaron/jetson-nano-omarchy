@@ -137,6 +137,9 @@ for d in "${ORDER[@]}"; do build_one "$d"; done
 add_repo
 pacman -Sy
 
+# only once the whole GPU userspace is there (--only and --from can stop short of it)
+REPO_NAME=$REPO_NAME bash "$here/omarchy/nano/nvgpu-desktop.sh" --if-ready
+
 if ((BOOT)); then
   # shellcheck source=../omarchy/nano/lib-extlinux.sh
   . "$here/omarchy/nano/lib-extlinux.sh"
